@@ -56,7 +56,7 @@ export function buildConformanceReport() {
 
 export function formatConformanceReport(report = buildConformanceReport()) {
   const lines = [
-    '# Conformance Deriva report',
+    '# Deriva conformance report',
     '',
     'This report summarizes the file-based conformance corpus under `test/conformance/`.',
     '',

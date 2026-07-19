@@ -1,4 +1,4 @@
-// Depth-first deriva solver with builtin dispatch, memoization, and guarded recursion handling.
+// Depth-first Deriva solver with builtin dispatch, memoization, and guarded recursion handling.
 // Most semantic decisions still flow through unification; optimizations only select candidates earlier.
 import { COMPOUND, Env, compound, copyResolved, flattenConjunction, freshTerm, termIsGround, termToString, unify, variantTerms } from './term.js';
 import { createDefaultRegistry } from './builtins/registry.js';
@@ -113,7 +113,7 @@ export class Solver {
           continue;
         }
 
-        // deriva normally solves left-to-right, but ready deterministic builtins can
+        // Deriva normally solves left-to-right, but ready deterministic builtins can
         // be run early as pure filters. Stop at internal sentinels so rule-body
         // active guards are released before the caller's remaining goals are seen.
         const selectedIndex = selectReadyDeterministicBuiltin(goals, env, this.registry);

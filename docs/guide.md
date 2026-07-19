@@ -2,6 +2,9 @@
 
 This guide introduces Deriva, a small Horn-clause language and engine whose source syntax is Prolog-like but deliberately its own compact language for facts, rules, goals, answers, and proofs. Deriva works over ordinary terms, lists, arithmetic, strings, and finite search. Run it with the `deriva` CLI, or use `node bin/deriva.js` when working directly from a source checkout.
 
+This documentation uses **Deriva** for the project, language, and engine, and
+`deriva` for the npm package and CLI command.
+
 Programs write relations directly, for example `ancestor(pat, emma)` or `status(case1, accepted)`. Web identifiers can be written as ordinary quoted atoms that include angle brackets, for example `'<https://schema.org/name>'`, when a program needs explicit IRI-shaped names without prefix declarations. Deriva output is ordinary Deriva syntax: by default, the CLI materializes selected answer facts and prints those facts only. Pass `--proof` (or `-p`) when you also want each answer followed by a `why/2` explanation fact that records the proof. Programs may add `materialize/2` declarations such as `materialize(answer, 2).` to focus output on selected predicates.
 
 Execution is automatically hybrid. Ordinary predicates use indexed
@@ -15,7 +18,7 @@ For the normative language definition, including lexical syntax, terms, clauses,
 ## Contents
 
 1. [Quick start](#quick-start)
-2. [Running deriva](#running-deriva)
+2. [Running the `deriva` CLI](#running-the-deriva-cli)
 3. [Default output](#default-output)
 4. [Writing programs](#writing-programs)
 5. [Aggregation helpers](#aggregation-helpers)
@@ -61,7 +64,7 @@ deriva --version
 
 `npm install -g .` is another local-checkout option if you want npm to install the package globally instead of linking it. Avoid hand-written `/usr/local/bin` symlinks unless you really need one; npm already reads the `bin` entry in `package.json` and creates the correct executable shim.
 
-## Running deriva
+## Running the `deriva` CLI
 
 The commands in this section use `deriva` for readability. In a source checkout where you have not run `npm link` or `npm install -g .`, replace `deriva` with `node bin/deriva.js`, or run the command through `npm exec --yes --package=. -- deriva`.
 
@@ -72,7 +75,7 @@ deriva --version
 deriva -v
 ```
 
-Run a program and let deriva print derived binary facts:
+Run a program and let Deriva print derived binary facts:
 
 ```sh
 deriva examples/ancestor.pl
@@ -85,7 +88,7 @@ deriva --proof examples/ancestor.pl
 deriva -p examples/ancestor.pl
 ```
 
-deriva-readable explanations are opt-in proof output. Each `why/2` fact contains a nested abstract proof term, and a blank line separates consecutive explanations. Using deriva syntax for explanations keeps them in the same language as the answers themselves: they are readable by humans, parseable by deriva, easy to test, and can be transformed or explained further like any other deriva data. For example:
+Deriva-readable explanations are opt-in proof output. Each `why/2` fact contains a nested abstract proof term, and a blank line separates consecutive explanations. Using Deriva syntax for explanations keeps them in the same language as the answers themselves: they are readable by humans, parseable by Deriva, easy to test, and can be transformed or explained further like any other Deriva data. For example:
 
 ```deriva
 type(socrates, mortal).
@@ -106,7 +109,7 @@ why(
 
 ```
 
-The explanation output can itself be read as deriva input; for example, another program can materialize `why/2` facts such as `why(type(socrates, mortal), Proof)`. `--proof` adds only these explanation facts; it does not change the answers found by the solver.
+The explanation output can itself be read as Deriva input; for example, another program can materialize `why/2` facts such as `why(type(socrates, mortal), Proof)`. `--proof` adds only these explanation facts; it does not change the answers found by the solver.
 
 ### Explanation cookbook
 
@@ -181,7 +184,7 @@ ancestor(X, Y) :- parent(X, Y).
 ancestor(X, Z) :- parent(X, Y), ancestor(Y, Z).
 ```
 
-By default, deriva asks for new ground consequences of selected output predicates, suppresses duplicates, excludes source facts, sorts the result, and prints Prolog facts:
+By default, Deriva asks for new ground consequences of selected output predicates, suppresses duplicates, excludes source facts, sorts the result, and prints Prolog facts:
 
 ```deriva
 ancestor(jan, emma).
@@ -213,7 +216,7 @@ answer(case1, accepted).
 
 ## Writing programs
 
-A good deriva program normally has three layers:
+A good Deriva program normally has three layers:
 
 1. source facts;
 2. helper predicates for calculation or search;
@@ -306,7 +309,7 @@ best_cycle(Cycle, Cost) :-
 
 ## Context data
 
-Comma terms can be data as well as conjunctions. deriva provides two context utilities:
+Comma terms can be data as well as conjunctions. Deriva provides two context utilities:
 
 ```deriva
 holds((name(alice, "Alice"), knows(alice, bob)), name(S, O)).
@@ -513,13 +516,13 @@ for f in examples/proof/*.pl; do
 done
 ```
 
-Run the full deriva suite:
+Run the full Deriva suite:
 
 ```sh
 npm run test:deriva
 ```
 
-The deriva corpus runner runs in this order: Conformance, Regression/API/White-box, Examples. Each section prints its own subtotal, followed by a suite-specific grand total. The suite checks the conformance cases derived from the language reference, supplemental regression/API/white-box checks, and every runnable example against its golden output.
+The Deriva corpus runner runs in this order: Conformance, Regression/API/White-box, Examples. Each section prints its own subtotal, followed by a suite-specific grand total. The suite checks the conformance cases derived from the language reference, supplemental regression/API/white-box checks, and every runnable example against its golden output.
 
 Run only one internal suite when you are iterating:
 
@@ -537,7 +540,7 @@ node test/run-conformance-report.mjs
 
 Release preparation runs the same report and writes [`conformance-report.md`](../conformance-report.md), so each published package carries a current conformance summary.
 
-The conformance suite lives in [`test/conformance/`](../test/conformance/) as a file-based deriva corpus. Positive cases pair `cases/<name>.pl` with exact expected stdout under `expected/<name>.pl`; negative cases pair `errors/<name>.pl` with exact expected error text under `expected-errors/<name>.txt`; warning cases pair `warnings/<name>.pl` with exact `--warnings` stdout and stderr files under `expected-warnings/`; proof cases pair `proofs/<name>.pl` with exact `--proof` output under `expected-proofs/`. Cases may be grouped in category directories such as `arithmetic/`, `strings/`, `lists/`, `terms/`, `atoms/`, `variables/`, `negation/`, and `syntax/`, so another implementation can reuse the same corpus as an executable language contract. The suite covers the standard language surface from the language reference, including reusable built-ins, standard errors, standard warnings, and the machine-readable `why/2` proof-output contract. The regression suite lives in [`test/run-regression.mjs`](../test/run-regression.mjs) and covers CLI regressions, the public JavaScript API, and white-box invariants for parser, unification, and indexing behavior.
+The conformance suite lives in [`test/conformance/`](../test/conformance/) as a file-based Deriva corpus. Positive cases pair `cases/<name>.pl` with exact expected stdout under `expected/<name>.pl`; negative cases pair `errors/<name>.pl` with exact expected error text under `expected-errors/<name>.txt`; warning cases pair `warnings/<name>.pl` with exact `--warnings` stdout and stderr files under `expected-warnings/`; proof cases pair `proofs/<name>.pl` with exact `--proof` output under `expected-proofs/`. Cases may be grouped in category directories such as `arithmetic/`, `strings/`, `lists/`, `terms/`, `atoms/`, `variables/`, `negation/`, and `syntax/`, so another implementation can reuse the same corpus as an executable language contract. The suite covers the standard language surface from the language reference, including reusable built-ins, standard errors, standard warnings, and the machine-readable `why/2` proof-output contract. The regression suite lives in [`test/run-regression.mjs`](../test/run-regression.mjs) and covers CLI regressions, the public JavaScript API, and white-box invariants for parser, unification, and indexing behavior.
 
 ## Development and release
 
@@ -570,7 +573,7 @@ The `preversion` script reruns the full test suite and refreshes [`conformance-r
 
 ## Relationship to Eyeling
 
-[Eyeling](https://github.com/eyereasoner/eyeling) and deriva share the same goal of small, inspectable rule-based reasoning in JavaScript, but they make different language and implementation trade-offs.
+[Eyeling](https://github.com/eyereasoner/eyeling) and Deriva share the same goal of small, inspectable rule-based reasoning in JavaScript, but they make different language and implementation trade-offs.
 
 Eyeling is the RDF/Notation3 member of the family. It reads N3-style triples, quoted formulas, forward rules written with `=>`, backward rules written with `<=`, RDF terms, RDF-JS data, and RDF-oriented streams. That makes it the better fit when data interchange with RDF/N3 tools is the main requirement.
 
@@ -581,13 +584,13 @@ A useful rule of thumb:
 | Use case | Prefer | Why |
 | --- | --- | --- |
 | RDF/N3 data, triples, prefixes, graph terms, RDF-JS, RDF message streams | Eyeling | The surface language and APIs are RDF/Notation3-native. |
-| Compact relational rules over ordinary terms, lists, arithmetic, and finite search | deriva | The syntax is shorter for non-RDF relation programs and output is ordinary facts. |
+| Compact relational rules over ordinary terms, lists, arithmetic, and finite search | Deriva | The syntax is shorter for non-RDF relation programs and output is ordinary facts. |
 | Human-auditable derivations | Either | Both can emit proof explanations when requested. |
-| Large generated Horn-clause workloads | deriva | The engine specializes in predicate/arity indexing, scalar argument indexes, fast fact paths, and materialized output goals. |
+| Large generated Horn-clause workloads | Deriva | The engine specializes in predicate/arity indexing, scalar argument indexes, fast fact paths, and materialized output goals. |
 
-On local smoke benchmarks, deriva is substantially faster on large generated Horn-clause and recursion-heavy workloads. These numbers are 5-run medians with stdout redirected to `/dev/null`, using Node.js `v22.16.0`, deriva from this checkout, and Eyeling package version `1.34.6` with its default output mode. The ratio is `Eyeling median / deriva median`, so larger numbers mean deriva was faster.
+On local smoke benchmarks, Deriva is substantially faster on large generated Horn-clause and recursion-heavy workloads. These numbers are 5-run medians with stdout redirected to `/dev/null`, using Node.js `v22.16.0`, Deriva from this checkout, and Eyeling package version `1.34.6` with its default output mode. The ratio is `Eyeling median / Deriva median`, so larger numbers mean Deriva was faster.
 
-| Example | deriva median | Eyeling median | Ratio |
+| Example | Deriva median | Eyeling median | Ratio |
 | --- | ---: | ---: | ---: |
 | `fundamental-theorem-arithmetic` | `0.16 sec` | `2.00 sec` | `12.66x` |
 | `deep-taxonomy-100000` | `1.69 sec` | `4.72 sec` | `2.79x` |
@@ -597,13 +600,13 @@ On local smoke benchmarks, deriva is substantially faster on large generated Hor
 
 Treat these as smoke comparisons rather than a formal benchmark: hardware, Node.js version, package version, CLI startup, and output mode all matter.
 
-The projects are therefore complementary rather than replacements for each other: Eyeling optimizes for Semantic Web interoperability and N3 expressiveness; deriva optimizes for a small standard-looking relational rule language and fast finite goal-directed execution.
+The projects are therefore complementary rather than replacements for each other: Eyeling optimizes for Semantic Web interoperability and N3 expressiveness; Deriva optimizes for a small standard-looking relational rule language and fast finite goal-directed execution.
 
 ## Performance notes
 
 Use `-s` or `--stats` for a quick sanity check while optimizing solver changes. It prints counters such as `solve_goals_calls`, `unify_calls`, `deterministic_rule_expansions`, `candidate_lists_selected`, `clause_candidates_considered`, `clauses_tried`, `max_depth`, and `max_solver_call_depth` to stderr, leaving normal output stable for golden-file tests. The `max_solver_call_depth` counter is especially useful for browser regressions, where the VM call stack can be tighter than a command-line run. Use `-w` or `--warnings` separately when you want portability diagnostics without enabling stricter parsing.
 
-deriva hashes predicate groups by name and arity, then indexes clauses by scalar argument values. It also builds two-argument composite indexes for scalar pairs and probes those composite indexes without per-lookup heap allocation. This helps both large generated programs with many predicates and selective queries such as:
+Deriva hashes predicate groups by name and arity, then indexes clauses by scalar argument values. It also builds two-argument composite indexes for scalar pairs and probes those composite indexes without per-lookup heap allocation. This helps both large generated programs with many predicates and selective queries such as:
 
 ```deriva
 edge(g1, a, X).
@@ -611,7 +614,7 @@ path(a, Y).
 status(Case, accepted).
 ```
 
-Ground facts use a fast path that avoids freshening and copying a rule body. Recursive-predicate detection uses an explicit work stack, which keeps large predicate chains safer in the browser. deriva automatically tables positive recursive groups, including dependencies reached through supported meta-goals and directly materialized relations. Cyclic calls iterate to an answer fixed point before replay. Recursive components containing a negative dependency retain guarded ordinary resolution because positive fixed-point tabling is not a semantics for unstratified negation. The engine also infers common structurally decreasing input positions; calls with an unbound structural input and fully open calls retain ordinary resolution rather than trying to materialize a potentially infinite relation. Authors do not need a search-control declaration.
+Ground facts use a fast path that avoids freshening and copying a rule body. Recursive-predicate detection uses an explicit work stack, which keeps large predicate chains safer in the browser. Deriva automatically tables positive recursive groups, including dependencies reached through supported meta-goals and directly materialized relations. Cyclic calls iterate to an answer fixed point before replay. Recursive components containing a negative dependency retain guarded ordinary resolution because positive fixed-point tabling is not a semantics for unstratified negation. The engine also infers common structurally decreasing input positions; calls with an unbound structural input and fully open calls retain ordinary resolution rather than trying to materialize a potentially infinite relation. Authors do not need a search-control declaration.
 
 Predicates can also carry advisory mode and determinism declarations for documentation and host tooling:
 

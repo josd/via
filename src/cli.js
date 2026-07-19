@@ -1,4 +1,4 @@
-// Command-line interface for deriva.
+// Command-line interface for Deriva.
 // It loads programs from files, URLs, or stdin, then materializes derived output predicates.
 import fs from 'node:fs/promises';
 import path from 'node:path';

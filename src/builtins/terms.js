@@ -1,4 +1,4 @@
-// Term-inspection builtins for reusable meta-programming over deriva terms.
+// Term-inspection builtins for reusable meta-programming over Deriva terms.
 import { atom, compound, deref, listFromItems, lexicalValue, numberTerm, properListItems, stringTerm, unify } from '../term.js';
 
 export const termBuiltins = {

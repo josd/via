@@ -358,7 +358,7 @@ function documentationSyncCases() {
       run: () => assertArrayEqual(findBrokenDocLinks(), [], 'broken documentation links'),
     },
     {
-      name: 'documentation uses deriva source style',
+      name: 'documentation uses Deriva source style',
       run: () => assertArrayEqual(documentationSourceStyleIssues(), [], 'documentation source style'),
     },
     {

@@ -1,4 +1,4 @@
-// Tokenizer and recursive-descent parser for the deriva source language.
+// Tokenizer and recursive-descent parser for the Deriva source language.
 // It preserves the compact Prolog-like syntax while producing Term objects for the solver.
 import { atom, compound, cons, emptyList, numberTerm, stringTerm, variable } from './term.js';
 

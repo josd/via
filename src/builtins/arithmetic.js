@@ -1,5 +1,5 @@
 // Numeric builtins for integer-preserving arithmetic, floating point functions, comparisons, and ranges.
-// The code keeps BigInt paths where possible so large deriva integers remain exact.
+// The code keeps BigInt paths where possible so large Deriva integers remain exact.
 import { compareIntegerText, deref, isDecimalInteger, lexicalValue, numberTerm, numberTextFromDouble, parseFiniteNumber, unify } from '../term.js';
 
 const unaryNames = ['neg', 'abs', 'sin', 'cos', 'tan', 'asin', 'acos', 'sqrt', 'floor', 'ceiling', 'trunc', 'rounded', 'exp', 'log'];
@@ -200,7 +200,7 @@ function nextDown(value) {
 function logCompat(input) {
   const value = Math.log(input);
   // V8 and glibc libm differ by one ulp for a few values reached by the
-  // Newton-Raphson example. Align this pure-JS port with the native deriva
+  // Newton-Raphson example. Align this pure-JS port with the native Deriva
   // reference while leaving ordinary log(1), log(2), log(10), and log(e) alone.
   if (input > 2.5 && input < 2.7182818 && value > 0.95 && value < 1.0) return nextUp(value);
   if (input > 2.7182818 && input < 2.718281828459 && value > 0.999999999999 && value < 1.0) return nextDown(value);

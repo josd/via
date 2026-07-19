@@ -9,7 +9,7 @@ All conformance files live under topic directories such as `arithmetic/`, `lists
 A normal positive case consists of:
 
 - `conformance/cases/<name>.pl` — input program;
-- `conformance/expected/<name>.pl` — exact expected standard output, stored as deriva-readable facts.
+- `conformance/expected/<name>.pl` — exact expected standard output, stored as Deriva-readable facts.
 
 Expected-error cases consist of:
 
@@ -63,9 +63,9 @@ The runner executes normal materialized programs in-process through the public J
 
 ## Scope
 
-The conformance corpus is a single deriva suite. It covers the standard language described by the language reference: lexical syntax, facts, definite clauses, first-order terms, lists, conjunction, structured unification, left-to-right goal-directed proof search, materialized output, read-back printing, standard built-ins, declarations, warnings, errors, proof output, and standard host behavior.
+The conformance corpus is a single Deriva suite. It covers the standard language described by the language reference: lexical syntax, facts, definite clauses, first-order terms, lists, conjunction, structured unification, left-to-right goal-directed proof search, materialized output, read-back printing, standard built-ins, declarations, warnings, errors, proof output, and standard host behavior.
 
-The suite deliberately does not separate `core` and `extension` profiles. Reusable built-ins such as arithmetic, strings, lists, aggregation, context terms, term inspection, and search control are part of the standard deriva conformance surface. Implementation-specific built-ins may still exist in downstream hosts, but they should have their own tests outside this corpus unless they are standardized.
+The suite deliberately does not separate `core` and `extension` profiles. Reusable built-ins such as arithmetic, strings, lists, aggregation, context terms, term inspection, and search control are part of the standard Deriva conformance surface. Implementation-specific built-ins may still exist in downstream hosts, but they should have their own tests outside this corpus unless they are standardized.
 
 ## Updating expected output
 

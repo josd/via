@@ -1,7 +1,7 @@
 # Deriva
 
 <p align="left">
-  <img src="docs/assets/deriva-logo.png" alt="Deriva logo" width="102">
+  <img src="docs/assets/deriva-logo.png" alt="Deriva logo" width="75">
 </p>
 
 [![npm version](https://img.shields.io/npm/v/deriva.svg)](https://www.npmjs.com/package/deriva)

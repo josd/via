@@ -29,11 +29,12 @@
   - [7.2 Failure](#72-failure)
   - [7.3 Finite search expectation](#73-finite-search-expectation)
 - [8. Logical reading: Herbrand semantics](#8-logical-reading-herbrand-semantics)
-  - [8.1 Variables and quantification](#81-variables-and-quantification)
-  - [8.2 Equality, identity, and unification](#82-equality-identity-and-unification)
-  - [8.3 Goal-directed execution versus model-theoretic meaning](#83-goal-directed-execution-versus-model-theoretic-meaning)
-  - [8.4 Built-ins and operational extensions](#84-built-ins-and-operational-extensions)
-  - [8.5 Stratified negation](#85-stratified-negation)
+  - [8.1 Why use a Herbrand interpretation?](#81-why-use-a-herbrand-interpretation)
+  - [8.2 Variables and quantification](#82-variables-and-quantification)
+  - [8.3 Equality, identity, and unification](#83-equality-identity-and-unification)
+  - [8.4 Goal-directed execution versus model-theoretic meaning](#84-goal-directed-execution-versus-model-theoretic-meaning)
+  - [8.5 Built-ins and operational extensions](#85-built-ins-and-operational-extensions)
+  - [8.6 Stratified negation](#86-stratified-negation)
 - [9. Standard built-in predicates](#9-standard-built-in-predicates)
   - [9.1 Equality and unification](#91-equality-and-unification)
   - [9.2 Arithmetic](#92-arithmetic)
@@ -413,7 +414,54 @@ is read universally over Herbrand terms: for every substitution of `X`, `Y`, and
 
 Equivalently, the least Herbrand model is obtained by repeatedly applying the immediate-consequence operation: start with the source facts, add every ground rule head whose ground body is already true, and continue to the least fixed point. This definition is mathematical; an implementation does not have to compute the model bottom-up.
 
-### 8.1 Variables and quantification
+### 8.1 Why use a Herbrand interpretation?
+
+Herbrand semantics is not an alternative to model theory: a Herbrand
+interpretation is a particular kind of Tarskian structure. Deriva chooses this
+restricted structure because programs manipulate symbolic terms directly and
+need their identity to be predictable without a separate set of domain axioms.
+
+Consider this program:
+
+```deriva
+materialize(different, 2).
+
+different(alice, bob) :-
+  neq(alice, bob).
+
+different(ticket(alice), ticket(bob)) :-
+  neq(ticket(alice), ticket(bob)).
+```
+
+It produces:
+
+```deriva
+different(alice, bob).
+different(ticket(alice), ticket(bob)).
+```
+
+In an unrestricted Tarskian interpretation, the constants `alice` and `bob`
+may denote the same domain element unless a distinctness axiom says otherwise.
+Even if they denote different elements, the function denoted by `ticket` need
+not be injective, so `ticket(alice)` and `ticket(bob)` may still denote the same
+element. A conventional first-order theory must add unique-name and free-
+constructor axioms to rule out those interpretations.
+
+In the Herbrand universe, `alice` and `bob` are different because they are
+different ground terms. Compound terms are free constructors, so
+`ticket(alice)` and `ticket(bob)` are also different. This makes unification,
+read-back, generated witness terms, and proof explanations agree on identity by
+construction. The program can therefore treat syntax as inspectable data
+without first defining an external domain and an interpretation function.
+
+This choice does not claim that differently named terms must denote different
+entities in every application. When two names refer to the same real-world
+entity, a Deriva program should represent that relationship explicitly, for
+example with `same_as/2`, or normalize both names to one canonical term. The
+Herbrand layer keeps the representation unambiguous; application rules state
+the intended real-world equivalences.
+
+### 8.2 Variables and quantification
 
 Variables do not range over external objects, records, pointers, or host-language values. In the logical reading, variables range over Herbrand terms. A rule is implicitly universally quantified over its variables. A selected goal is existential in the usual logic-programming sense: Deriva searches for substitutions of its variables by Herbrand terms that make the goal true with respect to the program.
 
@@ -429,19 +477,19 @@ registration(Student, Course, registration_of(Student, Course)) :-
 
 These rules may derive `parent_of(alice)` or `registration_of(alice, logic)` as ordinary visible Herbrand terms. The witness is deterministic: the same functor and inputs produce the same term, while different inputs produce different terms by normal syntactic identity. This is the practical executable form of existential-style consequences in Deriva; it does not introduce hidden blank nodes or special quantifier syntax.
 
-### 8.2 Equality, identity, and unification
+### 8.3 Equality, identity, and unification
 
 Because the domain is Herbrand, equality in the pure language is syntactic identity of terms after substitution. Two distinct atom constants are distinct. Two compound terms are equal only when they have the same functor, the same arity, and pairwise equal arguments. Lists follow the same rule through their `[]` and `./2` representation.
 
 Operationally, Deriva uses first-order unification to find substitutions. The implementation does not perform an occurs check, so cyclic terms are not part of the portable Herbrand reading even if a particular implementation can temporarily construct recursive bindings internally. Portable programs SHOULD avoid relying on occurs-check-sensitive cases such as `eq(X, f(X))`.
 
-### 8.3 Goal-directed execution versus model-theoretic meaning
+### 8.4 Goal-directed execution versus model-theoretic meaning
 
 Deriva's CLI and library evaluator are goal-directed. They try to prove requested goals by resolving them against facts, rules, and built-ins, using clause order, goal order, indexing, tabling, and deterministic built-in execution. This operational strategy is intended to enumerate answers that are true in the least Herbrand model for the pure Horn-clause fragment, but it is not a complete bottom-up model enumerator. Non-terminating recursion or infinite generators can prevent an answer from being found even when the answer belongs to the least Herbrand model.
 
 Default CLI output is also a host behavior, not a separate semantics. It asks broad materialization goals, suppresses duplicates, excludes source facts, keeps ground answers, and prints selected consequences. Embedders can still access the goal-directed solver directly through the implementation API.
 
-### 8.4 Built-ins and operational extensions
+### 8.5 Built-ins and operational extensions
 
 Built-ins are specified relations or operations added to the Herbrand core. A built-in call in a goal has the syntax of an atomic formula, but its success relation is specified procedurally here rather than by source clauses. Some built-ins, such as `eq/2`, `append/3`, `member/2`, and `length/2`, can be understood as relations over Herbrand terms. Others, such as arithmetic, string matching, date/time predicates, aggregation, `once/1`, and negation-as-failure, are operational extensions whose behavior is defined by this specification rather than by pure least-Herbrand-model semantics alone.
 
@@ -449,7 +497,7 @@ Arithmetic and string built-ins do not introduce a separate semantic universe. T
 
 Negation-as-failure `not(Goal)` is especially operational: it succeeds when the current goal-directed search finds no solution for `Goal`. It is not classical negation and should not be read as adding negative facts to the Herbrand model. Programs using negation SHOULD keep the negated goal sufficiently ground and finite.
 
-### 8.5 Stratified negation
+### 8.6 Stratified negation
 
 Portable programs using user-defined predicates under `not/1` SHOULD be **stratified**. A program is stratified when no predicate depends negatively on itself, either directly or through a cycle of other predicate dependencies. In a stratified program, predicates can be assigned strata so that positive dependencies stay in the same or a lower stratum and negative dependencies point strictly to a lower stratum.
 

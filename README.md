@@ -5,7 +5,7 @@
 </p>
 
 [![npm version](https://img.shields.io/npm/v/eyepl.svg)](https://www.npmjs.com/package/eyepl)
-[![DOI](https://zenodo.org/badge/1305066220.svg)](https://zenodo.org/badge/latestdoi/1305066220)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1305066220-blue.svg)](https://doi.org/10.5281/zenodo.1305066220)
 
 Eyepl is a small reasoning language for turning facts and rules into answers and proofs.
 

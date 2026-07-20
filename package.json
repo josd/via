@@ -33,6 +33,7 @@
     "playground.html",
     "bin",
     "src",
+    "tools",
     "conformance-report.md",
     "docs",
     "examples",

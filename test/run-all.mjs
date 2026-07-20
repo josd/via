@@ -6,12 +6,14 @@ import { TestReporter } from './test-style.mjs';
 import { runConformance } from './run-conformance.mjs';
 import { runRegression } from './run-regression.mjs';
 import { runExamples } from './run-examples.mjs';
+import { runRdfTools } from './run-rdf-tools.mjs';
 
 const reporter = new TestReporter();
 
 try {
   runConformance(reporter);
   runRegression(reporter);
+  runRdfTools(reporter);
   runExamples(reporter);
   reporter.totalLine();
   process.exit(0);

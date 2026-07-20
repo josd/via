@@ -9,8 +9,8 @@
 
 Eyepl is a small reasoning language for turning facts and rules into answers and proofs.
 
-The name *Eyepl* evokes movement, wandering, and change—something derived from,
-or set in motion by, another source.
+The name *Eyepl* combines *EYE* with *pl*, reflecting EYE-style reasoning
+expressed with Prolog-like syntax.
 
 Prolog-like syntax. Small core. Inspectable results.
 

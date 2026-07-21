@@ -15,6 +15,9 @@ engine's search strategy.
 
 For the normative language definition, including lexical syntax, terms, clauses, goals, built-ins, automatic hybrid reasoning, `materialize/2`, and conformance boundaries, read the [Eyepl language reference](language-reference.md).
 
+For the project's scope, design commitments, and position on ISO Prolog and
+RDF interoperability, read [The Eyepl Position](position.md).
+
 ## Contents
 
 1. [Quick start](#quick-start)

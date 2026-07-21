@@ -110,6 +110,7 @@ and `--include-source` behavior.
 
 - [Playground](https://eyereasoner.github.io/eyepl/playground)
 - [Guide](docs/guide.md)
+- [The Eyepl Position](docs/position.md)
 - [Language reference](docs/language-reference.md)
 - [RDF tools](tools/README.md)
 - [A Compact Reasoning Workbench](docs/compact-reasoning-workbench.md)

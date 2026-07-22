@@ -595,6 +595,23 @@ function whiteBoxCases() {
       },
     },
     {
+      name: 'cloned environments detach on first write',
+      run: () => {
+        const parent = new Env();
+        parent.bind('Shared', atom('before'));
+        const left = parent.clone();
+        const right = parent.clone();
+        left.bind('Left', atom('only_left'));
+        right.bind('Right', atom('only_right'));
+        parent.bind('Parent', atom('only_parent'));
+        assertEqual(left.get('Shared').name, 'before', 'left keeps shared binding');
+        assertEqual(left.has('Right'), false, 'left excludes right write');
+        assertEqual(left.has('Parent'), false, 'left excludes parent write');
+        assertEqual(right.has('Left'), false, 'right excludes left write');
+        assertEqual(parent.has('Left'), false, 'parent excludes child write');
+      },
+    },
+    {
       name: 'copyResolved and termIsGround follow bindings',
       run: () => {
         const env = new Env();
@@ -737,15 +754,37 @@ function whiteBoxCases() {
       },
     },
     {
-      name: 'clause candidate selection uses scalar indexes with fallback',
+      name: 'clause candidate selection builds arbitrary-width indexes on demand',
       run: () => {
-        const program = Program.parse('edge(a, b).\nedge(c, d).\nedge(X, z).\n');
-        const group = program.findGroup('edge', 2);
-        const goal = parseGoalText('edge(a, Y)');
+        const facts = ['row(a0, b0, c0, first).', 'row(a0, X, c0, wildcard).'];
+        for (let a = 0; a < 6; a++) {
+          for (let b = 0; b < 6; b++) {
+            for (let c = 0; c < 6; c++) {
+              if (a !== 0 || b !== 0 || c !== 0) facts.push(`row(a${a}, b${b}, c${c}, other).`);
+            }
+          }
+        }
+        const program = Program.parse(facts.join('\n'));
+        const group = program.findGroup('row', 4);
+        assertEqual(group.demandIndexes.size, 0, 'indexes start empty');
+        const goal = parseGoalText('row(a0, b0, c0, Result)');
         const candidates = selectClauseCandidates(group, goal, new Env());
-        assertEqual(candidates.primary.length, 1, 'primary bucket length');
-        assertEqual(candidates.fallback.length, 1, 'fallback length');
-        assertEqual(termToString(candidates.primary[0].head, new Env(), true), 'edge(a, b)', 'primary head');
+        assertEqual(group.argIndexes.length, 4, 'any-argument indexes available');
+        assertEqual(group.demandIndexes.has('0'), false, 'single indexes are not rebuilt lazily');
+        assertEqual(group.demandIndexes.has('0,1,2'), true, 'three-argument index built');
+        assertEqual(candidates.primary.length, 2, 'candidate length');
+        assertEqual(candidates.fallback.length, 0, 'one ordered candidate stream');
+        assertEqual(termToString(candidates.primary[0].head, new Env(), true), 'row(a0, b0, c0, first)', 'first head');
+        assertEqual(termToString(candidates.primary[1].head, new Env(), true), 'row(a0, X, c0, wildcard)', 'wildcard head');
+
+        const variableHeavy = Program.parse(Array.from(
+          { length: 12 },
+          (_, index) => `open(X${index}, Y${index}, value${index}).`,
+        ).join('\n'));
+        const openGroup = variableHeavy.findGroup('open', 3);
+        selectClauseCandidates(openGroup, parseGoalText('open(a, b, Result)'), new Env());
+        assertEqual(openGroup.demandIndexes.size, 0, 'poor wide index discarded');
+        assertEqual(openGroup.rejectedDemandIndexes.has('0,1'), true, 'poor call mode remembered');
       },
     },
     {

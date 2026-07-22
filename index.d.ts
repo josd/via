@@ -40,7 +40,8 @@ export interface EyeplPredicateGroup {
   arity: number;
   clauses: EyeplClause[];
   argIndexes: unknown[];
-  pairIndexes: unknown[];
+  demandIndexes: Map<string, unknown>;
+  rejectedDemandIndexes: Set<string>;
   tabled: boolean;
   mode: string[] | null;
   determinism: 'det' | 'semidet' | null;

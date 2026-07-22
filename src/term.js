@@ -29,9 +29,17 @@ export const cons = (head, tail) => compound('.', [head, tail]);
 export class Env {
   constructor(bindings) {
     this.bindings = bindings ? new Map(bindings) : new Map();
+    this._shared = false;
   }
   clone() {
-    return new Env(this.bindings);
+    // Most speculative environments are either rejected without a binding or
+    // only compare ground terms. Share their map until one branch actually
+    // writes, then detach in bind().
+    const clone = Object.create(Env.prototype);
+    clone.bindings = this.bindings;
+    clone._shared = true;
+    this._shared = true;
+    return clone;
   }
   has(name) {
     return this.bindings.has(name);
@@ -40,6 +48,10 @@ export class Env {
     return this.bindings.get(name);
   }
   bind(name, term) {
+    if (this._shared) {
+      this.bindings = new Map(this.bindings);
+      this._shared = false;
+    }
     this.bindings.set(name, term);
   }
 }

@@ -2,7 +2,7 @@
 // Most semantic decisions still flow through unification; optimizations only select candidates earlier.
 import { COMPOUND, Env, compound, copyResolved, flattenConjunction, freshTerm, termIsGround, termToString, unify, variantTerms } from './term.js';
 import { createDefaultRegistry } from './builtins/registry.js';
-import { selectClauseCandidates } from './program.js';
+import { selectClauseCandidates, selectClauseCandidatesForValues } from './program.js';
 
 let freshCounter = 0;
 
@@ -436,42 +436,15 @@ function envWithLocal(env, names, values) {
 }
 
 function selectScalarFactCandidates(group, goal, env, names, values) {
-  let bestPrimary = group.clauses;
-  let bestFallback = [];
-  let bestLen = group.clauses.length;
-  let indexed = false;
-
+  const positions = [];
+  const boundValues = [];
   for (let i = 0; i < goal.arity; i++) {
     const arg = derefScalarMatch(goal.args[i], env, names, values);
     if (!isScalarTerm(arg)) continue;
-    const index = group.argIndexes[i];
-    const bucket = index.buckets.get(arg.name) ?? [];
-    const candidateLen = bucket.length + index.fallback.length;
-    if (!indexed || candidateLen < bestLen) {
-      bestPrimary = bucket;
-      bestFallback = index.fallback;
-      bestLen = candidateLen;
-      indexed = true;
-      if (bestLen === 0) break;
-    }
+    positions.push(i);
+    boundValues.push(arg);
   }
-
-  for (const pair of group.pairIndexes) {
-    const left = derefScalarMatch(goal.args[pair.left], env, names, values);
-    const right = derefScalarMatch(goal.args[pair.right], env, names, values);
-    if (!isScalarTerm(left) || !isScalarTerm(right)) continue;
-    const bucket = pair.buckets.get(`${left.name}\x1f${right.name}`) ?? [];
-    const candidateLen = bucket.length + pair.fallback.length;
-    if (!indexed || candidateLen < bestLen) {
-      bestPrimary = bucket;
-      bestFallback = pair.fallback;
-      bestLen = candidateLen;
-      indexed = true;
-      if (bestLen === 0) break;
-    }
-  }
-
-  return { primary: bestPrimary, fallback: bestFallback };
+  return selectClauseCandidatesForValues(group, positions, boundValues);
 }
 
 function matchScalarFactLocal(goal, head, env, names, values) {
@@ -667,9 +640,14 @@ function rememberGroundChainSuccess(solver, seen) {
 }
 
 function rememberMemoAnswer(entry, goal, env) {
-  const answerArgs = goal.args.map((arg) => importResolved(arg, env));
   const variables = new Map();
-  const key = answerArgs.map((arg) => canonicalTermKey(arg, new Env(), variables)).join('\x1f');
+  const answerKeys = [];
+  const answerArgs = goal.args.map((arg) => {
+    const answer = copyResolvedWithKey(arg, env, variables);
+    answerKeys.push(answer.key);
+    return answer.term;
+  });
+  const key = answerKeys.join('\x1f');
   if (entry.answerKeys.has(key)) return;
   entry.answerKeys.add(key);
   entry.answers.push(answerArgs);
@@ -723,18 +701,25 @@ function memoKey(goal, env, group = null) {
   let hasBound = false;
   const variables = new Map();
   const required = group?.tableInputPositions ?? [];
+  const ground = [];
   const parts = goal.args.map((arg) => {
     const value = derefForLocal(arg, env);
-    if (termIsGround(value, env)) hasBound = true;
-    return value.type === 'var' ? '_' : canonicalTermKey(value, env, variables);
+    if (value.type === 'var') {
+      ground.push(false);
+      return '_';
+    }
+    const canonical = canonicalTermInfo(value, env, variables);
+    ground.push(canonical.ground);
+    if (canonical.ground) hasBound = true;
+    return canonical.key;
   });
   if (required.length > 0) {
-    hasBound = required.some((index) => termIsGround(goal.args[index], env));
+    hasBound = required.some((index) => ground[index]);
   }
   return { hasBound, text: parts.join('|') };
 }
 
-function canonicalTermKey(term, env, variables) {
+function canonicalTermInfo(term, env, variables) {
   const value = derefForLocal(term, env);
   if (value.type === 'var') {
     let id = variables.get(value.name);
@@ -742,15 +727,39 @@ function canonicalTermKey(term, env, variables) {
       id = variables.size;
       variables.set(value.name, id);
     }
-    return `var:${id}`;
+    return { key: `var:${id}`, ground: false };
   }
-  if (!value.args?.length) return `${value.type}:${value.name}`;
-  return `${value.type}:${value.name}(${value.args.map((arg) => canonicalTermKey(arg, env, variables)).join(',')})`;
+  if (!value.args?.length) return { key: `${value.type}:${value.name}`, ground: true };
+  let ground = true;
+  const keys = value.args.map((arg) => {
+    const child = canonicalTermInfo(arg, env, variables);
+    if (!child.ground) ground = false;
+    return child.key;
+  });
+  return { key: `${value.type}:${value.name}(${keys.join(',')})`, ground };
 }
 
-function importResolved(term, env) {
-  const { copyResolved } = termModuleCache;
-  return copyResolved(term, env);
+function copyResolvedWithKey(term, env, variables) {
+  const value = derefForLocal(term, env);
+  if (value.type === 'var') {
+    let id = variables.get(value.name);
+    if (id == null) {
+      id = variables.size;
+      variables.set(value.name, id);
+    }
+    return { term: termModuleCache.variable(value.name), key: `var:${id}` };
+  }
+  if (!value.args?.length) {
+    return {
+      term: new termModuleCache.Term(value.type, value.name, value.args),
+      key: `${value.type}:${value.name}`,
+    };
+  }
+  const children = value.args.map((arg) => copyResolvedWithKey(arg, env, variables));
+  return {
+    term: termModuleCache.compound(value.name, children.map((child) => child.term)),
+    key: `${value.type}:${value.name}(${children.map((child) => child.key).join(',')})`,
+  };
 }
 
 // Avoid circular import surprises in older Node loaders.

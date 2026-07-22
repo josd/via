@@ -18,6 +18,10 @@ Its default execution is automatically hybrid: ordinary goals use indexed
 depth-first resolution, while recursive helper predicate groups are detected
 and tabled automatically.
 
+Clause selection combines compact any-argument scalar indexes with
+demand-driven multi-argument indexes. SWI-Prolog-inspired quality checks avoid
+building indexes for small, weakly selective, or variable-heavy clause groups.
+
 ## Install and run
 
 Install the published CLI globally:

@@ -32,14 +32,16 @@ export class Program {
   }
   makeGroup(name, arity) {
     // A group corresponds to one predicate indicator, for example edge/3.
-    // Single-argument and pair indexes cover the common case where queries bind
-    // one or two scalar arguments before calling the predicate.
+    // Compact single-argument indexes are built eagerly. Wider combinations
+    // are constructed on first use, avoiding eager O(arity^2) pair tables while
+    // still allowing call-driven combinations of any width.
     const group = {
       name,
       arity,
       clauses: [],
       argIndexes: Array.from({ length: arity }, () => ({ buckets: new Map(), fallback: [] })),
-      pairIndexes: [],
+      demandIndexes: new Map(),
+      rejectedDemandIndexes: new Set(),
       tabled: false,
       mode: null,
       determinism: null,
@@ -48,13 +50,6 @@ export class Program {
       scalarFactsOnly: true,
       negationStratum: null,
     };
-    if (arity > 2) {
-      for (let left = 0; left < arity; left++) {
-        for (let right = left + 1; right < arity; right++) {
-          group.pairIndexes.push({ left, right, buckets: new Map(), fallback: [] });
-        }
-      }
-    }
     return group;
   }
   indexClause(clause) {
@@ -69,9 +64,12 @@ export class Program {
     clause.groundHead = termHasNoVariables(head);
     clause.scalarHead = head.type === COMPOUND && head.args.every(isScalar);
     if (clause.body.length !== 0 || !clause.scalarHead) group.scalarFactsOnly = false;
+    // Keep already-used groups correct when embedders append clauses through
+    // the public indexClause method.
+    group.demandIndexes.clear();
+    group.rejectedDemandIndexes.clear();
     group.clauses.push(clause);
     for (let i = 0; i < head.arity; i++) indexOne(group.argIndexes[i], head.args[i], clause);
-    for (const pair of group.pairIndexes) indexPair(pair, head, clause);
   }
   findGroup(name, arity) {
     return this.groups.get(`${name}/${arity}`) ?? null;
@@ -458,6 +456,14 @@ function declarationModes(term) {
   return modes;
 }
 
+// These defaults mirror SWI-Prolog's JITI admission policy: small predicates
+// stay linear, a hash must promise a useful speedup, variable-heavy positions
+// are rejected, and a multi-argument hash must substantially beat singles.
+const DEMAND_INDEX_MIN_CLAUSES = 10;
+const INDEX_MIN_SPEEDUP = 1.5;
+const INDEX_MAX_VAR_FRACTION = 0.1;
+const MULTI_INDEX_MIN_SPEEDUP_RATIO = 3;
+
 function indexOne(index, arg, clause) {
   if (isScalar(arg)) {
     const bucket = index.buckets.get(arg.name);
@@ -468,63 +474,123 @@ function indexOne(index, arg, clause) {
   }
 }
 
-function pairKey(left, right) {
-  return `${left.name}\x1f${right.name}`;
+function demandIndexKey(positions) {
+  return positions.join(',');
 }
 
-function indexPair(pair, head, clause) {
-  const left = head.args[pair.left];
-  const right = head.args[pair.right];
-  if (isScalar(left) && isScalar(right)) {
-    const key = pairKey(left, right);
-    const bucket = pair.buckets.get(key);
+function demandValueKey(values) {
+  // Scalar equality in Eyepl is lexical, so the scalar type is intentionally
+  // absent here. Length prefixes make the composite key unambiguous.
+  if (values.length === 1) return values[0].name;
+  return values.map((value) => `${value.name.length}:${value.name}`).join('');
+}
+
+function buildDemandIndex(group, positions) {
+  const index = { positions, buckets: new Map(), fallback: [] };
+  for (const clause of group.clauses) {
+    const values = positions.map((position) => clause.head.args[position]);
+    if (!values.every(isScalar)) {
+      index.fallback.push(clause);
+      continue;
+    }
+    const key = demandValueKey(values);
+    const bucket = index.buckets.get(key);
     if (bucket) bucket.push(clause);
-    else pair.buckets.set(key, [clause]);
-  } else {
-    pair.fallback.push(clause);
+    else index.buckets.set(key, [clause]);
   }
+  return index;
+}
+
+function mergeClausesInSourceOrder(primary, fallback) {
+  if (fallback.length === 0) return primary;
+  if (primary.length === 0) return fallback;
+  const merged = [];
+  let left = 0;
+  let right = 0;
+  while (left < primary.length && right < fallback.length) {
+    if (primary[left].index < fallback[right].index) merged.push(primary[left++]);
+    else merged.push(fallback[right++]);
+  }
+  while (left < primary.length) merged.push(primary[left++]);
+  while (right < fallback.length) merged.push(fallback[right++]);
+  return merged;
 }
 
 export function selectClauseCandidates(group, goal, env) {
-  // Pick the narrowest applicable index. Fallback clauses remain in the result
-  // because clauses with variables or compound heads can still unify later.
-  let bestPrimary = group.clauses;
-  let bestFallback = [];
-  let bestLen = group.clauses.length;
-  let indexed = false;
-  if (goal.type !== COMPOUND) return { primary: bestPrimary, fallback: bestFallback };
-
+  if (goal.type !== COMPOUND || group.clauses.length < DEMAND_INDEX_MIN_CLAUSES) {
+    return { primary: group.clauses, fallback: [] };
+  }
+  const positions = [];
+  const values = [];
   for (let i = 0; i < goal.arity; i++) {
     const arg = deref(goal.args[i], env);
     if (!isScalar(arg)) continue;
-    const index = group.argIndexes[i];
-    const bucket = index.buckets.get(arg.name) ?? [];
-    const candidateLen = bucket.length + index.fallback.length;
-    if (!indexed || candidateLen < bestLen) {
-      bestPrimary = bucket;
-      bestFallback = index.fallback;
-      bestLen = candidateLen;
-      indexed = true;
-      if (bestLen === 0) break;
-    }
+    positions.push(i);
+    values.push(arg);
+  }
+  if (positions.length === 0) return { primary: group.clauses, fallback: [] };
+
+  return selectClauseCandidatesForValues(group, positions, values);
+}
+
+// The scalar-fact join already has dereferenced local values. Keeping this
+// entry point separate avoids manufacturing an Env facade and dereferencing
+// every argument again in its inner loop.
+export function selectClauseCandidatesForValues(group, positions, values) {
+  if (group.clauses.length < DEMAND_INDEX_MIN_CLAUSES || positions.length === 0) {
+    return { primary: group.clauses, fallback: [] };
   }
 
-  for (const pair of group.pairIndexes) {
-    const left = deref(goal.args[pair.left], env);
-    const right = deref(goal.args[pair.right], env);
-    if (!isScalar(left) || !isScalar(right)) continue;
-    const bucket = pair.buckets.get(pairKey(left, right)) ?? [];
-    const candidateLen = bucket.length + pair.fallback.length;
-    if (!indexed || candidateLen < bestLen) {
-      bestPrimary = bucket;
-      bestFallback = pair.fallback;
-      bestLen = candidateLen;
-      indexed = true;
-      if (bestLen === 0) break;
+  let bestParts = null;
+  let bestLength = group.clauses.length;
+  // Any-argument indexes are the eagerly built stable base. A wide index is
+  // constructed only when none of them reduces the choice set to a small scan.
+  for (let i = 0; i < positions.length; i++) {
+    const index = group.argIndexes[positions[i]];
+    const parts = { primary: index.buckets.get(values[i].name) ?? [], fallback: index.fallback };
+    const length = parts.primary.length + parts.fallback.length;
+    if (index.fallback.length / group.clauses.length > INDEX_MAX_VAR_FRACTION) continue;
+    if (group.clauses.length / Math.max(1, length) < INDEX_MIN_SPEEDUP) continue;
+    if (length < bestLength) {
+      bestParts = parts;
+      bestLength = length;
     }
   }
+  const wideKey = demandIndexKey(positions);
+  if (positions.length > 1 && bestLength > 1 && !group.rejectedDemandIndexes.has(wideKey)) {
+    const hadWideIndex = group.demandIndexes.has(wideKey);
+    const parts = demandCandidateParts(group, positions, values);
+    const length = parts.primary.length + parts.fallback.length;
+    const variableFraction = parts.fallback.length / group.clauses.length;
+    const speedup = group.clauses.length / Math.max(1, length);
+    const improvement = bestLength / Math.max(1, length);
+    if (variableFraction <= INDEX_MAX_VAR_FRACTION
+        && speedup >= INDEX_MIN_SPEEDUP
+        && improvement >= MULTI_INDEX_MIN_SPEEDUP_RATIO) {
+      bestParts = parts;
+      bestLength = length;
+    } else {
+      if (!hadWideIndex) {
+        group.demandIndexes.delete(wideKey);
+        group.rejectedDemandIndexes.add(wideKey);
+      }
+    }
+  }
+  const best = bestParts
+    ? mergeClausesInSourceOrder(bestParts.primary, bestParts.fallback)
+    : group.clauses;
+  return { primary: best, fallback: [] };
+}
 
-  return { primary: bestPrimary, fallback: bestFallback };
+function demandCandidateParts(group, positions, values) {
+  const indexKey = demandIndexKey(positions);
+  let index = group.demandIndexes.get(indexKey);
+  if (!index) {
+    index = buildDemandIndex(group, positions);
+    group.demandIndexes.set(indexKey, index);
+  }
+  const bucket = index.buckets.get(demandValueKey(values)) ?? [];
+  return { primary: bucket, fallback: index.fallback };
 }
 
 export function makeProgram(source, options = {}) {

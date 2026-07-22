@@ -678,7 +678,20 @@ The projects are therefore complementary rather than replacements for each other
 
 Use `-s` or `--stats` for a quick sanity check while optimizing solver changes. It prints counters such as `solve_goals_calls`, `unify_calls`, `deterministic_rule_expansions`, `candidate_lists_selected`, `clause_candidates_considered`, `clauses_tried`, `max_depth`, and `max_solver_call_depth` to stderr, leaving normal output stable for golden-file tests. The `max_solver_call_depth` counter is especially useful for browser regressions, where the VM call stack can be tighter than a command-line run. Use `-w` or `--warnings` separately when you want portability diagnostics without enabling stricter parsing.
 
-Eyepl hashes predicate groups by name and arity, then indexes clauses by scalar argument values. It also builds two-argument composite indexes for scalar pairs and probes those composite indexes without per-lookup heap allocation. This helps both large generated programs with many predicates and selective queries such as:
+Predicates have compact any-argument scalar indexes. Predicates with fewer than
+10 clauses use a linear scan. Larger predicates use an argument index only when it
+is estimated to be at least 1.5 times faster than scanning and no more than 10% of
+the clauses have variables in that position. A multi-argument index is built on
+demand only when it is at least three times better than the best single-argument
+choice; rejected combinations are remembered. These defaults follow
+[SWI-Prolog's JITI admission policy](https://www.swi-prolog.org/pldoc/man?section=jitindex).
+Clauses with variables or structured terms in indexed positions remain candidates,
+merged in source order, and unification always performs the final match.
+
+Eyepl hashes predicate groups by name and arity, then indexes clauses by scalar
+argument values. Wider indexes follow the bound positions actually encountered
+at runtime instead of eagerly allocating every argument combination. This helps
+both large generated programs and selective queries such as:
 
 ```eyepl
 edge(g1, a, X).

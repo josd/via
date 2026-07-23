@@ -3,4 +3,4 @@ candidate(a).
 candidate(b).
 candidate(c).
 answer(not_present, X) :- candidate(X), not_member(X, [a, b]).
-materialize(answer, 2).
+query(answer(X0, X1)).

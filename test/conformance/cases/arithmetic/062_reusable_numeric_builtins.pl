@@ -1,5 +1,5 @@
 % Reference 9.1: reusable numeric functions and max/3.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(max, X) :- max(17, 42, X).
 answer(sqrt, X) :- sqrt(81, X).
 answer(floor, X) :- floor(3.9, X).

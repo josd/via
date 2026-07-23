@@ -1,5 +1,5 @@
 % Reference 9.7: zero-based indexing can enumerate and set elements without mutating the source list.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(index_value, pair(I, V)) :- nth0(I, [red, green, blue], V).
 answer(bound_index, X) :- nth0(1, [red, green, blue], X).
 answer(set_first, X) :- set_nth0(0, [red, green], blue, X).

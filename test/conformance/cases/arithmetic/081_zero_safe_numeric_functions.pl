@@ -1,5 +1,5 @@
 % Reference 9.2: transcendental functions have stable exact outputs at simple inputs.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(sin_zero, X) :- sin(0, X).
 answer(cos_zero, X) :- cos(0, X).
 answer(tan_zero, X) :- tan(0, X).

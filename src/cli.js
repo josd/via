@@ -1,5 +1,5 @@
 // Command-line interface for Eyepl.
-// It loads programs from files, URLs, or stdin, then materializes derived output predicates.
+// It loads programs from files, URLs, or stdin, then runs their declared queries.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
@@ -99,9 +99,9 @@ async function loadExplanation() {
 }
 
 async function runDefault(engine, program, options) {
-  const goals = program.materializationGoals();
-  const materializedKeys = new Set(goals.map((goal) => `${goal.name}/${goal.arity}`));
-  const facts = program.sourceFactLines(materializedKeys);
+  const goals = program.queryGoals();
+  const queriedKeys = new Set(goals.map((goal) => `${goal.name}/${goal.arity}`));
+  const facts = program.sourceFactLines(queriedKeys);
   const lines = new Set();
   const registry = engine.getDefaultRegistry();
   const explanation = options.proof ? await loadExplanation() : null;

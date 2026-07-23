@@ -2,4 +2,4 @@
 p(a).
 q(a).
 ok(X, yes) :- (p(X), q(X)).
-materialize(ok, 2).
+query(ok(X0, X1)).

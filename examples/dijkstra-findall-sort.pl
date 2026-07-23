@@ -3,9 +3,9 @@
 % Each expansion collects unvisited neighbors with findall/3, appends them to
 % the frontier, and uses sort/2 so the cheapest frontier entry is processed next.
 
-materialize(shortestPath, 2).
-materialize(cost, 2).
-materialize(reason, 2).
+query(shortestPath(X0, X1)).
+query(cost(X0, X1)).
+query(reason(X0, X1)).
 
 % Weighted undirected graph; the symmetric edge rule below adds reverse arcs.
 edge(a, b, 4).

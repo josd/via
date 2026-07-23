@@ -4,15 +4,15 @@
 % points, so this example is comparable with examples/output/bayes-diagnosis.n3
 % in the Eyeling repository.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(scores, 2).
-materialize(evidenceTotal, 2).
-materialize(result, 2).
-materialize(disease, 2).
-materialize(unnormalized, 2).
-materialize(posterior, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(scores(X0, X1)).
+query(evidenceTotal(X0, X1)).
+query(result(X0, X1)).
+query(disease(X0, X1)).
+query(unnormalized(X0, X1)).
+query(posterior(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 disease(covid19).
 disease(influenza).
 disease(allergicRhinitis).

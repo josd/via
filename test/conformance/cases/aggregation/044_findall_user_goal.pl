@@ -3,4 +3,4 @@ p(b).
 p(a).
 p(b).
 answer(bag, X) :- findall(P, p(P), X).
-materialize(answer, 2).
+query(answer(X0, X1)).

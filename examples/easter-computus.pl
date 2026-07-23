@@ -3,11 +3,11 @@
 % Butcher remainders, the final month/day, and a separate window check showing
 % that the result lies in the legal Gregorian Easter range.
 
-materialize(easterDate, 2).
-materialize(computusRemainders, 2).
-materialize(legalGregorianWindow, 2).
+query(easterDate(X0, X1)).
+query(computusRemainders(X0, X1)).
+query(legalGregorianWindow(X0, X1)).
 
-% Sample years for which the computed Easter date is materialized.
+% Sample years for which the computed Easter date is queried.
 case(y2026, 2026).
 case(y2027, 2027).
 case(y2028, 2028).

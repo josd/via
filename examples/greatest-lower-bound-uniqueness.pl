@@ -3,7 +3,7 @@
 % Two candidate GLBs are asserted for the same pair.  The rules derive that
 % each must be below the other, then use antisymmetry-style sameTerm/2 reasoning
 % to report that the candidates denote the same lower bound.
-materialize(sameGreatestLowerBound, 4).
+query(sameGreatestLowerBound(X0, X1, X2, X3)).
 
 % Adapted from Eyeling greatest-lower-bound-uniqueness.n3.  The named facts
 % intentionally use two different symbols, g1 and g2, so the final output shows

@@ -1,4 +1,4 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 edge(a, b).
 edge(b, c).
 path(X, Y) :- edge(X, Y).

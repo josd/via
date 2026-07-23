@@ -1,4 +1,4 @@
-materialize(answer, 3).
+query(answer(X0, X1, X2)).
 score(2, first).
 score(1, keep).
 score(1, also).

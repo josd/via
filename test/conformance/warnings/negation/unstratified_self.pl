@@ -1,4 +1,4 @@
 % A direct negative self-dependency is reported as unstratified.
-materialize(answer, 1).
+query(answer(X0)).
 p(a) :- not(p(a)).
 answer(ok).

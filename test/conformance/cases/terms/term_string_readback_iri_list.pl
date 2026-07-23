@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(Text) :- term_string(['<urn:example:a>', '<urn:example:b>'], Text).

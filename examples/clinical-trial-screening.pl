@@ -4,16 +4,16 @@
 % predicates keep the inclusion/exclusion logic separate from the concise
 % public relation report.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % Inclusion criteria are positive requirements; exclusion criteria veto a
 % candidate even when the inclusion checks pass. The emitted reason/2 facts are
 % the audit trail a coordinator would need for a screen-failure report.
-materialize(type, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(type(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 patient(p001).
 patient(p002).
 patient(p003).

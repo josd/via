@@ -5,7 +5,7 @@ This guide introduces Eyepl, a small Horn-clause language and engine whose sourc
 This documentation uses **Eyepl** for the project, language, and engine, and
 `eyepl` for the npm package and CLI command.
 
-Programs write relations directly, for example `ancestor(pat, emma)` or `status(case1, accepted)`. Web identifiers can be written as ordinary quoted atoms that include angle brackets, for example `'<https://schema.org/name>'`, when a program needs explicit IRI-shaped names without prefix declarations. Eyepl output is ordinary Eyepl syntax: by default, the CLI materializes selected answer facts and prints those facts only. Pass `--proof` (or `-p`) when you also want each answer followed by a `why/2` explanation fact that records the proof. Programs may add `materialize/2` declarations such as `materialize(answer, 2).` to focus output on selected predicates.
+Programs write relations directly, for example `ancestor(pat, emma)` or `status(case1, accepted)`. Web identifiers can be written as ordinary quoted atoms that include angle brackets, for example `'<https://schema.org/name>'`, when a program needs explicit IRI-shaped names without prefix declarations. Eyepl output is ordinary Eyepl syntax: the CLI runs each declared `query(Goal)` and prints its ground answers. Pass `--proof` (or `-p`) when you also want each answer followed by a `why/2` explanation fact that records the proof.
 
 Execution is automatically hybrid. Ordinary predicates use indexed
 goal-directed resolution, while dependency analysis detects recursive groups
@@ -13,7 +13,7 @@ and tables their bound calls. Programs describe relations without choosing the
 engine's search strategy.
 
 
-For the normative language definition, including lexical syntax, terms, clauses, goals, built-ins, automatic hybrid reasoning, `materialize/2`, and conformance boundaries, read the [Eyepl language reference](language-reference.md).
+For the normative language definition, including lexical syntax, terms, clauses, goals, built-ins, automatic hybrid reasoning, `query/1`, and conformance boundaries, read the [Eyepl language reference](language-reference.md).
 
 For the project's scope, design commitments, and position on ISO Prolog and
 RDF interoperability, read [The Eyepl Position](position.md).
@@ -115,7 +115,7 @@ why(
 
 ```
 
-The explanation output can itself be read as Eyepl input; for example, another program can materialize `why/2` facts such as `why(type(socrates, mortal), Proof)`. `--proof` adds only these explanation facts; it does not change the answers found by the solver.
+The explanation output can itself be read as Eyepl input; for example, another program can query `why/2` facts such as `why(type(socrates, mortal), Proof)`. `--proof` adds only these explanation facts; it does not change the answers found by the solver.
 
 ### Explanation cookbook
 
@@ -203,7 +203,7 @@ node tools/rdf-to-eyepl.mjs --format ttl --base https://example/ - -o program.pl
 node tools/rdf-to-eyepl.mjs --format application/ld+json - -o program.pl
 ```
 
-The generated program declares `materialize(rdf, 4)` and represents every quad
+The generated program declares `query(rdf(S, P, O, G))` and represents every quad
 as `rdf(Subject, Predicate, Object, Graph)`. The lossless term mapping is:
 
 | RDF value | Eyepl term |
@@ -245,9 +245,11 @@ parent(jan, emma).
 
 ancestor(X, Y) :- parent(X, Y).
 ancestor(X, Z) :- parent(X, Y), ancestor(Y, Z).
+
+query(ancestor(X, Y)).
 ```
 
-By default, Eyepl asks for new ground consequences of selected output predicates, suppresses duplicates, excludes source facts, sorts the result, and prints Prolog facts:
+Eyepl runs the declared query, suppresses source facts and duplicate answers, and prints new ground answers as facts:
 
 ```eyepl
 ancestor(jan, emma).
@@ -255,27 +257,27 @@ ancestor(pat, emma).
 ancestor(pat, jan).
 ```
 
-This default is intentionally output-oriented. It is not a complete bottom-up saturation engine. Built-ins and proof search remain goal-directed; use `materialize/2` declarations and small output predicates when you want a specific relation, arity, or non-binary answer.
+This behavior is intentionally goal-directed, not a complete bottom-up saturation engine.
 
-### Focusing default output
+### Declaring queries
 
-Large examples often have internal helper predicates. Add `materialize/2` declarations to restrict default output to selected predicates:
+Add one or more `query/1` declarations for the goals whose answers should be printed:
 
 ```eyepl
-materialize(answer, 2).
+query(answer(X0, X1)).
 
 seed(case1).
 helper(Case, score(95)) :- seed(Case).
 answer(Case, accepted) :- helper(Case, score(95)).
 ```
 
-The default output is then:
+The output is:
 
 ```eyepl
 answer(case1, accepted).
 ```
 
-`materialize/2` is a declaration, not a logical rule to prove. It affects which predicates the CLI prints, not the meaning of the rules themselves. Materialized output facts are not inserted back into the running program for later goals. Source facts are indexed and reused normally, and answers for automatically tabled recursive predicates are reused inside the same solver run.
+`query/1` is a host declaration, not a logical rule to prove. Its argument is a goal and may contain variables or constants. Query answers are not inserted back into the running program, and answers identical to source facts are not printed. Answers for automatically tabled recursive predicates are reused inside the same solver run.
 
 ## Writing programs
 
@@ -300,11 +302,11 @@ status(Case, accepted) :- accepted(Case).
 reason(Case, "score exceeds threshold") :- accepted(Case).
 ```
 
-When `status/2` and `reason/2` are derived, they appear in default output. If the program has many helper binary predicates, declare the intended output predicates:
+Declare the intended query goals:
 
 ```eyepl
-materialize(status, 2).
-materialize(reason, 2).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 ```
 
 ### Naming
@@ -313,7 +315,7 @@ Predicate names and atom constants use the same lexical form. Namespace-like nam
 
 ### Embedding remains general
 
-The CLI is output-oriented and uses `materialize/2` to decide what to print. Embedders can still use the JavaScript API and `Solver` directly for arbitrary goals and arities.
+The CLI runs declared `query/1` goals. Embedders can still use the JavaScript API and `Solver` directly.
 
 Add `-s` or `--stats` when you want lightweight solver counters on stderr without changing stdout:
 
@@ -416,7 +418,7 @@ Use `holds/2` when you want to match the member term directly, for example `name
 | [`cdcl-sat-solver.pl`](../examples/cdcl-sat-solver.pl) | Simulates one CDCL conflict-analysis step with a learned clause and backjumped model. | [`output/cdcl-sat-solver.pl`](../examples/output/cdcl-sat-solver.pl) |
 | [`chart-parser.pl`](../examples/chart-parser.pl) | Parses small sentences with an automatically tabled chart parser. | [`output/chart-parser.pl`](../examples/output/chart-parser.pl) |
 | [`clinical-trial-screening.pl`](../examples/clinical-trial-screening.pl) | Screens candidates for a trial. | [`output/clinical-trial-screening.pl`](../examples/output/clinical-trial-screening.pl) |
-| [`collatz-1000.pl`](../examples/collatz-1000.pl) | Materializes Collatz trajectories for starts 1000 down to 1. | [`output/collatz-1000.pl`](../examples/output/collatz-1000.pl) |
+| [`collatz-1000.pl`](../examples/collatz-1000.pl) | Querys Collatz trajectories for starts 1000 down to 1. | [`output/collatz-1000.pl`](../examples/output/collatz-1000.pl) |
 | [`combinatorics-findall-sort.pl`](../examples/combinatorics-findall-sort.pl) | Collects and sorts finite combinations. | [`output/combinatorics-findall-sort.pl`](../examples/output/combinatorics-findall-sort.pl) |
 | [`competitive-enzyme-kinetics.pl`](../examples/competitive-enzyme-kinetics.pl) | Computes inhibited enzyme reaction rates. | [`output/competitive-enzyme-kinetics.pl`](../examples/output/competitive-enzyme-kinetics.pl) |
 | [`complex.pl`](../examples/complex.pl) | Performs arithmetic on complex pairs. | [`output/complex.pl`](../examples/output/complex.pl) |
@@ -659,7 +661,7 @@ A useful rule of thumb:
 | Standard RDF files with compact relational Eyepl rules | Eyepl | The RDF tools losslessly map RDF 1.2 datasets to ordinary `rdf/4` terms. |
 | Compact relational rules over ordinary terms, lists, arithmetic, and finite search | Eyepl | The syntax is shorter for non-RDF relation programs and output is ordinary facts. |
 | Human-auditable derivations | Either | Both can emit proof explanations when requested. |
-| Large generated Horn-clause workloads | Eyepl | The engine specializes in predicate/arity indexing, scalar argument indexes, fast fact paths, and materialized output goals. |
+| Large generated Horn-clause workloads | Eyepl | The engine specializes in predicate/arity indexing, scalar argument indexes, fast fact paths, and query answers goals. |
 
 On local smoke benchmarks, Eyepl is substantially faster on large generated Horn-clause and recursion-heavy workloads. These numbers are 5-run medians with stdout redirected to `/dev/null`, using Node.js `v22.16.0`, Eyepl from this checkout, and Eyeling package version `1.34.6` with its default output mode. The ratio is `Eyeling median / Eyepl median`, so larger numbers mean Eyepl was faster.
 
@@ -700,7 +702,7 @@ path(a, Y).
 status(Case, accepted).
 ```
 
-Ground facts use a fast path that avoids freshening and copying a rule body. Recursive-predicate detection uses an explicit work stack, which keeps large predicate chains safer in the browser. Eyepl automatically tables positive recursive groups, including dependencies reached through supported meta-goals and directly materialized relations. Cyclic calls iterate to an answer fixed point before replay. Recursive components containing a negative dependency retain guarded ordinary resolution because positive fixed-point tabling is not a semantics for unstratified negation. The engine also infers common structurally decreasing input positions; calls with an unbound structural input and fully open calls retain ordinary resolution rather than trying to materialize a potentially infinite relation. Authors do not need a search-control declaration.
+Ground facts use a fast path that avoids freshening and copying a rule body. Recursive-predicate detection uses an explicit work stack, which keeps large predicate chains safer in the browser. Eyepl automatically tables positive recursive groups, including dependencies reached through supported meta-goals and directly queried relations. Cyclic calls iterate to an answer fixed point before replay. Recursive components containing a negative dependency retain guarded ordinary resolution because positive fixed-point tabling is not a semantics for unstratified negation. The engine also infers common structurally decreasing input positions; calls with an unbound structural input and fully open calls retain ordinary resolution rather than trying to query a potentially infinite relation. Authors do not need a search-control declaration.
 
 Predicates can also carry advisory mode and determinism declarations for documentation and host tooling:
 
@@ -709,7 +711,7 @@ mode(path, 2, [in, out]).
 semidet(edge, 2).
 ```
 
-For large programs, keep helper predicates selective, bind arguments early, document intended calling patterns with `mode/3` when helpful, and declare focused output predicates with `materialize/2` when default output would otherwise solve broad helper goals.
+For large programs, keep helper predicates selective, bind arguments early, document intended calling patterns with `mode/3` when helpful, and declare focused `query/1` goals.
 
 When using `not/1` over user-defined predicates, keep the dependency graph stratified: negative dependencies should not participate in recursion. The CLI option `-w` / `--warnings` prints non-fatal stratification warnings to stderr. The JavaScript API exposes `program.stratifiedNegation`, `program.negationStratificationErrors`, and `program.assertStratifiedNegation()` so host tools can warn or reject programs that rely on unstratified negation. The diagnostic is lazy by default; use `{ analyzeNegation: true }` to compute it during parsing or `{ strictNegation: true }` to compute and reject unstratified programs.
 

@@ -3,8 +3,8 @@
 % minimisation, special-category safeguards, and international-transfer safety.
 % Separate failure rules produce concise reasons for noncompliant cases.
 
-materialize(status, 2).
-materialize(reason, 2).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % case_alpha is intended to pass; case_beta is intentionally incomplete.
 processing(case_alpha).

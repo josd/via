@@ -3,10 +3,10 @@
 % The graph is undirected; edges have identifiers so the trail consumes each
 % physical edge exactly once even when vertices are revisited.  The remaining
 % edge-id list is the explicit search state.
-materialize(oddVertices, 2).
-materialize(path, 2).
-materialize(edgeCount, 2).
-materialize(reason, 2).
+query(oddVertices(X0, X1)).
+query(path(X0, X1)).
+query(edgeCount(X0, X1)).
+query(reason(X0, X1)).
 
 % Edge identifiers are part of the search state: the DFS removes ids, not just
 % endpoints, so repeated vertex visits do not accidentally reuse an edge.

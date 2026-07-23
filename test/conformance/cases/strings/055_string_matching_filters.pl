@@ -3,4 +3,4 @@ text(a, "alpha").
 text(b, "beta").
 answer(has_ph, K) :- text(K, T), matches(T, "ph").
 answer(no_ph, K) :- text(K, T), not_matches(T, "ph").
-materialize(answer, 2).
+query(answer(X0, X1)).

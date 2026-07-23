@@ -4,13 +4,13 @@
 % and its contents remain quoted formula data.  Nothing inside the three formulae
 % is asserted globally unless a rule explicitly projects it.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(log_nameOf, 2).
-materialize(dataGraph, 2).
-materialize(signatureGraph, 2).
-materialize(metadataGraph, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(log_nameOf(X0, X1)).
+query(dataGraph(X0, X1)).
+query(signatureGraph(X0, X1)).
+query(metadataGraph(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 log_nameOf(skolem_g0, foaf_name(bob, "Bob")).
 
 log_nameOf(skolem_g1, (

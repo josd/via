@@ -2,4 +2,4 @@
 unpack(pair(X, Y), X, Y).
 answer(first, A) :- unpack(pair(alpha, beta), A, _).
 answer(second, B) :- unpack(pair(alpha, beta), _, B).
-materialize(answer, 2).
+query(answer(X0, X1)).

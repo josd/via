@@ -2,22 +2,22 @@
 % Compute a prime factorization by repeated smallest-divisor decomposition,
 % then check product reconstruction and primality of the distinct factors.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % The goal is not to be a production factorizer; it is a readable encoding of
 % divisibility, primality, two factorization strategies, and agreement between
 % normalized factor lists.
-materialize(n, 2).
-materialize(factorsSmallest, 2).
-materialize(factorsLargest, 2).
-materialize(product, 2).
-materialize(expectedFactorsMatched, 2).
-materialize(productReconstructsInput, 2).
-materialize(distinctPrimeCount, 2).
-materialize(smallestPrimeFactor, 2).
-materialize(largestPrimeFactor, 2).
+query(n(X0, X1)).
+query(factorsSmallest(X0, X1)).
+query(factorsLargest(X0, X1)).
+query(product(X0, X1)).
+query(expectedFactorsMatched(X0, X1)).
+query(productReconstructsInput(X0, X1)).
+query(distinctPrimeCount(X0, X1)).
+query(smallestPrimeFactor(X0, X1)).
+query(largestPrimeFactor(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 case(fta, 202692987).
 expected_factors(fta, [3, 3, 7, 829, 3881]).
 

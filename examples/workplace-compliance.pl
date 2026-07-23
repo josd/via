@@ -4,7 +4,7 @@
 % explicit and reproducible: each `does/2` fact records an observed employee
 % action, and the rules classify compliant and non-compliant behaviour.
 
-materialize(status, 2).
+query(status(X0, X1)).
 
 employee(alice).
 employee(bob).

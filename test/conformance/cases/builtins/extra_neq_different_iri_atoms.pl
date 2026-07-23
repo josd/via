@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(neq_different_iri_atoms) :- neq('<urn:example:a>', '<urn:example:b>').

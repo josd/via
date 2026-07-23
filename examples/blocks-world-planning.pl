@@ -4,11 +4,11 @@
 % are sorted lists of on(Block, Support) facts so equality and visited-state
 % checks are purely structural.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(status, 2).
-materialize(plan, 2).
-materialize(finalState, 2).
-materialize(blockCount, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(status(X0, X1)).
+query(plan(X0, X1)).
+query(finalState(X0, X1)).
+query(blockCount(X0, X1)).
 
 % The initial and goal states are lists of on/2 facts.  Sorting successor states
 % gives canonical terms for equality and visited-state checks.

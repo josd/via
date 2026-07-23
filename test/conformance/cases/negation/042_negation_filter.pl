@@ -4,4 +4,4 @@ candidate(b).
 candidate(c).
 blocked(b).
 answer(open, X) :- candidate(X), not(blocked(X)).
-materialize(answer, 2).
+query(answer(X0, X1)).

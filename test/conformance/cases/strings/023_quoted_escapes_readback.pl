@@ -2,4 +2,4 @@
 raw(string, "line\nnext\t\\slash").
 raw(atom, 'line\nnext\t\\slash').
 answer(K, V) :- raw(K, V).
-materialize(answer, 2).
+query(answer(X0, X1)).

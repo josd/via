@@ -1,5 +1,5 @@
 % Reference 9.1: forall/2 succeeds for every generated binding, including the empty generator case.
-materialize(answer, 2).
+query(answer(X0, X1)).
 small(1).
 small(2).
 large(3).

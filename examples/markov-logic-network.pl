@@ -6,14 +6,14 @@
 % choose the highest-scoring world.  Weights are stored as integer tenths of a
 % log weight so the example stays reproducible without floating-point noise.
 
-materialize(mlnWeight, 2).
-materialize(mlnWorld, 2).
-materialize(mlnSatisfied, 2).
-materialize(mlnViolated, 2).
-materialize(mlnContribution, 3).
-materialize(mlnWorldScore, 2).
-materialize(mlnMapWorld, 2).
-materialize(mlnConclusion, 2).
+query(mlnWeight(X0, X1)).
+query(mlnWorld(X0, X1)).
+query(mlnSatisfied(X0, X1)).
+query(mlnViolated(X0, X1)).
+query(mlnContribution(X0, X1, X2)).
+query(mlnWorldScore(X0, X1)).
+query(mlnMapWorld(X0, X1)).
+query(mlnConclusion(X0, X1)).
 
 % Evidence and candidate hidden assignments.
 person(alice).

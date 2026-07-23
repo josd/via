@@ -1,18 +1,18 @@
 % Translate a DPV-style personal-data processing description into an ODRL-style policy view.
 % The source facts describe one care/research process: controller, recipient, data, action, purpose, and legal basis.
-% The derived predicates materialize the corresponding ODRL policy, permission, target, party, action, and constraints.
+% The derived predicates query the corresponding ODRL policy, permission, target, party, action, and constraints.
 
-materialize(type, 2).
-materialize(odrl_permission, 2).
-materialize(odrl_assigner, 2).
-materialize(odrl_assignee, 2).
-materialize(odrl_target, 2).
-materialize(odrl_action, 2).
-materialize(odrl_constraint, 2).
-materialize(odrl_leftOperand, 2).
-materialize(odrl_operator, 2).
-materialize(odrl_rightOperand, 2).
-materialize(derived_from_process, 2).
+query(type(X0, X1)).
+query(odrl_permission(X0, X1)).
+query(odrl_assigner(X0, X1)).
+query(odrl_assignee(X0, X1)).
+query(odrl_target(X0, X1)).
+query(odrl_action(X0, X1)).
+query(odrl_constraint(X0, X1)).
+query(odrl_leftOperand(X0, X1)).
+query(odrl_operator(X0, X1)).
+query(odrl_rightOperand(X0, X1)).
+query(derived_from_process(X0, X1)).
 
 process(alpha_care_process).
 data_controller(alpha_care_process, hospital_a).

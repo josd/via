@@ -1,4 +1,4 @@
 % Improper lists preserve their tail in read-back.
-materialize(answer, 1).
+query(answer(X0)).
 seed([a, b | tail]).
 answer(X) :- seed(X).

@@ -1,49 +1,49 @@
 % Flandor insight-economy case adapted from Eyeling flandor.n3.
 % The original N3 renders a Markdown ARC report.  This eyepl translation keeps
 % the neutral insight, policy envelope, authorization, package choice, and checks
-% as materialized relation output.
+% as queried relation output.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(caseName, 2).
-materialize(regionName, 2).
-materialize(metric, 2).
-materialize(activeNeedCount, 2).
-materialize(activeNeedThreshold, 2).
-materialize(recommendedPackageName, 2).
-materialize(budgetCapMEUR, 2).
-materialize(packageCostMEUR, 2).
-materialize(envelopeExpiresAt, 2).
-materialize(workerCoverage, 2).
-materialize(gridReliefMW, 2).
-materialize(outcome, 2).
-materialize(target, 2).
-materialize(reason, 2).
-materialize(alg, 2).
-materialize(payloadHashSHA256, 2).
-materialize(signatureHMAC, 2).
-materialize(auditEntries, 2).
-materialize(filesWritten, 2).
-materialize(allChecksPass, 2).
-materialize(exportWeakness, 2).
-materialize(skillsStrain, 2).
-materialize(gridStress, 2).
-materialize(needsRetoolingPulse, 2).
-materialize(derivedFromNeed, 2).
-materialize(signatureVerifies, 2).
-materialize(payloadHashMatches, 2).
-materialize(hmacMatches, 2).
-materialize(minimizationStripsSensitiveTerms, 2).
-materialize(scopeComplete, 2).
-materialize(authorizationAllowed, 2).
-materialize(thresholdReached, 2).
-materialize(packageWithinBudget, 2).
-materialize(packageCoversAllNeeds, 2).
-materialize(dutyTimingConsistent, 2).
-materialize(surveillanceReuseProhibited, 2).
-materialize(filesWrittenExpected, 2).
-materialize(lowestCostEligiblePackageChosen, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(caseName(X0, X1)).
+query(regionName(X0, X1)).
+query(metric(X0, X1)).
+query(activeNeedCount(X0, X1)).
+query(activeNeedThreshold(X0, X1)).
+query(recommendedPackageName(X0, X1)).
+query(budgetCapMEUR(X0, X1)).
+query(packageCostMEUR(X0, X1)).
+query(envelopeExpiresAt(X0, X1)).
+query(workerCoverage(X0, X1)).
+query(gridReliefMW(X0, X1)).
+query(outcome(X0, X1)).
+query(target(X0, X1)).
+query(reason(X0, X1)).
+query(alg(X0, X1)).
+query(payloadHashSHA256(X0, X1)).
+query(signatureHMAC(X0, X1)).
+query(auditEntries(X0, X1)).
+query(filesWritten(X0, X1)).
+query(allChecksPass(X0, X1)).
+query(exportWeakness(X0, X1)).
+query(skillsStrain(X0, X1)).
+query(gridStress(X0, X1)).
+query(needsRetoolingPulse(X0, X1)).
+query(derivedFromNeed(X0, X1)).
+query(signatureVerifies(X0, X1)).
+query(payloadHashMatches(X0, X1)).
+query(hmacMatches(X0, X1)).
+query(minimizationStripsSensitiveTerms(X0, X1)).
+query(scopeComplete(X0, X1)).
+query(authorizationAllowed(X0, X1)).
+query(thresholdReached(X0, X1)).
+query(packageWithinBudget(X0, X1)).
+query(packageCoversAllNeeds(X0, X1)).
+query(dutyTimingConsistent(X0, X1)).
+query(surveillanceReuseProhibited(X0, X1)).
+query(filesWrittenExpected(X0, X1)).
+query(lowestCostEligiblePackageChosen(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 % Case metadata describes the request, audit window, and expected file writes.
 case_name(case, "flandor").
 question(case, "Is the Flemish Economic Resilience Board allowed to use a neutral macro-economic insight for regional stabilization, and if so which package should it activate for Flanders?").

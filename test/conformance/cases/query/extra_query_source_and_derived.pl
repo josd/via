@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 base(ok).
 answer(source).
 answer(derived) :- base(ok).

@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 item(a).
 item(b).
 blocked(b).

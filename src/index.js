@@ -19,9 +19,9 @@ export function run(source, options = {}) {
   const runOptions = options.registry ? options : { ...options, registry: getDefaultRegistry() };
   const solver = new Solver(program, runOptions);
   const output = [];
-  const goals = program.materializationGoals();
-  const materializedKeys = new Set(goals.map((goal) => `${goal.name}/${goal.arity}`));
-  const facts = program.sourceFactLines(materializedKeys);
+  const goals = program.queryGoals();
+  const queriedKeys = new Set(goals.map((goal) => `${goal.name}/${goal.arity}`));
+  const facts = program.sourceFactLines(queriedKeys);
   const seen = new Set();
   for (const goal of goals) {
     solver.solutionsSeen = 0;

@@ -1,2 +1,2 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(asin_zero, X) :- asin(0, X).

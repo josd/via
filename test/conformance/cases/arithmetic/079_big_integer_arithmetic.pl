@@ -1,5 +1,5 @@
 % Reference 9.2: integer arithmetic keeps exact BigInt paths where possible.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(add_big, X) :- add(9007199254740993, 7, X).
 answer(sub_big, X) :- sub(9007199254741000, 7, X).
 answer(mul_big, X) :- mul(123456789, 987654321, X).

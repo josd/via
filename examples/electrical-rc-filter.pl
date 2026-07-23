@@ -6,9 +6,9 @@
 % The model uses key/value component facts so the same pattern can be extended to
 % multiple named filters or extra component attributes without changing the rules.
 
-materialize(type, 2).
-materialize(timeConstant_s, 2).
-materialize(cutoffFrequency_Hz, 2).
+query(type(X0, X1)).
+query(timeConstant_s(X0, X1)).
+query(cutoffFrequency_Hz(X0, X1)).
 
 component(filter1, resistor_ohm, 10000.0).
 component(filter1, capacitor_f, 0.000001).

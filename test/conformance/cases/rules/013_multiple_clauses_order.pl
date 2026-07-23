@@ -3,4 +3,4 @@ color(red).
 color(blue).
 paint(X) :- color(X).
 answer(color, X) :- paint(X).
-materialize(answer, 2).
+query(answer(X0, X1)).

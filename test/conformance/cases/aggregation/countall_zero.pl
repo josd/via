@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(N) :- countall(missing(X), N).

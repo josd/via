@@ -6,7 +6,7 @@
 % but bounds the hard part: the rewrite system is fixed, and a small catalog of
 % critical overlaps is checked for joinability by normalization.
 
-materialize(kbAnswer, 2).
+query(kbAnswer(X0, X1)).
 
 
 % Oriented equations for a monoid-like append constructor.

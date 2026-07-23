@@ -3,10 +3,10 @@
 % A simple gas cell uses P*V = n*R*T.  The constants are chosen so that the
 % computed pressure is exactly near one atmosphere in this small example.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(pressure_Pa, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(pressure_Pa(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % gas_cell/5 records n, R, T, and V; pressure_limit/3 gives the tolerance band
 % used to classify the result as near atmospheric.

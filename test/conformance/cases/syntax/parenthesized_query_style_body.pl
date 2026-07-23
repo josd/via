@@ -1,5 +1,5 @@
 % Parentheses may group a body conjunction without changing meaning.
-materialize(answer, 1).
+query(answer(X0)).
 a(ok).
 b(ok).
 answer(X) :- (a(X), b(X)).

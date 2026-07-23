@@ -3,10 +3,10 @@
 % MaxStopOvers is converted to a leg limit, and the recursive search keeps a
 % visited list so it works without the removed finite-search helper builtins.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(airroute, 4).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(airroute(X0, X1, X2, X3)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 route_request("Ostend-Bruges International Airport", "Václav Havel Airport Prague", 2).
 
 % Derivation rules: each rule below contributes one logical step toward the displayed results.

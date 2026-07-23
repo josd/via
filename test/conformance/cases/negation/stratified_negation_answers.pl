@@ -1,5 +1,5 @@
 % Stratified negation is portable and produces ordinary answers.
-materialize(open, 1).
+query(open(X0)).
 place(a).
 place(b).
 closed(b).

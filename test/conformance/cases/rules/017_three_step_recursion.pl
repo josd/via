@@ -5,4 +5,4 @@ link(c, d).
 path(X, Y) :- link(X, Y).
 path(X, Z) :- link(X, Y), path(Y, Z).
 answer(reachable, X) :- path(a, X).
-materialize(answer, 2).
+query(answer(X0, X1)).

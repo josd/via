@@ -3,7 +3,7 @@
 % partitions(N, K, Count) counts unordered sums of N using parts no larger than K.
 % The two recursive branches are the standard include-K / exclude-K split.  Without
 % memoization the same (N,K) subproblems are reached many times.
-materialize(partition_answer, 2).
+query(partition_answer(X0, X1)).
 
 
 % One empty sum partitions zero; positive N with K=0 is impossible.

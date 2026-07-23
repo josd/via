@@ -3,7 +3,7 @@
 % catalan(N,C) sums all splits of N-1 into left and right substructures.  The same
 % Catalan values appear in binary tree shapes, parenthesizations, and polygon
 % triangulations, shown here with small wrapper predicates.
-materialize(catalan_answer, 2).
+query(catalan_answer(X0, X1)).
 
 
 % C_0 = 1; higher values are computed by the convolution sum.

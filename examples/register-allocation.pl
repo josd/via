@@ -1,12 +1,12 @@
 % Register allocation as bounded graph coloring with spilling.
 %
 % Production allocators combine liveness analysis, interference graphs, register
-% classes, coalescing, rematerialization, and spill-code insertion.  This Eyepl
+% classes, coalescing, requery execution, and spill-code insertion.  This Eyepl
 % example reduces the problem to its logical core: enumerate assignments of a
 % few temporaries to two registers or memory, reject register conflicts, and use
 % aggregate_min/5 to choose the cheapest spill plan.
 
-materialize(registerAnswer, 2).
+query(registerAnswer(X0, X1)).
 
 % Two physical registers are available.  The synthetic place spill means the
 % temporary is kept in memory instead of a register.

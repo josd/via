@@ -3,4 +3,4 @@ first([X | _rest], X).
 tail([_head | Tail], Tail).
 answer(first, X) :- first([a, b, c], X).
 answer(tail, Tail) :- tail([a, b, c], Tail).
-materialize(answer, 2).
+query(answer(X0, X1)).

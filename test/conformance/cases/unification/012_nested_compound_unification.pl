@@ -2,4 +2,4 @@
 fact(pair(a, nested(b, [c, d]))).
 answer(middle, X) :- fact(pair(a, nested(X, [c, d]))).
 answer(list_tail, T) :- fact(pair(a, nested(b, [c | T]))).
-materialize(answer, 2).
+query(answer(X0, X1)).

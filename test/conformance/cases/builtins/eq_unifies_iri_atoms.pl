@@ -1,3 +1,3 @@
 % eq/2 unifies angle and quoted spellings of the same absolute IRI atom.
-materialize(answer, 1).
+query(answer(X0)).
 answer(ok) :- eq('<urn:example:a>', 'urn:example:a').

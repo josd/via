@@ -1,5 +1,5 @@
 % Reference 7.3, 9.2, 9.5: finite arithmetic recursion works with generated ranges.
-materialize(answer, 2).
+query(answer(X0, X1)).
 even(0).
 even(N) :- gt(N, 0), sub(N, 1, M), odd(M).
 odd(N) :- gt(N, 0), sub(N, 1, M), even(M).

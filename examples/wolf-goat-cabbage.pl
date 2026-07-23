@@ -5,11 +5,11 @@
 % bank w or east bank e.  The recursive search keeps a visited list so eyepl
 % explores the finite state space without looping.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(solution, 2).
-materialize(solved, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(solution(X0, X1)).
+query(solved(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 
 % Derivation rules: each rule below contributes one logical step toward the displayed results.
 solution(Moves) :-

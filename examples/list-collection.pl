@@ -1,12 +1,12 @@
 % List collections inspired by the Eyeling collection example.
 % Demonstrates list literals, member/2, length/2, append/3, and [Head|Tail].
-% Each materialized relation demonstrates one list operation.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(length, 2).
-materialize(member, 2).
-materialize(append, 2).
-materialize(head, 2).
-materialize(tail, 2).
+% Each queried relation demonstrates one list operation.
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(length(X0, X1)).
+query(member(X0, X1)).
+query(append(X0, X1)).
+query(head(X0, X1)).
+query(tail(X0, X1)).
 
 % The collection/2 facts keep complete lists as first-class terms rather than
 % expanding them into separate item facts.

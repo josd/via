@@ -1,5 +1,5 @@
 % Reference 9.1: string/atom/number conversions are deterministic in documented modes.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(number_to_string, X) :- number_string(-7, X).
 answer(string_to_integer, X) :- number_string(X, "123").
 answer(string_to_decimal, X) :- number_string(X, "-3.5").

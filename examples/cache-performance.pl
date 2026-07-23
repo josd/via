@@ -4,11 +4,11 @@
 % rules compute hit rate and weighted average latency, then classify whether
 % the cache is effective.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(hitRate, 2).
-materialize(averageLatency_ms, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(hitRate(X0, X1)).
+query(averageLatency_ms(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % cache_sample/5 contains hits, misses, and the two latency classes; threshold/3
 % contains the operational targets used by the status rule.

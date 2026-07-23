@@ -3,15 +3,15 @@
 % Four simplified worlds classify candidate transit signals using either Bayes,
 % sensitivity-only reasoning, a heuristic threshold, or a stricter Bayesian rule.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % The example is intentionally qualitative: several independent signals must
 % align before a candidate is promoted from plausible to confirmed in a world.
-materialize(ppvPlanetGivenDetection, 2).
-materialize(confirmsInWorld, 2).
-materialize(rejectsInWorld, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(ppvPlanetGivenDetection(X0, X1)).
+query(confirmsInWorld(X0, X1)).
+query(rejectsInWorld(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % candidate/4 stores occurrence rate, sensitivity, and specificity.  world/2
 % names the alternative validation policies applied to the same signals.

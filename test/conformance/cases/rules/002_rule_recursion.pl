@@ -1,5 +1,5 @@
 % Reference 6, 7: definite clauses, conjunction, and recursive proof search.
-materialize(ancestor, 2).
+query(ancestor(X0, X1)).
 parent(pat, jan).
 parent(jan, emma).
 ancestor_any(X, Y) :- parent(X, Y).

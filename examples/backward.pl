@@ -4,7 +4,7 @@
 % tiny: it demonstrates that a derived fact can be justified by a numeric
 % comparison in the rule body.
 
-materialize(isIndeedMoreInterestingThan, 2).
+query(isIndeedMoreInterestingThan(X0, X1)).
 
 moreInterestingThan(X, Y) :- gt(X, Y).
 

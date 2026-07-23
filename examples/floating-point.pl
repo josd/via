@@ -6,8 +6,8 @@
 %
 % The thermostat facts provide a concrete comparison setting, while standalone
 % value/2 reports exercise individual decimal operations.
-materialize(value, 2).
-materialize(than, 2).
+query(value(X0, X1)).
+query(than(X0, X1)).
 
 % Sample facts provide a small thermostat scenario used by the comparison
 % rules; separate value/2 facts below exercise standalone decimal arithmetic.

@@ -1,4 +1,4 @@
 % Lists can contain IRI atoms directly.
-materialize(answer, 1).
+query(answer(X0)).
 seed(['<urn:example:a>', '<urn:example:b>']).
 answer(X) :- seed(X).

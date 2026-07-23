@@ -1,4 +1,4 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 num(1).
 num(2).
 num(3).

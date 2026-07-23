@@ -4,4 +4,4 @@ pair(a, b).
 pair(c, c).
 diagonal(X) :- pair(X, X).
 answer(diagonal, X) :- diagonal(X).
-materialize(answer, 2).
+query(answer(X0, X1)).

@@ -4,17 +4,17 @@
 % routes are fixed path lists, while route_cost/4 reduces each list to raw cost,
 % risk, and edge count.  Memoization lets selected-path, scoring, and trust-gate
 % relations reuse those reductions.
-materialize(route, 2).
-materialize(rawCost, 2).
-materialize(riskSum, 2).
-materialize(score, 2).
-materialize(edgeCount, 2).
-materialize(selectedPath, 2).
-materialize(trustGate, 2).
-materialize(notes, 2).
-materialize(selects, 2).
+query(route(X0, X1)).
+query(rawCost(X0, X1)).
+query(riskSum(X0, X1)).
+query(score(X0, X1)).
+query(edgeCount(X0, X1)).
+query(selectedPath(X0, X1)).
+query(trustGate(X0, X1)).
+query(notes(X0, X1)).
+query(selects(X0, X1)).
 
-% Cache route-list reductions because several materialized reports ask for the same metrics.
+% Cache route-list reductions because several queried reports ask for the same metrics.
 
 % Segments live in a quoted formula term, while candidate paths remain ordinary lists.
 route_network(riskNetwork, (

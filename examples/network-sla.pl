@@ -3,13 +3,13 @@
 % The path latency is the sum of link delays plus jitter. The path is compliant
 % when the resulting end-to-end latency stays below the SLA limit.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(endToEndLatency_ms, 2).
-materialize(slaLimit_ms, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(endToEndLatency_ms(X0, X1)).
+query(slaLimit_ms(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 path(edge_path, [link_a, link_b, link_c]).
 link_latency(link_a, 12.0).
 link_latency(link_b, 18.0).

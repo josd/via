@@ -1,2 +1,2 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(div_integer_trunc, X) :- div(7, 2, X).

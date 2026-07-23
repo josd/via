@@ -4,15 +4,15 @@
 %   Km_effective = Km * (1 + Inhibitor / Ki)
 %   rate = Vmax * Substrate / (Km_effective + Substrate)
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(effectiveKm_uM, 2).
-materialize(uninhibitedRate_uM_s, 2).
-materialize(inhibitedRate_uM_s, 2).
-materialize(inhibitionFraction, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(effectiveKm_uM(X0, X1)).
+query(uninhibitedRate_uM_s(X0, X1)).
+query(inhibitedRate_uM_s(X0, X1)).
+query(inhibitionFraction(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 assay(assay1, vmax_uM_s, 120.0).
 assay(assay1, substrate_uM, 50.0).
 assay(assay1, km_uM, 30.0).

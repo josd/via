@@ -1,5 +1,5 @@
 % Reference 9.3: comparison handles numbers, durations, strings, and lexical scalars.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(integer_order, ok) :- lt(9, 10).
 answer(decimal_equal_le, ok) :- le(2.0, 2).
 answer(numeric_not_lexical, ok) :- lt(10, 100).

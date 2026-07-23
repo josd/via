@@ -1,31 +1,31 @@
 % AuroraCare purpose-based medical-data exchange case adapted from Eyeling auroracare.n3.
 % The original N3 emits one Markdown block per scenario.  This eyepl
-% translation materializes the policy decisions, reasons, traces, and ARC-style
+% translation querys the policy decisions, reasons, traces, and ARC-style
 % check values as ordinary relation output.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(label, 2).
-materialize(description, 2).
-materialize(careTeamLinked, 2).
-materialize(subjectOptIn, 2).
-materialize(subjectOptOut, 2).
-materialize(decision, 2).
-materialize(reason, 2).
-materialize(matchedPolicyUid, 2).
-materialize(matchedProhibition, 2).
-materialize(trace, 2).
-materialize(checkC1, 2).
-materialize(checkC2, 2).
-materialize(checkC3, 2).
-materialize(checkC4, 2).
-materialize(checkC5, 2).
-materialize(checkC6, 2).
-materialize(checkC7, 2).
-materialize(checkC8, 2).
-materialize(checkC9, 2).
-materialize(checkC10Text, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(label(X0, X1)).
+query(description(X0, X1)).
+query(careTeamLinked(X0, X1)).
+query(subjectOptIn(X0, X1)).
+query(subjectOptOut(X0, X1)).
+query(decision(X0, X1)).
+query(reason(X0, X1)).
+query(matchedPolicyUid(X0, X1)).
+query(matchedProhibition(X0, X1)).
+query(trace(X0, X1)).
+query(checkC1(X0, X1)).
+query(checkC2(X0, X1)).
+query(checkC3(X0, X1)).
+query(checkC4(X0, X1)).
+query(checkC5(X0, X1)).
+query(checkC6(X0, X1)).
+query(checkC7(X0, X1)).
+query(checkC8(X0, X1)).
+query(checkC9(X0, X1)).
+query(checkC10Text(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 caseName(case, "auroracare").
 question(case, "For each AuroraCare scenario, should the PDP permit or deny the requested use of health data, and why?").
 
@@ -204,7 +204,7 @@ subjectOptOut(S, true) :- subject_opt_out(S).
 decision(S, "PERMIT") :- primary_policy_match(S).
 decision(S, "PERMIT") :- qi_policy_match(S).
 decision(S, "PERMIT") :- research_policy_match(S).
-% Deny branches preserve the reason that will be materialized for the report.
+% Deny branches preserve the reason that will be queried for the report.
 decision(S, "DENY") :- insurance_prohibition_match(S).
 decision(S, "DENY") :- ai_training_opt_out_match(S).
 decision(scenarioC, "DENY") :- purpose(scenarioC, ensureQualitySafetyHealthcare).

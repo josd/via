@@ -1,4 +1,4 @@
 item(a).
 item(b).
 answer(counts, counts(C, Z)) :- countall(item(X), C), countall(missing(X), Z).
-materialize(answer, 2).
+query(answer(X0, X1)).

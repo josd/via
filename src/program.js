@@ -1,17 +1,20 @@
 // Program representation and clause indexing.
 // Indexes are deliberately conservative: they speed up common scalar arguments but never replace unification as the final check.
-import { ATOM, COMPOUND, Env, compound, deref, flattenConjunction, isScalar, properListItems, termToString } from './term.js';
+import { ATOM, COMPOUND, Env, deref, flattenConjunction, isScalar, properListItems, termToString } from './term.js';
 import { parseClauses } from './parser.js';
 
 export class Program {
   constructor(clauses = [], options = {}) {
     this.clauses = clauses;
     this.groups = new Map();
-    this.materializedGroups = new Set();
-    this.hasMaterialize = false;
+    this.queries = [];
     for (let index = 0; index < this.clauses.length; index++) {
       const clause = this.clauses[index];
       clause.index = index;
+      if (isQueryDeclaration(clause)) {
+        this.queries.push(clause.head.args[0]);
+        continue;
+      }
       this.indexClause(clause);
     }
     this._negationAnalysis = null;
@@ -83,10 +86,7 @@ export class Program {
         const indicator = declarationIndicator(h.args[0], h.args[1]);
         if (!indicator) continue;
         const group = this.groups.get(indicator.key);
-        if (h.name === 'materialize') {
-          this.hasMaterialize = true;
-          this.materializedGroups.add(indicator.key);
-        } else if ((h.name === 'det' || h.name === 'semidet') && group) {
+        if ((h.name === 'det' || h.name === 'semidet') && group) {
           group.determinism = h.name;
         }
         continue;
@@ -240,44 +240,37 @@ export class Program {
     return this.ensureNegationStratification().stratified;
   }
 
-  hasMaterializeDeclarations() {
-    return this.hasMaterialize;
-  }
-  groupIsMaterialized(group) {
-    return this.materializedGroups.has(`${group.name}/${group.arity}`);
-  }
   groupHasRule(group) {
     return group.clauses.some((clause) => clause.body.length > 0);
   }
   sourceFactLines(predicateKeys = null) {
-    // Only facts for predicates that may be materialized need to be remembered.
-    // On data-heavy examples this avoids formatting tens of thousands of
-    // unrelated source facts just to suppress duplicate derived output.
     const lines = new Set();
     const env = new Env();
     for (const clause of this.clauses) {
-      if (clause.body.length !== 0 || clause.head.type !== COMPOUND) continue;
+      if (clause.body.length !== 0 || clause.head.type !== COMPOUND || isQueryDeclaration(clause)) continue;
       if (predicateKeys && !predicateKeys.has(`${clause.head.name}/${clause.head.arity}`)) continue;
       lines.add(`${termToString(clause.head, env, true)}.\n`);
     }
     return lines;
   }
-  materializationGoals() {
-    const hasMaterialize = this.hasMaterializeDeclarations();
-    const goals = [];
-    for (const group of this.groups.values()) {
-      if (hasMaterialize) {
-        if (!this.groupIsMaterialized(group)) continue;
-      } else if (group.arity !== 2) {
-        continue;
-      }
-      if (!this.groupHasRule(group)) continue;
-      const args = [];
-      for (let i = 0; i < group.arity; i++) args.push({ type: 'var', name: `X${i}`, args: [] });
-      goals.push(compound(group.name, args));
-    }
-    return goals;
+  queryGoals() {
+    const groupOrder = new Map([...this.groups.keys()].map((key, index) => [key, index]));
+    return this.queries
+      .map((goal, index) => ({ goal, index }))
+      .sort((left, right) => {
+        const leftOrder = groupOrder.get(`${left.goal.name}/${left.goal.arity}`) ?? Number.MAX_SAFE_INTEGER;
+        const rightOrder = groupOrder.get(`${right.goal.name}/${right.goal.arity}`) ?? Number.MAX_SAFE_INTEGER;
+        return leftOrder - rightOrder || left.index - right.index;
+      })
+      .map(({ goal }) => goal);
   }
+}
+
+function isQueryDeclaration(clause) {
+  return clause.body.length === 0
+    && clause.head.type === COMPOUND
+    && clause.head.name === 'query'
+    && clause.head.arity === 1;
 }
 
 function componentHasNegativeEdge(start, deps, negativeEdges) {

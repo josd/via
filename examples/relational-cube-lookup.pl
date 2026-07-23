@@ -1,6 +1,6 @@
 % Performance example: repeated multi-key relational lookups.
-materialize(lookupResult, 2).
-materialize(reason, 2).
+query(lookupResult(X0, X1)).
+query(reason(X0, X1)).
 
 relation(a0, b0, c0, v0_0).
 relation(a0, b31, c1, v0_1).

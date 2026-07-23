@@ -3,17 +3,17 @@
 % paths accumulate action sequence, duration, cost, belief, and comfort; table
 % keeps repeated comparison and explanation queries from recomputing paths.
 
-materialize(recommendedRoute, 2).
-materialize(outcome, 2).
-materialize(statement, 3).
-materialize(label, 2).
-materialize(actionSequence, 2).
-materialize(durationSeconds, 2).
-materialize(cost, 2).
-materialize(belief, 2).
-materialize(comfort, 2).
-materialize(selectedRoute, 2).
-materialize(comparison, 2).
+query(recommendedRoute(X0, X1)).
+query(outcome(X0, X1)).
+query(statement(X0, X1, X2)).
+query(label(X0, X1)).
+query(actionSequence(X0, X1)).
+query(durationSeconds(X0, X1)).
+query(cost(X0, X1)).
+query(belief(X0, X1)).
+query(comfort(X0, X1)).
+query(selectedRoute(X0, X1)).
+query(comparison(X0, X1)).
 
 
 case_graph(caseGraph, (

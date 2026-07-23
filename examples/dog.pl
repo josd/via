@@ -5,7 +5,7 @@
 % subjects with more than four registered dogs.
 %
 % The example is intentionally tiny but useful as an aggregate-counting pattern.
-materialize(mustHave, 2).
+query(mustHave(X0, X1)).
 
 hasDog(alice, dog1).
 hasDog(alice, dog2).

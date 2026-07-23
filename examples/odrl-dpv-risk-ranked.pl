@@ -2,37 +2,37 @@
 % Eyeling keeps the ODRL rules inside an N3 quoted policy formula and prints a
 % Markdown report.  This eyepl translation also keeps the
 % policy as a formula-valued term, projects local predicates from that formula for
-% reasoning, and materializes the derived DPV risks as relation output.
+% reasoning, and querys the derived DPV risks as relation output.
 
 % Consumer profile and needs.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(dct_title, 2).
-materialize(dpv_hasRisk, 2).
-materialize(type, 2).
-materialize(policyGraph, 2).
-materialize(contains, 2).
-materialize(source, 2).
-materialize(profile, 2).
-materialize(firstRisk, 2).
-materialize(before, 2).
-materialize(dct_source, 2).
-materialize(risk_hasRiskSource, 2).
-materialize(dpv_hasConsequence, 2).
-materialize(dpv_hasImpact, 2).
-materialize(aboutClause, 2).
-materialize(violatesNeed, 2).
-materialize(scoreRaw, 2).
-materialize(score, 2).
-materialize(dpv_hasSeverity, 2).
-materialize(dpv_hasRiskLevel, 2).
-materialize(dct_description, 2).
-materialize(reportKey, 2).
-materialize(dpv_isMitigatedByMeasure, 2).
-materialize(dpv_mitigatesRisk, 2).
-materialize(clauseId, 2).
-materialize(text, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(dct_title(X0, X1)).
+query(dpv_hasRisk(X0, X1)).
+query(type(X0, X1)).
+query(policyGraph(X0, X1)).
+query(contains(X0, X1)).
+query(source(X0, X1)).
+query(profile(X0, X1)).
+query(firstRisk(X0, X1)).
+query(before(X0, X1)).
+query(dct_source(X0, X1)).
+query(risk_hasRiskSource(X0, X1)).
+query(dpv_hasConsequence(X0, X1)).
+query(dpv_hasImpact(X0, X1)).
+query(aboutClause(X0, X1)).
+query(violatesNeed(X0, X1)).
+query(scoreRaw(X0, X1)).
+query(score(X0, X1)).
+query(dpv_hasSeverity(X0, X1)).
+query(dpv_hasRiskLevel(X0, X1)).
+query(dct_description(X0, X1)).
+query(reportKey(X0, X1)).
+query(dpv_isMitigatedByMeasure(X0, X1)).
+query(dpv_mitigatesRisk(X0, X1)).
+query(clauseId(X0, X1)).
+query(text(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 consumer(consumerExample).
 title(consumerExample, "Example consumer profile").
 has_need(consumerExample, need_DataCannotBeRemoved).

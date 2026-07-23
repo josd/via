@@ -3,12 +3,12 @@
 % a subject with both defaults is reported as conflicted rather than forced to
 % choose one extension.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(defaultSupports, 2).
-materialize(conflict, 2).
-materialize(status, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(defaultSupports(X0, X1)).
+query(conflict(X0, X1)).
+query(status(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 kind(nixon, quaker).
 kind(nixon, republican).
 

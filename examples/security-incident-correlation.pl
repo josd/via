@@ -3,12 +3,12 @@
 % The rules correlate endpoint, identity, vulnerability, and threat-intelligence
 % signals into an escalation decision with concise reason relations.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(type, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(type(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 incident(inc42).
 incident(inc43).
 

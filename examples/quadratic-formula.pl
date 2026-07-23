@@ -3,9 +3,9 @@
 % Each equation is represented as a*x^2 + b*x + c = 0.  The example uses
 % eyepl arithmetic predicates to derive the discriminant and the two roots.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(discriminant, 2).
-materialize(root, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(discriminant(X0, X1)).
+query(root(X0, X1)).
 
 % equation/4 stores coefficients A, B, and C for each quadratic.  The examples
 % use decimal constants so roots and discriminants flow through floating arithmetic.

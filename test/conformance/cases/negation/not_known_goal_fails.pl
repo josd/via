@@ -1,4 +1,4 @@
 % Negation fails when its inner goal succeeds.
-materialize(answer, 1).
+query(answer(X0)).
 seen(a).
 answer(ok) :- not(seen(a)).

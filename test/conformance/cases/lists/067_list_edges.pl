@@ -1,5 +1,5 @@
 % Reference 9.1: reusable list selectors and slices have explicit finite boundary behavior.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(take_zero, X) :- take(0, [a, b, c], X).
 answer(drop_all, X) :- drop(3, [a, b, c], X).
 answer(slice_empty, X) :- slice(1, 0, [a, b, c], X).

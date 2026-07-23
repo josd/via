@@ -1,4 +1,4 @@
-materialize(answer, 3).
+query(answer(X0, X1, X2)).
 left(a).
 right(a, one).
 right(a, two).

@@ -1,46 +1,46 @@
 % Delfour insight-economy case adapted from Eyeling delfour.n3.
 % The original N3 emits a Markdown answer.  This eyepl
 % translation derives the same authorization, shopping banner, alternative, and
-% checklist facts as relation materialization.
+% checklist facts as relation query execution.
 %
 % Static input is kept as scoped data: the case, insight, policy, envelope, and
 % signature are context terms, while the product catalog is a list of records.
 % Rules project only the fields they need, avoiding global permission/prohibition
 % facts that could contradict another policy formula in the same program.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(caseName, 2).
-materialize(needsLowSugar, 2).
-materialize(derivedFromNeed, 2).
-materialize(outcome, 2).
-materialize(target, 2).
-materialize(metric, 2).
-materialize(threshold, 2).
-materialize(scope, 2).
-materialize(retailer, 2).
-materialize(expiresAt, 2).
-materialize(scannedProduct, 2).
-materialize(suggestedAlternative, 2).
-materialize(headline, 2).
-materialize(note, 2).
-materialize(reason, 2).
-materialize(value, 2).
-materialize(alg, 2).
-materialize(auditEntries, 2).
-materialize(filesWritten, 2).
-materialize(allChecksPass, 2).
-materialize(signatureVerifies, 2).
-materialize(payloadHashMatches, 2).
-materialize(minimizationStripsSensitiveTerms, 2).
-materialize(scopeComplete, 2).
-materialize(authorizationAllowed, 2).
-materialize(bannerFlagsHighSugar, 2).
-materialize(alternativeIsLowerSugar, 2).
-materialize(dutyTimingConsistent, 2).
-materialize(marketingProhibited, 2).
-materialize(filesWrittenExpected, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(caseName(X0, X1)).
+query(needsLowSugar(X0, X1)).
+query(derivedFromNeed(X0, X1)).
+query(outcome(X0, X1)).
+query(target(X0, X1)).
+query(metric(X0, X1)).
+query(threshold(X0, X1)).
+query(scope(X0, X1)).
+query(retailer(X0, X1)).
+query(expiresAt(X0, X1)).
+query(scannedProduct(X0, X1)).
+query(suggestedAlternative(X0, X1)).
+query(headline(X0, X1)).
+query(note(X0, X1)).
+query(reason(X0, X1)).
+query(value(X0, X1)).
+query(alg(X0, X1)).
+query(auditEntries(X0, X1)).
+query(filesWritten(X0, X1)).
+query(allChecksPass(X0, X1)).
+query(signatureVerifies(X0, X1)).
+query(payloadHashMatches(X0, X1)).
+query(minimizationStripsSensitiveTerms(X0, X1)).
+query(scopeComplete(X0, X1)).
+query(authorizationAllowed(X0, X1)).
+query(bannerFlagsHighSugar(X0, X1)).
+query(alternativeIsLowerSugar(X0, X1)).
+query(dutyTimingConsistent(X0, X1)).
+query(marketingProhibited(X0, X1)).
+query(filesWrittenExpected(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 % Context-valued facts keep each input graph scoped and easy to project.
 case_graph(delfourCaseGraph, (
   caseName(case, "delfour"),

@@ -3,12 +3,12 @@
 % The implication itself is represented as data with implies/2.  The proof
 % rule remains ordinary eyepl: if A implies B and B is false, then A is false.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(refutes, 2).
-materialize(method, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(refutes(X0, X1)).
+query(method(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 implies(raining, wet_ground).
 false(wet_ground).
 

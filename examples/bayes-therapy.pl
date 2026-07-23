@@ -1,24 +1,24 @@
 % Memoize shared inference layers: the score vector, disease likelihood tails,
 % and expected therapy success are reused by several report relations.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % Read this as two stacked inference problems: first infer disease posterior
 % probabilities from symptoms, then score each therapy by averaging outcomes
 % over that posterior distribution. The recursive predicates are
-% shared layers used by several materialized reports.
-materialize(diseases, 2).
-materialize(therapies, 2).
-materialize(evidence, 2).
-materialize(scores, 2).
-materialize(evidenceTotal, 2).
-materialize(posteriors, 2).
-materialize(posterior, 2).
-materialize(expectedSuccess, 2).
-materialize(expectedAdverse, 2).
-materialize(utility, 2).
-materialize(recommendedTherapy, 2).
+% shared layers used by several queried reports.
+query(diseases(X0, X1)).
+query(therapies(X0, X1)).
+query(evidence(X0, X1)).
+query(scores(X0, X1)).
+query(evidenceTotal(X0, X1)).
+query(posteriors(X0, X1)).
+query(posterior(X0, X1)).
+query(expectedSuccess(X0, X1)).
+query(expectedAdverse(X0, X1)).
+query(utility(X0, X1)).
+query(recommendedTherapy(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 
 % Bayes therapy decision support adapted from Eyeling bayes-therapy.n3.
 % Probabilities are illustrative and are not medical advice.

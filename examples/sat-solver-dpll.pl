@@ -5,10 +5,10 @@
 % impossible, and accepts a complete assignment when every clause is satisfied.
 % aggregate_min/5 is then used only to choose one canonical satisfying model.
 
-materialize(satModel, 1).
-materialize(satValue, 2).
-materialize(satClauseStatus, 2).
-materialize(satConclusion, 2).
+query(satModel(X0)).
+query(satValue(X0, X1)).
+query(satClauseStatus(X0, X1)).
+query(satConclusion(X0, X1)).
 
 % CNF formula:
 %   (a or b)
@@ -61,7 +61,7 @@ dpll([Var | Rest], Partial, Model) :-
 
 satisfying_model(Model) :- variable_order(Vars), dpll(Vars, [], Model).
 
-% Rank models so the materialized output shows one deterministic answer.  The
+% Rank models so the query answers shows one deterministic answer.  The
 % model list is in reverse decision order because each decision is pushed onto
 % the front during recursion.
 model_rank(Model, Rank) :-

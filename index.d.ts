@@ -73,8 +73,7 @@ export class Program {
   constructor(clauses?: EyeplClause[], options?: EyeplRunOptions);
   clauses: EyeplClause[];
   groups: Map<string, EyeplPredicateGroup>;
-  materializedGroups: Set<string>;
-  hasMaterialize: boolean;
+  queries: EyeplTerm[];
   negationDependencies: Array<{ from: string; to: string; negative: boolean }>;
   negationStratificationErrors: Array<{ from: string; to: string }>;
   stratifiedNegation: boolean;
@@ -88,11 +87,9 @@ export class Program {
   analyzeNegationStratification(): Array<{ from: string; to: string }>;
   assertStratifiedNegation(): true;
   isStratifiedNegation(): boolean;
-  hasMaterializeDeclarations(): boolean;
-  groupIsMaterialized(group: EyeplPredicateGroup): boolean;
   groupHasRule(group: EyeplPredicateGroup): boolean;
   sourceFactLines(predicateKeys?: Set<string> | null): Set<string>;
-  materializationGoals(): EyeplTerm[];
+  queryGoals(): EyeplTerm[];
 }
 
 export interface BuiltinDefinition {

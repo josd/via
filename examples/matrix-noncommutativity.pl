@@ -4,7 +4,7 @@
 % Eyepl case keeps the core operation visible: multiply two 2x2 matrices and
 % show that, in general, A*B is not the same matrix as B*A.
 
-materialize(matrix_result, 2).
+query(matrix_result(X0, X1)).
 
 matrix_a([[1, 2], [0, 1]]).
 matrix_b([[1, 0], [3, 1]]).

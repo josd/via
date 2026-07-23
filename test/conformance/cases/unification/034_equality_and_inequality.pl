@@ -3,4 +3,4 @@ answer(eq_variable, X) :- eq(X, pair(a, [b, c])).
 answer(eq_nested, true) :- eq(pair(X, X), pair(same, same)).
 answer(neq_atoms, true) :- neq(alice, bob).
 answer(neq_structures, true) :- neq(pair(a), pair(a, b)).
-materialize(answer, 2).
+query(answer(X0, X1)).

@@ -2,13 +2,13 @@
 %
 % This pure-geometry example keeps trigonometry outside the language by storing
 % cos(C) as data.  Eyepl then performs the algebraic part of the theorem with
-% ordinary arithmetic predicates and materializes both c^2 and c.
+% ordinary arithmetic predicates and querys both c^2 and c.
 %
 % The 60-degree sample uses cos(C) = 0.5, so the proof shows each intermediate
 % numeric step rather than hiding the computation in one builtin.
-materialize(sideCSquared, 2).
-materialize(sideC, 2).
-materialize(status, 2).
+query(sideCSquared(X0, X1)).
+query(sideC(X0, X1)).
+query(status(X0, X1)).
 
 % The triangle fact stores the two known sides and the cosine of the included
 % angle.  Storing cos(C) directly avoids needing trigonometric built-ins while

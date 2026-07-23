@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 helper(a).
 helper(b).
 answer(X) :- helper(X).

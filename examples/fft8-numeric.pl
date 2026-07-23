@@ -3,8 +3,8 @@
 % This is an 8-point radix-2 FFT over explicit complex pairs c(Real, Imag).
 % The rules are deliberately unrolled enough to keep proofs readable while still
 % showing butterfly composition, twiddle factors, and selected output bins.
-materialize(fft, 2).
-materialize(dcComponent, 2).
+query(fft(X0, X1)).
+query(dcComponent(X0, X1)).
 
 % Twiddle factors are encoded as complex pairs.  Keeping them as facts makes the
 % numerical transform deterministic and keeps every multiplication visible.

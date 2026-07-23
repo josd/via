@@ -49,7 +49,7 @@
 - [10. Implementation-specific built-ins](#10-implementation-specific-built-ins)
 - [11. Declarations](#11-declarations)
   - [11.1 Automatic hybrid reasoning](#111-automatic-hybrid-reasoning)
-  - [11.2 Default-output materialization](#112-default-output-materialization)
+  - [11.2 Queries](#112-queries)
   - [11.3 Advisory modes and determinism](#113-advisory-modes-and-determinism)
 - [12. Eyepl Sockets](#12-eyepl-sockets)
   - [12.1 Socket vocabulary](#121-socket-vocabulary)
@@ -424,7 +424,7 @@ need their identity to be predictable without a separate set of domain axioms.
 Consider this program:
 
 ```eyepl
-materialize(different, 2).
+query(different(X0, X1)).
 
 different(alice, bob) :-
   neq(alice, bob).
@@ -492,7 +492,7 @@ Operationally, Eyepl uses first-order unification to find substitutions. The imp
 
 Eyepl's CLI and library evaluator are goal-directed. They try to prove requested goals by resolving them against facts, rules, and built-ins, using clause order, goal order, indexing, tabling, and deterministic built-in execution. This operational strategy is intended to enumerate answers that are true in the least Herbrand model for the pure Horn-clause fragment, but it is not a complete bottom-up model enumerator. Non-terminating recursion or infinite generators can prevent an answer from being found even when the answer belongs to the least Herbrand model.
 
-Default CLI output is also a host behavior, not a separate semantics. It asks broad materialization goals, suppresses duplicates, excludes source facts, keeps ground answers, and prints selected consequences. Embedders can still access the goal-directed solver directly through the implementation API.
+CLI output is also a host behavior, not a separate semantics. It runs declared query goals, suppresses duplicates, keeps ground answers, and prints them. Embedders can still access the goal-directed solver directly through the implementation API.
 
 ### 8.5 Built-ins and operational extensions
 
@@ -695,7 +695,7 @@ Eyepl automatically combines ordinary goal-directed resolution with tabled
 resolution. Predicate dependency cycles are detected when a program is loaded,
 including dependencies inside conjunctions, negation, `once/1`, `forall/2`, and
 aggregation goals. Positive recursive predicate groups, including directly
-materialized relations, are tabled automatically. Cyclic calls are evaluated to
+queried relations, are tabled automatically. Cyclic calls are evaluated to
 an answer fixed point, so a table is complete before its answers are replayed.
 Recursive components containing a negative dependency retain guarded ordinary
 resolution because positive least-fixed-point tabling does not define
@@ -709,22 +709,22 @@ not ground, and fully open calls, continue with ordinary resolution so that an
 infinite relation is not forced into a table. This is a search-control strategy
 and does not change the logical meaning of a program.
 
-### 11.2 Default-output materialization
+### 11.2 Queries
 
 ```eyepl
-materialize(answer, 2).
+query(answer(X0, X1)).
 ```
 
-The first argument MUST be an atom constant and the second argument MUST be a non-negative integer. If a program contains one or more `materialize/2` declarations, default CLI output is restricted to those predicate groups. Source facts are still excluded from printed output.
+The argument MUST be a callable goal. Variables and constants MAY be used to make the query broad or selective. A host runs the declared queries and prints their new ground answers. A program without queries produces no normal answer output.
 
 Example:
 
 ```eyepl
-materialize(status, 2).
-materialize(reason, 2).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 ```
 
-`materialize/2` affects host output selection only; it does not change the logical meaning of the program. Materialized output facts are not asserted as new source facts for subsequent output goals. A host MAY solve several materialized predicates in one solver run, and automatically tabled predicate answers MAY be reused within that run.
+`query/1` affects host execution only; it does not change the logical meaning of the program. Answers identical to source facts are excluded from output. Query answers are not asserted as new facts for subsequent query goals. A host MAY solve several queries in one solver run, and automatically tabled predicate answers MAY be reused within that run.
 
 ### 11.3 Advisory modes and determinism
 
@@ -792,7 +792,7 @@ This says that `family_source` is a named opening for knowledge of the shape `pa
 A rule module can declare the knowledge it expects:
 
 ```eyepl
-materialize(ancestor, 2).
+query(ancestor(X0, X1)).
 
 socket(family_source, provides(predicate(parent, 2))).
 plug(family_file, family_source).
@@ -827,12 +827,11 @@ Output SHOULD be accepted as Eyepl input when it contains only supported term sy
 Default host output behavior is:
 
 1. parse all inputs into one program;
-2. collect source fact lines for duplicate suppression;
-3. if `materialize/2` declarations exist, solve those predicate groups; otherwise solve all binary predicate groups with at least one rule;
+2. collect source fact lines and `query/1` declarations;
+3. solve each declared goal;
 4. keep only ground answers;
-5. remove answers identical to source facts;
-6. suppress duplicates;
-7. print each answer, followed by its `why/2` explanation only if the host interface was explicitly asked to emit proof output.
+5. remove answers identical to source facts and suppress duplicates;
+6. print each answer, followed by its `why/2` explanation only if the host interface was explicitly asked to emit proof output.
 
 ### 13.1 Explanation output
 
@@ -850,14 +849,14 @@ A conforming Eyepl implementation supports the standard language described above
 - answer printing and read-back formatting;
 - the standard built-ins listed in section 9;
 - automatic hybrid goal-directed and tabled execution;
-- `materialize/2` declarations;
+- `query/1` declarations;
 - advisory `mode/3`, `det/2`, and `semidet/2` declarations;
-- default derived output;
+- declared query output;
 - explanation output when the host exposes proof output.
 
 Browser execution, package layout, CLI URL loading, and any implementation-specific built-ins described in host documentation are outside this conformance surface unless separately standardized.
 
-Conformance cases live in the repository under `test/conformance/`. They are run by `npm test` before the example suite, and can be run alone with `node test/run-conformance.mjs`. Positive cases have input programs under `test/conformance/cases/` and exact expected standard-output files under `test/conformance/expected/`; both use `.pl` so expected output remains Eyepl-readable. Expected-error cases live under `test/conformance/errors/` with exact messages under `test/conformance/expected-errors/`. Expected-warning cases live under `test/conformance/warnings/` with exact `--warnings` stdout and stderr files under `test/conformance/expected-warnings/`. Proof cases live under `test/conformance/proofs/` with exact explanation output under `test/conformance/expected-proofs/`. The corpus is grouped by language area, including arithmetic, strings, lists, terms, atoms, variables, negation, declarations, materialization, rules, syntax, and errors.
+Conformance cases live in the repository under `test/conformance/`. They are run by `npm test` before the example suite, and can be run alone with `node test/run-conformance.mjs`. Positive cases have input programs under `test/conformance/cases/` and exact expected standard-output files under `test/conformance/expected/`; both use `.pl` so expected output remains Eyepl-readable. Expected-error cases live under `test/conformance/errors/` with exact messages under `test/conformance/expected-errors/`. Expected-warning cases live under `test/conformance/warnings/` with exact `--warnings` stdout and stderr files under `test/conformance/expected-warnings/`. Proof cases live under `test/conformance/proofs/` with exact explanation output under `test/conformance/expected-proofs/`. The corpus is grouped by language area, including arithmetic, strings, lists, terms, atoms, variables, negation, declarations, query execution, rules, syntax, and errors.
 
 ## 15. Relationship to ISO Prolog
 
@@ -912,4 +911,4 @@ status(a, open) :- open(a).
 
 URL input uses host networking support when available. Hosts SHOULD treat downloaded programs as untrusted code because they can trigger expensive search.
 
-Programs SHOULD be written with finite search in mind. Broad default materialization can be expensive for helper predicates; use `materialize/2` declarations and concise output predicates when needed.
+Programs SHOULD be written with finite search in mind. Broad queries can be expensive; use constants and concise answer predicates to keep query goals focused.

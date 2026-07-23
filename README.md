@@ -79,7 +79,7 @@ and the independent temperature channel.
 import { run, Program, Solver } from 'eyepl';
 
 const result = run(`
-materialize(answer, 1).
+query(answer(X0)).
 answer(ok) :- eq(ok, ok).
 `);
 console.log(result.stdout);
@@ -88,7 +88,7 @@ console.log(result.stdout);
 ## RDF 1.2 files
 
 The tools convert standard RDF files to ordinary Eyepl `rdf/4` facts, run
-Eyepl rules, and serialize materialized facts as RDF 1.2 N-Quads:
+Eyepl rules, and serialize query answers as RDF 1.2 N-Quads:
 
 ```bash
 node tools/rdf-to-eyepl.mjs --rules rules.pl data.ttl -o program.pl

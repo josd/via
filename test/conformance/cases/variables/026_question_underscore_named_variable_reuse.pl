@@ -2,4 +2,4 @@
 pair(a, a).
 pair(a, b).
 answer(shared, _value) :- pair(_value, _value).
-materialize(answer, 2).
+query(answer(X0, X1)).

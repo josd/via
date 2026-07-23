@@ -2,4 +2,4 @@
 pair(a, one).
 pair(b, two).
 answer(fresh, yes) :- pair(a, _), pair(b, _).
-materialize(answer, 2).
+query(answer(X0, X1)).

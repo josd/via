@@ -3,13 +3,13 @@
 % Four simplified models classify the same road scenarios. The example is not a
 % real safety calculator; it demonstrates rule-level model comparison.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(safeInWorld, 2).
-materialize(riskyInWorld, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(safeInWorld(X0, X1)).
+query(riskyInWorld(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 scenario(city_dry, 13.9, 0.8, 40.0).
 scenario(highway_dry_short_gap, 27.8, 0.8, 60.0).
 scenario(city_wet, 13.9, 0.4, 40.0).

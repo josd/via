@@ -5,9 +5,9 @@
 % the Eyeling output for a -> f, and scopes the graph inside a quoted term so the
 % route network is not asserted as ambient edge facts.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(edge, 2).
-materialize(path, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(edge(X0, X1)).
+query(path(X0, X1)).
 
 % The weighted graph stays inside weighted_graph/2; base_link/3 projects only
 % the scoped edges needed by this example before the undirected link/3 view is built.
@@ -44,7 +44,7 @@ path(Node, Goal, Visited, [Node|Path], Cost) :-
 edge([B, A], Cost) :-
   base_link(A, B, Cost).
 
-% Only paths within the displayed cost bound are materialized.
+% Only paths within the displayed cost bound are queried.
 path([a, f], [Path, Cost]) :-
   path(a, f, [a], Path, Cost),
   le(Cost, 16).

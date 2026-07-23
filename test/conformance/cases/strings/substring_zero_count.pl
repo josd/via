@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(Text) :- substring("abcdef", 2, 0, Text).

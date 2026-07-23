@@ -14,10 +14,10 @@
 % Run:
 %   eyepl socket-age.pl
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(ageAbove, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(ageAbove(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 socket(patient_registry, provides(birthDay_2)).
 socket(policy_source, provides(duration_2)).
 socket(clock_source, provides(today_1)).

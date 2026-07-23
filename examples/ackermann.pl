@@ -6,7 +6,7 @@
 % Keeping the selected inputs explicit avoids unbounded generation while still
 % testing the solver's recursive numeric workload.
 
-materialize(ackermann, 2).
+query(ackermann(X0, X1)).
 
 ackermann(X, Y, A) :-
   add(Y, 3, B),

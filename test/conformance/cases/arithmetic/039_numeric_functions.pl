@@ -6,4 +6,4 @@ answer(sin_zero, X) :- sin(0, X).
 answer(cos_zero, X) :- cos(0, X).
 answer(log_one, X) :- log(1, X).
 answer(float_division, X) :- div(7.0, 2.0, X).
-materialize(answer, 2).
+query(answer(X0, X1)).

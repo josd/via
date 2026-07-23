@@ -10,7 +10,7 @@
 % The declarations below are ordinary facts as well as metadata for tooling.
 % They do not change the answers of the program.
 
-materialize(path, 2).
+query(path(X0, X1)).
 
 mode(edge, 2, [in, out]).
 mode(path, 2, [in, out]).

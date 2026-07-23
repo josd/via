@@ -1,2 +1,2 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(last_singleton, X) :- last([only], X).

@@ -3,13 +3,13 @@
 % For small oscillations, T = 2*pi*sqrt(length / gravity).  Gravity is chosen
 % as pi^2 m/s^2 so a one-meter pendulum has a period of two seconds.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(period_s, 2).
-materialize(periodError_s, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(period_s(X0, X1)).
+query(periodError_s(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 constant(pi, 3.141592653589793).
 experiment(pendulum1, length_m, 1.0).
 experiment(pendulum1, gravity_m_s2, 9.869604401089358).

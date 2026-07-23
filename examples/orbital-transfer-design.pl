@@ -4,19 +4,19 @@
 % mission constraints. Distances are in kilometres, speeds in kilometres per
 % second, and time in days.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % The design is a Hohmann-transfer estimate: compute transfer orbit geometry,
 % departure/arrival burns, total delta-v, transfer time, and budget status.
-materialize(transferSemiMajorAxis_km, 2).
-materialize(departureDeltaV_km_s, 2).
-materialize(arrivalDeltaV_km_s, 2).
-materialize(totalDeltaV_km_s, 2).
-materialize(transferTime_days, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(transferSemiMajorAxis_km(X0, X1)).
+query(departureDeltaV_km_s(X0, X1)).
+query(arrivalDeltaV_km_s(X0, X1)).
+query(totalDeltaV_km_s(X0, X1)).
+query(transferTime_days(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 mission(mars_hohmann, centralBodyMu_km3_s2, 132712440018.0).
 mission(mars_hohmann, departureOrbitRadius_km, 149597870.7).
 mission(mars_hohmann, arrivalOrbitRadius_km, 227939200.0).

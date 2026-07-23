@@ -4,4 +4,4 @@ candidate(b).
 allowed(a).
 answer(X, ok) :- candidate(X), allowed(X).
 
-materialize(answer, 2).
+query(answer(X0, X1)).

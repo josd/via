@@ -1,5 +1,5 @@
 % Reference 9.7: list summaries accept numbers and reject non-numeric sums.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(sum_integers, X) :- sum_list([1, 2, 3, 4], X).
 answer(sum_decimals, X) :- sum_list([1.5, 2.25, -0.75], X).
 answer(min_terms, X) :- min_list([pair(b), pair(a), pair(c)], X).

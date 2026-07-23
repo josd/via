@@ -3,18 +3,18 @@
 % The rules compute renewable supply, reserve-aware battery dispatch, remaining
 % grid import, and a concise feasibility report for a campus microgrid interval.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % The dispatch policy is greedy but auditable: use renewables first, discharge
 % the battery only down to reserve, then import the remaining deficit from grid.
-materialize(renewablePower_kW, 2).
-materialize(batteryDispatch_kW, 2).
-materialize(gridImport_kW, 2).
-materialize(reserveAfterDispatch_kW, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(renewablePower_kW(X0, X1)).
+query(batteryDispatch_kW(X0, X1)).
+query(gridImport_kW(X0, X1)).
+query(reserveAfterDispatch_kW(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 site(campus_interval_17).
 
 load_kW(campus_interval_17, 620.0).

@@ -1,5 +1,5 @@
 % Each `_` occurrence is anonymous and independent.
-materialize(answer, 1).
+query(answer(X0)).
 pair(a, b).
 pair(c, d).
 answer(left(X)) :- pair(X, _).

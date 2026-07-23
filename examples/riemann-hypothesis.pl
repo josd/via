@@ -6,8 +6,8 @@
 % not only the facts listed here.
 
 % Print the finite check summary and the per-zero audit rows.
-materialize(rh, 2).
-materialize(zero_check, 3).
+query(rh(X0, X1)).
+query(zero_check(X0, X1, X2)).
 
 % --- Sample zero catalogue -------------------------------------------------
 %
@@ -78,7 +78,7 @@ finite_catalog_supports_rh(yes) :-
   catalog_has(non_trivial_zero),
   not(counterexample_found(yes)).
 
-% --- Materialized audit output --------------------------------------------
+% --- Queried audit output --------------------------------------------
 
 % These tiny support facts make the summary rows derived output rather than
 % source facts; eyepl intentionally does not reprint source facts.

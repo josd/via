@@ -7,40 +7,40 @@
 % For reproducibility and documentation only; not medical advice.
 
 % Editable metric input.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(unitSystem, 2).
-materialize(weight, 2).
-materialize(height, 2).
-materialize(weightKg, 2).
-materialize(heightM, 2).
-materialize(units, 2).
-materialize(heightSquared, 2).
-materialize(bmi, 2).
-materialize(bmiRoundedInt, 2).
-materialize(healthyMinKg, 2).
-materialize(healthyMaxKg, 2).
-materialize(healthyMinKgRoundedInt, 2).
-materialize(healthyMaxKgRoundedInt, 2).
-materialize(category, 2).
-materialize(heightCm, 2).
-materialize(formula, 2).
-materialize(calculation, 2).
-materialize(categoryRule, 2).
-materialize(unitsExplanation, 2).
-materialize(c1, 2).
-materialize(c2, 2).
-materialize(c3, 2).
-materialize(c4, 2).
-materialize(c5, 2).
-materialize(c6, 2).
-materialize(c7, 2).
-materialize(c8, 2).
-materialize(c9, 2).
-materialize(result, 2).
-materialize(healthyWeightRangeKg, 2).
-materialize(checkPassed, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(unitSystem(X0, X1)).
+query(weight(X0, X1)).
+query(height(X0, X1)).
+query(weightKg(X0, X1)).
+query(heightM(X0, X1)).
+query(units(X0, X1)).
+query(heightSquared(X0, X1)).
+query(bmi(X0, X1)).
+query(bmiRoundedInt(X0, X1)).
+query(healthyMinKg(X0, X1)).
+query(healthyMaxKg(X0, X1)).
+query(healthyMinKgRoundedInt(X0, X1)).
+query(healthyMaxKgRoundedInt(X0, X1)).
+query(category(X0, X1)).
+query(heightCm(X0, X1)).
+query(formula(X0, X1)).
+query(calculation(X0, X1)).
+query(categoryRule(X0, X1)).
+query(unitsExplanation(X0, X1)).
+query(c1(X0, X1)).
+query(c2(X0, X1)).
+query(c3(X0, X1)).
+query(c4(X0, X1)).
+query(c5(X0, X1)).
+query(c6(X0, X1)).
+query(c7(X0, X1)).
+query(c8(X0, X1)).
+query(c9(X0, X1)).
+query(result(X0, X1)).
+query(healthyWeightRangeKg(X0, X1)).
+query(checkPassed(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 unitSystem(input, metric).
 weight(input, 72.0).
 height(input, 178.0).

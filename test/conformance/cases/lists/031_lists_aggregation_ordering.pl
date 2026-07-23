@@ -7,4 +7,4 @@ answer(reverse, X) :- reverse([a, b, c], X).
 answer(length, N) :- length([a, b, c], N).
 answer(findall, X) :- findall(N, between(1, 3, N), X).
 answer(sort, X) :- sort([b, a, b], X).
-materialize(answer, 2).
+query(answer(X0, X1)).

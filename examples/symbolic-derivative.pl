@@ -5,7 +5,7 @@
 % `log/1`, and so on.  The result is intentionally unsimplified so the rule that
 % produced each part remains visible.
 
-materialize(derivative_result, 2).
+query(derivative_result(X0, X1)).
 
 expr(square, mul(var(x), var(x))).
 expr(linear_plus_const, add(var(x), const(3))).

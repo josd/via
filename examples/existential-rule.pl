@@ -4,7 +4,7 @@
 % rule can still express the practical executable shape of an existential
 % consequence by putting a named functional term directly in the head.
 
-materialize(is, 2).
+query(is(X0, X1)).
 
 type(socrates, human).
 type(plato, human).

@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(true) :- eq(parent_of(alice), parent_of(alice)).

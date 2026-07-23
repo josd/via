@@ -9,10 +9,10 @@
 % Run:
 %   eyepl socket-family.pl
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(ancestor, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(ancestor(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 socket(family_source, provides(parent_2)).
 plug(family_file, family_source).
 

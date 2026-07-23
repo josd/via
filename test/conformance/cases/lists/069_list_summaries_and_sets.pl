@@ -1,5 +1,5 @@
 % Reference 9.1: list summaries accept mixed numeric values and stable duplicate removal.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(sum_empty, X) :- sum_list([], X).
 answer(sum_mixed, X) :- sum_list([1, 2.5, 3], X).
 answer(min_atom_order, X) :- min_list([delta, beta, gamma], X).

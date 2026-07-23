@@ -3,7 +3,7 @@
 % phi(N) is modeled directly as the count of integers K in 1..N with gcd(N,K)=1.
 % The summatory query reuses many gcd/totient subgoals, so memoization keeps the
 % example responsive while preserving the relational presentation.
-materialize(totient_answer, 2).
+query(totient_answer(X0, X1)).
 
 
 % Euclid's algorithm is expressed recursively over remainders.

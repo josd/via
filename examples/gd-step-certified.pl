@@ -1,21 +1,21 @@
 % Memoize interval computations reused across width, midpoint, gradient, step,
 % objective, and contraction report relations.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % This is a proof-friendly optimization trace: every numeric fact needed to
-% justify the step is materialized, so proof output can certify why the update
+% justify the step is queried, so proof output can certify why the update
 % is accepted.
-materialize(eta, 2).
-materialize(etaLeHalf, 2).
-materialize(xBounds, 2).
-materialize(midpoint, 2).
-materialize(width, 2).
-materialize(gradientBounds, 2).
-materialize(stepBounds, 2).
-materialize(objectiveBounds, 2).
-materialize(widthContractsAt, 2).
+query(eta(X0, X1)).
+query(etaLeHalf(X0, X1)).
+query(xBounds(X0, X1)).
+query(midpoint(X0, X1)).
+query(width(X0, X1)).
+query(gradientBounds(X0, X1)).
+query(stepBounds(X0, X1)).
+query(objectiveBounds(X0, X1)).
+query(widthContractsAt(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 
 % Adapted from Eyeling's gd-step-certified.n3.
 % One-dimensional gradient descent over certified interval bounds.

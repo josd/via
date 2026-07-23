@@ -7,7 +7,7 @@
 % This is a compact regression-style example for active-goal handling in recursive
 % graph search.
 
-materialize(path, 2).
+query(path(X0, X1)).
 
 arc(a, b).
 arc(b, c).

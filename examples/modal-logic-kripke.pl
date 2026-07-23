@@ -4,8 +4,8 @@
 % formula terms such as box(clear) and diamond(repaired).  box(F) is true at a
 % world when every accessible world satisfies F; diamond(F) is true when at
 % least one accessible world satisfies F.
-materialize(modal_truth, 3).
-materialize(modal_countermodel, 2).
+query(modal_truth(X0, X1, X2)).
+query(modal_countermodel(X0, X1)).
 
 world(w0).
 world(w1).

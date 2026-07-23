@@ -8,12 +8,12 @@
 % its original shape, describe the alignment declaratively, and derive target facts
 % without rewriting the original assertions.
 
-materialize(type, 2).
-materialize(target_fact, 3).
-materialize(runtime_rule, 2).
-materialize(target_predicate, 2).
-materialize(flow_emits, 2).
-materialize(trusted_by, 2).
+query(type(X0, X1)).
+query(target_fact(X0, X1, X2)).
+query(runtime_rule(X0, X1)).
+query(target_predicate(X0, X1)).
+query(flow_emits(X0, X1)).
+query(trusted_by(X0, X1)).
 
 sub_class(local_observation, sosa_observation).
 sub_class(temperature_probe, sosa_sensor).

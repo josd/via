@@ -4,4 +4,4 @@ q(a).
 r(a).
 ok(X) :- (p(X), q(X), r(X)).
 answer(ok, X) :- ok(X).
-materialize(answer, 2).
+query(answer(X0, X1)).

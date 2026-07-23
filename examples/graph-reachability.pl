@@ -3,8 +3,8 @@
 % not(member(...)).  This keeps reachability finite and also lets the example
 % derive explicit not_reachable/2 evidence for a negative test case.
 
-materialize(reachable, 2).
-materialize(not_reachable, 2).
+query(reachable(X0, X1)).
+query(not_reachable(X0, X1)).
 
 edge(a, b).
 edge(a, c).

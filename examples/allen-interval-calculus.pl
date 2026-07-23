@@ -4,13 +4,13 @@
 % The input interval table is a list of records, showing how tabular data can
 % stay scoped as one term instead of many unrelated global start/end facts.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(start, 2).
-materialize(end, 2).
-materialize(duration, 2).
-materialize(statement, 3).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(start(X0, X1)).
+query(end(X0, X1)).
+query(duration(X0, X1)).
+query(statement(X0, X1, X2)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 interval_table([
   interval(a, 10, 12),
   interval(b, 13, 15),

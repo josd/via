@@ -1,5 +1,5 @@
 % Reference 9.6: substring and replace have finite boundary behavior.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(prefix, X) :- substring("eyepllanglet", 0, 5, X).
 answer(middle, X) :- substring("eyepllanglet", 5, 2, X).
 answer(suffix, X) :- substring("eyepllanglet", 4, 3, X).

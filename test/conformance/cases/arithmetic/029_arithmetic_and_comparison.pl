@@ -8,4 +8,4 @@ answer(power, X) :- pow(2, 8, X).
 answer(minimum, X) :- min(3, 9, X).
 answer(less_than, true) :- lt(3, 9).
 answer(greater_equal, true) :- ge(9, 9).
-materialize(answer, 2).
+query(answer(X0, X1)).

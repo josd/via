@@ -1,13 +1,13 @@
 % Science example: radioactive decay.
 %
 % Activity remaining after elapsed time is initial_activity * 0.5^(t/half_life).
-% The file materializes half-lives elapsed, remaining activity, decayed activity,
+% The file querys half-lives elapsed, remaining activity, decayed activity,
 % and a threshold-based low-activity status.
-materialize(halfLivesElapsed, 2).
-materialize(remainingActivity_Bq, 2).
-materialize(decayedActivity_Bq, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(halfLivesElapsed(X0, X1)).
+query(remainingActivity_Bq(X0, X1)).
+query(decayedActivity_Bq(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % The iodine sample has elapsed for two half-lives, making the expected remaining
 % activity one quarter of the initial activity.

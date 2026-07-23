@@ -10,7 +10,7 @@ aggregation, and structured terms.
 
 Eyepl's position is that a reasoning language should remain understandable as
 a whole. Programs should state relationships directly, while the engine
-handles indexing, automatic tabling, recursion, and materialization without
+handles indexing, automatic tabling, recursion, and query execution without
 requiring procedural search directives.
 
 Proofs are part of the result, not an afterthought. Derived conclusions can

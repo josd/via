@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 edge(a, b).
 edge(b, c).
 reachable(X, Z) :- reachable(X, Y), edge(Y, Z).

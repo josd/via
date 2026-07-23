@@ -3,10 +3,10 @@
 % The same trips are evaluated under four modelling worlds: base consumption,
 % speed-aware consumption, physics-aware consumption, and physics plus safety
 % reserve.  This makes the output a small possible-worlds comparison.
-materialize(safeInWorld, 2).
-materialize(riskyInWorld, 2).
-materialize(reason, 2).
-materialize(status, 2).
+query(safeInWorld(X0, X1)).
+query(riskyInWorld(X0, X1)).
+query(reason(X0, X1)).
+query(status(X0, X1)).
 
 % trip_data/7 stores distance, speed, temperature, payload, battery, and base
 % energy use.  The factors below adjust base consumption rather than duplicating

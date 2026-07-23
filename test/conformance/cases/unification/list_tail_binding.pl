@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(Tail) :- eq([a, b, c], [a | Tail]).

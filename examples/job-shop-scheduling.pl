@@ -3,7 +3,7 @@
 % Three jobs each require one mill operation and one lathe operation, with fixed
 % within-job precedence constraints.  The solver enumerates bounded start times,
 % rejects machine overlaps, and uses aggregate_min/5 to keep the minimum makespan.
-materialize(job_shop_answer, 2).
+query(job_shop_answer(X0, X1)).
 
 % Two operations on the same machine are compatible when either one finishes before the other starts.
 nonoverlap(_starta, Enda, Startb, _endb) :- le(Enda, Startb).

@@ -7,10 +7,10 @@
 % The multiplication chain is intentionally explicit so proof output shows how a
 % provenance trail becomes a single trust decision.
 
-materialize(confidence, 2).
-materialize(trust_flow_state, 2).
-materialize(status, 2).
-materialize(risk, 2).
+query(confidence(X0, X1)).
+query(trust_flow_state(X0, X1)).
+query(status(X0, X1)).
+query(risk(X0, X1)).
 
 message(message_a, publisher_a, transform_a, signature_a, receiver_app).
 message(message_b, publisher_b, transform_b, signature_b, receiver_app).

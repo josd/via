@@ -8,10 +8,10 @@
 % EYE reasoning/basic-monadic/10tt_answer.n3 in cardinality and content
 % after translating N3 statements to eyepl relation terms.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(cycle, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(cycle(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 edge(i30, i12, i33).
 edge(i61, i29, i42).
 edge(i57, i46, i87).

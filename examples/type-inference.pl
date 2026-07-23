@@ -6,8 +6,8 @@
 % The symbolic names t0, t1, and t2 stand for schematic type variables in the
 % displayed answers; concrete examples such as apply_id annotate the argument as
 % int so the application can be checked.
-materialize(type_answer, 2).
-materialize(type_reason, 2).
+query(type_answer(X0, X1)).
+query(type_reason(X0, X1)).
 
 
 % Tiny expression language: int_lit/1, bool_lit/1, var/1, lam/3, app/2,

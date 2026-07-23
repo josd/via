@@ -1,4 +1,4 @@
 % Uppercase letters or underscores mark variables.
-materialize(answer, 1).
+query(answer(X0)).
 item(ok).
 answer(X) :- item(X).

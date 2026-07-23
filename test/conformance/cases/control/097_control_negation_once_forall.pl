@@ -1,5 +1,5 @@
 % Reference 9.10: not/1, once/1, and forall/2 are scoped control operations.
-materialize(answer, 2).
+query(answer(X0, X1)).
 choice(a).
 choice(b).
 allowed(a).

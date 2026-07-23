@@ -3,9 +3,9 @@
 % combination/3 generates the same subset in several selection orders.  findall/3
 % collects those candidates, and sort/2 canonicalizes the list so each unordered
 % 3-combination of five items is reported once.
-materialize(combinations, 2).
-materialize(count, 2).
-materialize(reason, 2).
+query(combinations(X0, X1)).
+query(count(X0, X1)).
+query(reason(X0, X1)).
 
 % select/3 nondeterministically removes one item from a list; because it is an
 % ordinary rule, the example also demonstrates user-level list recursion.

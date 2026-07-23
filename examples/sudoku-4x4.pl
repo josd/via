@@ -3,7 +3,7 @@
 % The givens are baked into row1/1 ... row4/1, so each candidate row is already
 % a permutation of 1..4.  sudoku_solution/1 then checks the remaining columns
 % and 2x2 boxes, which keeps the example clear and playground-friendly.
-materialize(sudoku_answer, 2).
+query(sudoku_answer(X0, X1)).
 
 perm([], []).
 perm(Items, [X|Rest]) :-

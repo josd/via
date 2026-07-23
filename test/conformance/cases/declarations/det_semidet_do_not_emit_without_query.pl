@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 det(answer, 1).
 semidet(aux, 1).
 aux(ok).

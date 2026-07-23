@@ -2,7 +2,7 @@
 mode(path, 2, [in, out]).
 det(path, 2).
 semidet(edge, 2).
-materialize(answer, 2).
+query(answer(X0, X1)).
 edge(a, b).
 path(X, Y) :- edge(X, Y).
 answer(mode_path, Modes) :- mode(path, 2, Modes).

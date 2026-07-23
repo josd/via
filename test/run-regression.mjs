@@ -162,7 +162,7 @@ why(
       name: 'EYEPL_LOCAL_TIME fixes local_time builtin',
       run: () => {
         const result = runCli(['-'], {
-          input: 'materialize(local_time_answer, 1).\nlocal_time_answer(D) :- local_time(D).\n',
+          input: 'query(local_time_answer(D)).\nlocal_time_answer(D) :- local_time(D).\n',
           env: { EYEPL_LOCAL_TIME: '2024-01-02' },
         });
         assertEqual(result.status, 0, 'exit status');
@@ -219,7 +219,7 @@ why(
     {
       name: 'stdin input is accepted',
       run: () => {
-        const result = runCli(['-'], { input: 'p(a, b).\nq(X, Y) :- p(X, Y).\n' });
+        const result = runCli(['-'], { input: 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n' });
         assertEqual(result.status, 0, 'exit status');
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
         assertEqual(result.stderr, '', 'stderr');
@@ -227,18 +227,18 @@ why(
     },
 
     {
-      name: '--proof enables materialization explanations',
+      name: '--proof enables query explanations',
       run: () => {
-        const result = runCli(['--proof', '-'], { input: 'p(a, b).\nq(X, Y) :- p(X, Y).\n' });
+        const result = runCli(['--proof', '-'], { input: 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n' });
         assertEqual(result.status, 0, 'exit status');
         assertIncludes(result.stdout, 'q(a, b).\nwhy(', 'stdout');
         assertEqual(result.stderr, '', 'stderr');
       },
     },
     {
-      name: '-p enables materialization explanations',
+      name: '-p enables query explanations',
       run: () => {
-        const result = runCli(['-p', '-'], { input: 'p(a, b).\nq(X, Y) :- p(X, Y).\n' });
+        const result = runCli(['-p', '-'], { input: 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n' });
         assertEqual(result.status, 0, 'exit status');
         assertIncludes(result.stdout, 'q(a, b).\nwhy(', 'stdout');
         assertEqual(result.stderr, '', 'stderr');
@@ -249,7 +249,7 @@ why(
     {
       name: '--stats prints solver statistics to stderr',
       run: () => {
-        const result = runCli(['--stats', '-'], { input: 'p(a, b).\nq(X, Y) :- p(X, Y).\n' });
+        const result = runCli(['--stats', '-'], { input: 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n' });
         assertEqual(result.status, 0, 'exit status');
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
         assertIncludes(result.stderr, 'eyepl stats:\n', 'stderr');
@@ -259,7 +259,7 @@ why(
     {
       name: '-s prints solver statistics to stderr',
       run: () => {
-        const result = runCli(['-s', '-'], { input: 'p(a, b).\nq(X, Y) :- p(X, Y).\n' });
+        const result = runCli(['-s', '-'], { input: 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n' });
         assertEqual(result.status, 0, 'exit status');
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
         assertIncludes(result.stderr, 'eyepl stats:\n', 'stderr');
@@ -270,7 +270,7 @@ why(
       name: '--warnings prints unstratified negation diagnostics without failing',
       run: () => {
         const input = [
-          'materialize(answer, 1).',
+          'query(answer(X)).',
           'p(a) :- not(q(a)).',
           'q(a) :- not(p(a)).',
           'answer(ok).',
@@ -288,7 +288,7 @@ why(
       name: '-w prints unstratified negation diagnostics without failing',
       run: () => {
         const input = [
-          'materialize(answer, 1).',
+          'query(answer(X)).',
           'p(a) :- not(q(a)).',
           'q(a) :- not(p(a)).',
           'answer(ok).',
@@ -303,7 +303,7 @@ why(
     {
       name: '--warnings stays quiet for stratified negation',
       run: () => {
-        const input = 'materialize(answer, 1).\np(a).\nanswer(ok) :- not(q(a)).\n';
+        const input = 'query(answer(X)).\np(a).\nanswer(ok) :- not(q(a)).\n';
         const result = runCli(['--warnings', '-'], { input });
         assertEqual(result.status, 0, 'exit status');
         assertEqual(result.stdout, 'answer(ok).\n', 'stdout');
@@ -314,7 +314,7 @@ why(
       name: 'double dash permits option-shaped file names',
       run: () => {
         const file = path.join(tmp, '-h');
-        fs.writeFileSync(file, 'p(a, b).\nq(X, Y) :- p(X, Y).\n');
+        fs.writeFileSync(file, 'query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n');
         const result = runCli(['--', file]);
         assertEqual(result.status, 0, 'exit status');
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
@@ -408,10 +408,24 @@ function apiCases() {
       run: () => assertArrayEqual(declaredValueExportNames(), runtimeExportNames(), 'public value exports'),
     },
     {
-      name: 'run materialization through public API without proof by default',
+      name: 'run queries through public API without proof by default',
       run: () => {
-        const result = run('p(a, b).\nq(X, Y) :- p(X, Y).\n');
+        const result = run('query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n');
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
+      },
+    },
+    {
+      name: 'query constants restrict answers',
+      run: () => {
+        const result = run('query(answer(a, X)).\nseed(a, one).\nseed(b, two).\nanswer(K, V) :- seed(K, V).\n');
+        assertEqual(result.stdout, 'answer(a, one).\n', 'stdout');
+      },
+    },
+    {
+      name: 'programs without queries produce no answer output',
+      run: () => {
+        const result = run('seed(a, one).\nanswer(K, V) :- seed(K, V).\n');
+        assertEqual(result.stdout, '', 'stdout');
       },
     },
 
@@ -439,9 +453,9 @@ function apiCases() {
 
 
     {
-      name: 'run materialization can enable proof explanations',
+      name: 'run query can enable proof explanations',
       run: () => {
-        const result = run('p(a, b).\nq(X, Y) :- p(X, Y).\n', { proof: true });
+        const result = run('query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n', { proof: true });
         assertIncludes(result.stdout, 'q(a, b).\nwhy(', 'stdout');
       },
     },
@@ -449,13 +463,13 @@ function apiCases() {
     {
       name: 'run accepts Program instances',
       run: () => {
-        const program = Program.parse('p(a, b).\nq(X, Y) :- p(X, Y).\n');
+        const program = Program.parse('query(q(X, Y)).\np(a, b).\nq(X, Y) :- p(X, Y).\n');
         const result = run(program);
         assertEqual(result.stdout, 'q(a, b).\n', 'stdout');
       },
     },
     {
-      name: 'run keeps recursive materializations independent in one solver',
+      name: 'run keeps recursive queries independent in one solver',
       run: () => {
         const text = fs.readFileSync(path.join(packageRoot, 'examples', 'alignment-demo.pl'), 'utf8');
         const program = Program.parseSources([{ text, filename: 'alignment-demo.pl' }]);
@@ -495,7 +509,7 @@ function apiCases() {
       name: 'program reports stratified negation metadata',
       run: () => {
         const program = Program.parse(`
-materialize(open, 1).
+query(open(X0)).
 candidate(a).
 blocked(b).
 closed(X) :- blocked(X).
@@ -797,11 +811,11 @@ function whiteBoxCases() {
       },
     },
     {
-      name: 'directly materialized recursive groups are tabled automatically',
+      name: 'directly queried recursive groups are tabled automatically',
       run: () => {
-        const program = Program.parse('materialize(path, 2).\nedge(a, b).\npath(X, Y) :- edge(X, Y).\npath(X, Z) :- edge(X, Y), path(Y, Z).\n');
+        const program = Program.parse('query(path(X, Y)).\nedge(a, b).\npath(X, Y) :- edge(X, Y).\npath(X, Z) :- edge(X, Y), path(Y, Z).\n');
         const group = program.findGroup('path', 2);
-        assertEqual(group.tabled, true, 'materialized path/2 tabled automatically');
+        assertEqual(group.tabled, true, 'queried path/2 tabled automatically');
       },
     },
     {
@@ -818,7 +832,7 @@ function whiteBoxCases() {
       name: 'cyclic tabling reaches a complete fixed point',
       run: () => {
         const result = run(Program.parse(`
-materialize(path, 2).
+query(path(X0, X1)).
 edge(a, b).
 edge(b, c).
 edge(c, d).
@@ -950,7 +964,7 @@ function runWhy({ program, goalText, expected }) {
   const programFile = path.join(tmp, `${++tmpCounter}.pl`);
   fs.writeFileSync(programFile, program);
   const goal = parseGoalText(goalText);
-  fs.appendFileSync(programFile, `\nmaterialize(${goal.name}, ${goal.arity}).\n`);
+  fs.appendFileSync(programFile, `\nquery(${termToString(goal, new Env(), true)}).\n`);
   const result = runCli(['--proof', programFile]);
   assertEqual(result.status, 0, 'exit status');
   assertEqual(result.stderr, '', 'stderr');
@@ -969,7 +983,7 @@ function runWhyLoose({ program, goalText }) {
   const programFile = path.join(tmp, `${++tmpCounter}.pl`);
   fs.writeFileSync(programFile, program);
   const goal = parseGoalText(goalText);
-  fs.appendFileSync(programFile, `\nmaterialize(${goal.name}, ${goal.arity}).\n`);
+  fs.appendFileSync(programFile, `\nquery(${termToString(goal, new Env(), true)}).\n`);
   const result = runCli(['--proof', programFile]);
   assertEqual(result.status, 0, 'exit status');
   assertEqual(result.stderr, '', 'stderr');

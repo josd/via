@@ -1,4 +1,4 @@
 % Stratified negation emits no portability warning.
-materialize(answer, 1).
+query(answer(X0)).
 candidate(a).
 answer(ok) :- candidate(a), not(blocked(a)).

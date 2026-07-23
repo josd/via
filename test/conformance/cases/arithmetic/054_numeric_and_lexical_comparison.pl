@@ -2,4 +2,4 @@
 answer(numeric_gt, true) :- gt(10, 2).
 answer(numeric_le, true) :- le(2, 2.0).
 answer(lexical_ge, true) :- ge(beta, alpha).
-materialize(answer, 2).
+query(answer(X0, X1)).

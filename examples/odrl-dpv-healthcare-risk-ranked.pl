@@ -5,27 +5,27 @@
 % and normalized scores, risk levels, and small formula-valued suggestion graphs.
 %
 % This is one of the richer policy examples: it combines structured policy data,
-% ranked risk computation, and report-oriented materialization.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(policyGraph, 2).
-materialize(contains, 2).
-materialize(dpv_hasRisk, 2).
-materialize(type, 2).
-materialize(scoreRaw, 2).
-materialize(score, 2).
-materialize(dpv_hasRiskLevel, 2).
-materialize(dpv_hasSeverity, 2).
-materialize(aboutClause, 2).
-materialize(violatesNeed, 2).
-materialize(dct_source, 2).
-materialize(dct_description, 2).
-materialize(reportKey, 2).
-materialize(dpv_isMitigatedByMeasure, 2).
-materialize(suggestAddGraph, 2).
-materialize(firstRisk, 2).
-materialize(retentionRiskScore, 2).
+% ranked risk computation, and report-oriented query execution.
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(policyGraph(X0, X1)).
+query(contains(X0, X1)).
+query(dpv_hasRisk(X0, X1)).
+query(type(X0, X1)).
+query(scoreRaw(X0, X1)).
+query(score(X0, X1)).
+query(dpv_hasRiskLevel(X0, X1)).
+query(dpv_hasSeverity(X0, X1)).
+query(aboutClause(X0, X1)).
+query(violatesNeed(X0, X1)).
+query(dct_source(X0, X1)).
+query(dct_description(X0, X1)).
+query(reportKey(X0, X1)).
+query(dpv_isMitigatedByMeasure(X0, X1)).
+query(suggestAddGraph(X0, X1)).
+query(firstRisk(X0, X1)).
+query(retentionRiskScore(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 party(hospital).
 party(researchUnit).
 party(pharmaPartner).

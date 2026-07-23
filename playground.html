@@ -618,13 +618,13 @@
           "workplace-compliance",
           "zebra"
     ];
-    const FALLBACK_SOURCE = `materialize(answer, 1).
+    const FALLBACK_SOURCE = `query(answer(X)).
 answer(ok) :- eq(ok, ok).
 `;
     const HIGHLIGHT_LIMIT = 200000;
     const MAX_SHARE_URL_LENGTH = 1900;
     const GIST_STATE_FILENAME = 'eyepl-playground-state.json';
-    const KEYWORDS = new Set(['materialize', 'table']);
+    const KEYWORDS = new Set(['query', 'table']);
     const BUILTINS = new Set([
             "abs",
             "acos",
@@ -1031,7 +1031,7 @@ answer(ok) :- eq(ok, ok).
         setStatus(editorLine == null ? 'Run failed.' : `Syntax error on line ${editorLine}.`, true);
         return;
       }
-      let text = message.stdout || '(no materialized output)\n';
+      let text = message.stdout || '(no query answers)\n';
       if (stats.checked && message.stats) text += '\n% stats\n' + formatStats(message.stats);
       output.textContent = text;
       const seconds = (message.elapsedMs / 1000).toFixed(3);

@@ -4,16 +4,16 @@
 % four colours. This eyepl version keeps the same map/assignment shape and adds
 % a rule-level validation layer that rejects equal colours across borders.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % The countries form a small planar-style adjacency graph. The example is a
-% constraint problem: assign colours, reject border conflicts, then materialize
+% constraint problem: assign colours, reject border conflicts, then query
 % the canonical colour vector and validation status.
-materialize(color, 2).
-materialize(status, 2).
-materialize(reason, 2).
+query(color(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 country(belgium). country(netherlands). country(luxemburg). country(france).
 country(germany). country(italy). country(denmark). country(ireland).
 country(greece). country(spain). country(portugal). country(austria).

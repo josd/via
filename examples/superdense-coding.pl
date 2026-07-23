@@ -7,12 +7,12 @@
 % with a single support path after the interference choices are expanded.
 
 % |R) = |0, 0) + |1, 1)
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(decodesAs, 2).
-materialize(preservesMessage, 2).
-materialize(cancelsCrossTalk, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(decodesAs(X0, X1)).
+query(preservesMessage(X0, X1)).
+query(cancelsCrossTalk(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 r(false, false).
 r(true, true).
 

@@ -3,13 +3,13 @@
 % The program keeps the annotation as data and derives visible relations from it.
 % Context members become default output only when explicit rules project them.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(name, 2).
-materialize(log_nameOf, 2).
-materialize(statedBy, 2).
-materialize(recorded, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(name(X0, X1)).
+query(log_nameOf(X0, X1)).
+query(statedBy(X0, X1)).
+query(recorded(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 annotation(t, (
   name(a, "Alice"),
   statedBy(t, bob),

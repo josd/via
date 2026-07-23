@@ -3,9 +3,9 @@
 % obligation and performing a prohibited action are violations, but a prohibited
 % action can be marked compensated when the configured repair action occurred.
 
-materialize(violation, 2).
-materialize(compensation, 2).
-materialize(status, 2).
+query(violation(X0, X1)).
+query(compensation(X0, X1)).
+query(status(X0, X1)).
 
 % Facts state what the actor was obliged/prohibited to do and what happened.
 actor(alice).

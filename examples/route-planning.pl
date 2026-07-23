@@ -5,7 +5,7 @@
 % and a structured `go(..., ..., ...)` plan.  The plan is ordinary data, so the
 % route can be inspected, stored, or used by later rules.
 
-materialize(route_to_nantes, 2).
+query(route_to_nantes(X0, X1)).
 mode(path, 2, [in, out]).
 
 oneway(paris, orleans).

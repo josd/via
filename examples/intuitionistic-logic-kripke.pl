@@ -5,8 +5,8 @@
 % implication is checked at every future world.  This lets the example show a
 % constructive implication that holds while excluded middle is not forced at the
 % root world.
-materialize(intuitionistic_truth, 3).
-materialize(intuitionistic_countermodel, 3).
+query(intuitionistic_truth(X0, X1, X2)).
+query(intuitionistic_countermodel(X0, X1, X2)).
 
 
 world(root).

@@ -1,4 +1,4 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 candidate(a, 3).
 candidate(b, 1).
 candidate(c, 2).

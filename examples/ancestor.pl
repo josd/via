@@ -2,10 +2,10 @@
 % parent/2 facts form a small family chain.  ancestor/2 has the classic two-rule
 % shape: one base rule copies direct parents, and one recursive rule walks one
 % parent edge before continuing through the chain.  Both source and derived
-% relations are materialized so the output shows the closure explicitly.
+% relations are queried so the output shows the closure explicitly.
 
-materialize(parent, 2).
-materialize(ancestor, 2).
+query(parent(X0, X1)).
+query(ancestor(X0, X1)).
 
 % Direct parent facts form a simple chain.
 parent(pat, jan).

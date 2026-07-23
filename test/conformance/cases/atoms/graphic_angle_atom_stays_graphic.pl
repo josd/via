@@ -1,4 +1,4 @@
 % Graphic atoms that are not absolute IRIs remain graphic atoms.
-materialize(answer, 1).
+query(answer(X0)).
 operator(<=>).
 answer(Op) :- operator(Op).

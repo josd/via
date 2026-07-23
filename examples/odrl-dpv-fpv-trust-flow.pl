@@ -8,10 +8,10 @@
 % predicates, which keeps the final decision/confidence/status/risk facts easy to
 % consume.
 
-materialize(decision, 2).
-materialize(confidence, 2).
-materialize(status, 2).
-materialize(risk, 2).
+query(decision(X0, X1)).
+query(confidence(X0, X1)).
+query(status(X0, X1)).
+query(risk(X0, X1)).
 
 trust_score(hospital_a, 0.92).
 trust_score(small_clinic, 0.63).

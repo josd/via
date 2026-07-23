@@ -1,4 +1,4 @@
-materialize(answer, 1).
+query(answer(X0)).
 p(a, b) :- not(q(a, b)).
 q(a, b) :- not(p(a, b)).
 answer(ok).

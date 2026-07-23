@@ -4,10 +4,10 @@
 % practical executable form is to put a named functional term directly in the
 % rule head.  The term is ordinary data: stable, visible, and proof-friendly.
 
-materialize(has_parent, 2).
-materialize(registration, 3).
-materialize(same_witness, 2).
-materialize(distinct_witnesses, 2).
+query(has_parent(X0, X1)).
+query(registration(X0, X1, X2)).
+query(same_witness(X0, X1)).
+query(distinct_witnesses(X0, X1)).
 
 person(alice).
 person(bob).

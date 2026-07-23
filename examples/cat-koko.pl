@@ -4,11 +4,11 @@
 % node constructor in the portable core, so this adaptation names those
 % witnesses sk_0 and sk_1.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(type, 2).
-materialize(is, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(type(X0, X1)).
+query(is(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 animal(koko).
 
 witness(cat, sk_0).

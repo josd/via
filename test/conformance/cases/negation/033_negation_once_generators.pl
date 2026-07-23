@@ -4,4 +4,4 @@ candidate(b).
 closed(b).
 answer(open, X) :- candidate(X), not(closed(X)).
 answer(first_between, X) :- once(between(2, 4, X)).
-materialize(answer, 2).
+query(answer(X0, X1)).

@@ -59,11 +59,11 @@ node test/run-conformance.mjs variables/
 node test/run-conformance.mjs error/variables
 ```
 
-The runner executes normal materialized programs in-process through the public JavaScript API so small conformance cases avoid measuring Node startup overhead. Warning and proof cases intentionally use the CLI because warning output and `why/2` proof output are host-interface contracts.
+The runner executes normal programs with queries in-process through the public JavaScript API so small conformance cases avoid measuring Node startup overhead. Warning and proof cases intentionally use the CLI because warning output and `why/2` proof output are host-interface contracts.
 
 ## Scope
 
-The conformance corpus is a single Eyepl suite. It covers the standard language described by the language reference: lexical syntax, facts, definite clauses, first-order terms, lists, conjunction, structured unification, left-to-right goal-directed proof search, materialized output, read-back printing, standard built-ins, declarations, warnings, errors, proof output, and standard host behavior.
+The conformance corpus is a single Eyepl suite. It covers the standard language described by the language reference: lexical syntax, facts, definite clauses, first-order terms, lists, conjunction, structured unification, left-to-right goal-directed proof search, query answers, read-back printing, standard built-ins, declarations, warnings, errors, proof output, and standard host behavior.
 
 The suite deliberately does not separate `core` and `extension` profiles. Reusable built-ins such as arithmetic, strings, lists, aggregation, context terms, term inspection, and search control are part of the standard Eyepl conformance surface. Implementation-specific built-ins may still exist in downstream hosts, but they should have their own tests outside this corpus unless they are standardized.
 

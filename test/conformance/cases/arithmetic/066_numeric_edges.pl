@@ -1,5 +1,5 @@
 % Reference 9.1: reusable numeric functions preserve integer paths and define finite failure modes.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(max_negative, X) :- max(-10, -3, X).
 answer(min_float, X) :- min(2.5, -1.25, X).
 answer(floor_negative, X) :- floor(-3.1, X).

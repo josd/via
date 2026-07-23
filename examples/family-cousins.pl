@@ -1,9 +1,9 @@
 % Memoize scoped family projection and recursive labels; cousin derivation asks
 % for the same generation and branch facts many times.
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(generation, 2).
-materialize(branch, 2).
-materialize(cousin, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(generation(X0, X1)).
+query(branch(X0, X1)).
+query(cousin(X0, X1)).
 
 % The family tree is scoped inside family_graph/2.  family_statement/3 projects
 % only the parent and seedBranch facts that the cousin rules need.

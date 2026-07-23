@@ -6,7 +6,7 @@
 % constants are folded, known variables are substituted, and dynamic variables
 % remain as residual code.
 
-materialize(partialEvalAnswer, 2).
+query(partialEvalAnswer(X0, X1)).
 
 
 % Expression language: const/1, bool/1, var/1, add/2, mul/2, and if/3.

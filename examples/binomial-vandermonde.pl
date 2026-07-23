@@ -6,7 +6,7 @@
 % choose_step/5 uses the multiplicative recurrence
 %   C(N, I+1) = C(N, I) * (N-I) / (I+1)
 % and is cached automatically because row sums and identities reuse prefixes.
-materialize(binomial_answer, 2).
+query(binomial_answer(X0, X1)).
 
 
 choose(N, K, C) :-

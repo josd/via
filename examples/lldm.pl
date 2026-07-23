@@ -1,16 +1,16 @@
 % Leg Length Discrepancy Measurement, adapted from Eyeling lldm.n3.
 %
 % The measurement and intermediate geometry are kept in helper predicates so
-% the default relation materialization stays concise.  The visible output is
+% the default relation query execution stays concise.  The visible output is
 % the alarm plus the small set of relations explaining why the alarm fired.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(type, 2).
-materialize(lld_left_length_cm, 2).
-materialize(lld_right_length_cm, 2).
-materialize(lld_discrepancy_cm, 2).
-materialize(lld_threshold_cm, 2).
-materialize(lld_reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(type(X0, X1)).
+query(lld_left_length_cm(X0, X1)).
+query(lld_right_length_cm(X0, X1)).
+query(lld_discrepancy_cm(X0, X1)).
+query(lld_threshold_cm(X0, X1)).
+query(lld_reason(X0, X1)).
 
 % val/3 stores raw landmark coordinates, derived deltas, line coefficients,
 % projected landmarks, lengths, and alarm values in one measurement namespace.

@@ -1,5 +1,5 @@
 % Reference 9.7 and 9.8: list ordering and length built-ins are deterministic on proper lists.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(length_empty, X) :- length([], X).
 answer(length_nested, X) :- length([[a], [b, c], []], X).
 answer(reverse_atoms, X) :- reverse([a, b, c], X).

@@ -3,8 +3,8 @@
 % built-ins through ordinary relations.  The want_* facts keep the example from
 % enumerating an unbounded arithmetic domain.
 
-materialize(prod, 2).
-materialize(pow, 2).
+query(prod(X0, X1)).
+query(pow(X0, X1)).
 
 % Inputs are explicit so the example does not enumerate an unbounded domain.
 want_prod([3, 0]).

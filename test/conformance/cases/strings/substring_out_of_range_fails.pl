@@ -1,2 +1,2 @@
-materialize(answer, 1).
+query(answer(X0)).
 answer(ok) :- not(substring("abc", 2, 5, Text)).

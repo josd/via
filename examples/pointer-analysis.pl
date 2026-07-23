@@ -5,10 +5,10 @@
 % field_points_to/2 facts.  This is the classic Datalog shape used in scalable
 % pointer-analysis papers, reduced to a small readable instance.
 
-materialize(pointsTo, 2).
-materialize(heapField, 2).
-materialize(pointerFlow, 2).
-materialize(pointerConclusion, 2).
+query(pointsTo(X0, X1)).
+query(heapField(X0, X1)).
+query(pointerFlow(X0, X1)).
+query(pointerConclusion(X0, X1)).
 
 
 % Source-program statements:

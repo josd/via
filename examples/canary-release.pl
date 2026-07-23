@@ -3,12 +3,12 @@
 % A canary deployment is rolled back when its measured error rate exceeds the
 % allowed budget, even when latency is still acceptable.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(errorRate, 2).
-materialize(p95Latency_ms, 2).
-materialize(latencyCheck, 2).
-materialize(status, 2).
-materialize(reason, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(errorRate(X0, X1)).
+query(p95Latency_ms(X0, X1)).
+query(latencyCheck(X0, X1)).
+query(status(X0, X1)).
+query(reason(X0, X1)).
 
 % canary/4 records request count, error count, and p95 latency; thresholds
 % make the rollout policy explicit data rather than constants hidden in rules.

@@ -4,9 +4,9 @@
 % vertex set directly and derives every path that visits each vertex exactly
 % once.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(hasHamiltonianPath, 2).
-materialize(hamiltonianPath, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(hasHamiltonianPath(X0, X1)).
+query(hamiltonianPath(X0, X1)).
 
 % The finite six-vertex graph is small enough to search directly.  adjacent/2
 % is tabled because every candidate path repeatedly asks the same edge tests.

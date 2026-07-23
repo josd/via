@@ -1,2 +1,2 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(iri_mailto_plus, '<mailto:jos+eyepl@example.org>').

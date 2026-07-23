@@ -1,5 +1,5 @@
 % Reference 9.2: rounding built-ins have distinct behavior for positive and negative decimals.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(floor_pos, X) :- floor(3.9, X).
 answer(floor_neg, X) :- floor(-3.1, X).
 answer(ceiling_pos, X) :- ceiling(3.1, X).

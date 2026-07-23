@@ -3,17 +3,17 @@
 % The example combines measurements, observations, targets, logarithmic
 % feedforward compensation, square-root normalization, and nonlinear feedback.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 %
 % Each derived quantity is represented as its own predicate rather than a single
 % formula blob, making the proof trace useful for debugging a failed actuator
 % normalization or control-signal calculation.
-materialize(controlSignal, 2).
-materialize(status, 2).
-materialize(normalizedMeasurement, 2).
-materialize(log10, 2).
+query(controlSignal(X0, X1)).
+query(status(X0, X1)).
+query(normalizedMeasurement(X0, X1)).
+query(log10(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 measurement(input1, [6, 11]).
 measurement(disturbance2, [45, 39]).
 measurement(input2, true).

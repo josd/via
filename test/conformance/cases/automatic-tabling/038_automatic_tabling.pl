@@ -1,5 +1,5 @@
 % Reference 11.1: recursive predicates are tabled automatically without changing answers.
-materialize(reach, 2).
+query(reach(X0, X1)).
 edge(a, b).
 edge(b, c).
 reach_any(X, Y) :- edge(X, Y).

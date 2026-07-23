@@ -1,16 +1,16 @@
 % Heron's theorem: area = sqrt(s(s-a)(s-b)(s-c)).
 %
 % The sample is the classic 13-14-15 triangle, whose area is exactly 84.  The
-% program materializes the semiperimeter, Heron product, and final area so proof
+% program querys the semiperimeter, Heron product, and final area so proof
 % output can be checked against the familiar hand calculation.
 %
 % This is a compact example of theorem-shaped arithmetic: facts name a geometric
 % object, reusable relations compute intermediates, and wrapper predicates choose
 % the report vocabulary.
-materialize(semiperimeter, 2).
-materialize(heronProduct, 2).
-materialize(area, 2).
-materialize(status, 2).
+query(semiperimeter(X0, X1)).
+query(heronProduct(X0, X1)).
+query(area(X0, X1)).
+query(status(X0, X1)).
 
 % A single survey triangle is enough to demonstrate the formula; 13-14-15 has
 % integer area 84, which makes the computed result easy to check.

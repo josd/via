@@ -1,5 +1,5 @@
 % Reference 9.5: between/3 enumerates inclusively, checks bound values, and rejects empty ranges.
-materialize(answer, 2).
+query(answer(X0, X1)).
 answer(enumerated, X) :- between(-1, 1, X).
 answer(check_bound, ok) :- between(1, 3, 2).
 answer(check_low_edge, ok) :- between(1, 3, 1).

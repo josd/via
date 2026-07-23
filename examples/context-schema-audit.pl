@@ -5,9 +5,9 @@
 % context as data, extracts each member as Name + Args, computes the arity, and
 % checks that shape against an allowed schema.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(context_shape, 3).
-materialize(schema_violation, 3).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(context_shape(X0, X1, X2)).
+query(schema_violation(X0, X1, X2)).
 
 % Program structure: each message carries heterogeneous context data.  The
 % members deliberately use different arities: heartbeat/0, source/1,

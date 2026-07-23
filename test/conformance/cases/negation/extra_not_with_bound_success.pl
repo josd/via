@@ -1,3 +1,3 @@
-materialize(answer, 2).
+query(answer(X0, X1)).
 known(a).
 answer(not_with_bound_success, b) :- not(known(b)).

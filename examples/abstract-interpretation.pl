@@ -11,9 +11,9 @@
 % deliberately conservative: if the join point can see y = zero on any path, the
 % division is reported as a possible division-by-zero warning.
 
-materialize(absState, 3).
-materialize(absWarning, 2).
-materialize(absConclusion, 2).
+query(absState(X0, X1, X2)).
+query(absWarning(X0, X1)).
+query(absConclusion(X0, X1)).
 
 
 % The abstract domain.

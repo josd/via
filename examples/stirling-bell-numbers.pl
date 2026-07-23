@@ -5,7 +5,7 @@
 % instead of the overlapping two-branch recurrence.  Bell numbers use
 %   B(0) = 1, B(N) = sum(K=0..N-1, C(N-1,K) * B(K)).
 % The table declarations memoize the smaller helper relations used by both formulas.
-materialize(stirling_bell_answer, 2).
+query(stirling_bell_answer(X0, X1)).
 
 
 factorial(0, 1).

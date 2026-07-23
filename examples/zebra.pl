@@ -5,10 +5,10 @@
 % constraint over that list.  The answer is the classic one: the Norwegian drinks
 % water and the Japanese owns the zebra.
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(waterDrinker, 2).
-materialize(zebraOwner, 2).
-materialize(solved, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(waterDrinker(X0, X1)).
+query(zebraOwner(X0, X1)).
+query(solved(X0, X1)).
 
 % The single zebra/2 rule is a finite constraint model over the five house slots.
 zebra(Waterdrinker, Zebraowner) :-

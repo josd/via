@@ -1,5 +1,5 @@
 % Reference 9.1: term introspection/construction, term strings, and forall/2.
-materialize(answer, 2).
+query(answer(X0, X1)).
 item(1).
 item(2).
 item(3).

@@ -4,10 +4,10 @@
 % local date so the derived ageAbove/2 fact remains an executable temporal
 % check rather than a precomputed constant.
 
-materialize(birthDay, 2).
-materialize(duration, 2).
-materialize(ageAbove, 2).
-materialize(is, 2).
+query(birthDay(X0, X1)).
+query(duration(X0, X1)).
+query(ageAbove(X0, X1)).
+query(is(X0, X1)).
 
 birthDay(patH, "1944-08-21").
 duration(check, "P80Y").

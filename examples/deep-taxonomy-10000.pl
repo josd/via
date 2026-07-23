@@ -5,15 +5,15 @@
 % the next taxonomy class together with two side labels.
 % =============================================================================================================================
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
-materialize(is, 2).
-materialize(answer, 2).
-materialize(reason, 2).
-materialize(result, 2).
-materialize(checkPassed, 2).
-materialize(arc, 2).
+% Output declarations: query/1 selects the relations written to this example's golden output.
+query(is(X0, X1)).
+query(answer(X0, X1)).
+query(reason(X0, X1)).
+query(result(X0, X1)).
+query(checkPassed(X0, X1)).
+query(arc(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 % fact
 
 a(ind, n0).

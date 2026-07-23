@@ -1,20 +1,20 @@
 % Collatz conjecture suite translated from Eyeling's examples/collatz-1000.n3.
 % It enumerates starts N = 1000, 999, ..., 1 by deriving N = 1000 - N0
-% from a repeat relation, then materializes each full trajectory.
+% from a repeat relation, then querys each full trajectory.
 %
 % Source N3:
 % https://raw.githubusercontent.com/eyereasoner/eyeling/refs/heads/main/examples/collatz-1000.n3
 
-% Output declarations: materialize/2 selects the relations written to this example's golden output.
+% Output declarations: query/1 selects the relations written to this example's golden output.
 % Automatic tabling caches shared suffix trajectories so the 1000 starts do not recompute
 % the same Collatz tails hundreds of times.
-materialize(collatzTrajectory, 2).
+query(collatzTrajectory(X0, X1)).
 
-% Program structure: facts set up the scenario, and rules derive the materialized conclusions.
+% Program structure: facts set up the scenario, and rules derive the queried conclusions.
 % The N3 source defines repeat/2 recursively; this Eyepl version uses the
 % equivalent bounded generator so the 1000-case regression remains stack-safe.
 
-% Query / materialization of the test suite.
+% Query / query execution of the test suite.
 % Generate N in {1000..1} and ask the backward-defined collatz/2 predicate
 % for the full trajectory list M.
 collatzTrajectory(N, M) :-

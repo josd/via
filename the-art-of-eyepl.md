@@ -23,6 +23,21 @@ its own deliberately small language. It supplies facts, Horn clauses, terms,
 lists, finite search, built-ins, automatic tabling, and proof output. It does not
 attempt to reproduce the whole ISO Prolog environment.
 
+This places Eyepl in a tradition that joins automated deduction, database
+querying, and programming. Resolution made logical consequence mechanically
+searchable; early Prolog showed that Horn clauses could also be executable
+programs; deductive databases emphasized finite relations and fixed points.
+Eyepl borrows from all three traditions without pretending that they are
+identical. Its clauses are logical statements, its query execution is an
+ordered computation, and its proof terms make the connection between the two
+available for inspection.
+
+That history explains a recurring theme of the book. Logic programming is not
+the claim that control disappears. It is the discipline of stating the
+relation clearly enough that control can be studied and improved separately.
+Robert Kowalski's phrase “algorithm = logic + control” names this separation;
+Eyepl's small surface makes it unusually easy to see in running examples.
+
 All examples in this book are Eyepl programs. From a source checkout, replace
 `eyepl` below with `node bin/eyepl.js` if the package is not linked.
 
@@ -77,6 +92,7 @@ slightly different question, and predict the answer before running it.
 - [D. Study paths and review](#appendix-d-study-paths-and-review)
 - [E. Further examples](#appendix-e-further-examples)
 - [F. Conformance and portability](#appendix-f-conformance-and-portability)
+- [G. Notes and references](#appendix-g-notes-and-references)
 
 ---
 
@@ -246,6 +262,14 @@ web_name(sensor_1, '<https://example.org/sensor/1>').
 `same_ends/1` for a three-element list whose first and last values agree.
 
 ## 3. Rules and their two readings
+
+The executable-clause idea emerged from work on automated theorem proving.
+Robinson's resolution principle supplied a general proof rule, while the
+development of Prolog specialized proof search around clauses that could be
+read as procedures. Eyepl begins further downstream: it offers a compact
+definite-clause language rather than a general first-order theorem prover. The
+restriction buys a direct correspondence between a rule body and the
+subquestions used to establish its head.
 
 A rule has a head and a comma-separated body:
 
@@ -614,6 +638,14 @@ they do not direct the solver.
 A goal fails when no clause or built-in proves it under current bindings.
 Failure prunes that branch and search tries another choice.
 
+Failure is an operational event, not automatically a statement about the
+world. Turning failure into `not(Goal)` is justified only relative to the
+program and the current bindings. This is the **closed-world move** familiar
+from databases: for some bounded relation, what cannot be derived is treated
+as absent. It differs from the open-world stance common on the Web, where a
+missing claim may simply be unknown. Neither stance is universally right; the
+modeler must say which knowledge boundary is complete.
+
 `not(Goal)` succeeds when `Goal` has no solution:
 
 ```eyepl
@@ -794,6 +826,14 @@ support, fuses guard integrity, and knowledge boundaries stay explicit.
 answers, removes duplicates, and suppresses answers that merely repeat source
 facts. Answers are not inserted back into the running program.
 
+An answer and a derivation serve different audiences. An answer records *what*
+the theory supports; a derivation records *how this run supported it*. In
+mathematics that distinction resembles theorem versus proof. In data systems
+it resembles result versus provenance. The proof is not a substitute for
+valid source data or sound domain rules, but it makes both reviewable: a user
+can trace a decision to clauses, facts, bindings, and built-in operations
+instead of trusting an opaque status code.
+
 Use `--proof` or `-p` to add a machine-readable `why/2` fact after every answer:
 
 ```sh
@@ -873,6 +913,15 @@ Fuses express domain contradictions, not resource bounds or search limits.
 
 Declarative clarity and operational care reinforce each other. Bind selective
 arguments early, keep generators finite, and make decreasing structure visible.
+
+Naive depth-first search can revisit the same recursive question indefinitely.
+Tabling changes the unit of work: a call pattern becomes a shared subproblem,
+its answers are remembered, and consumers reuse answers rather than expanding
+the same call again. This idea connects logic programming to memoization and
+dynamic programming, but tabling also has a semantic role: over a finite
+positive recursive domain, repeated rounds can compute the least fixed point.
+It is therefore especially natural for reachability, grammars, dependency
+analysis, and other recursive relations with overlapping subproblems.
 
 Ordinary goals use indexed depth-first resolution. Positive recursive groups
 are tabled automatically. Bound recursive calls reuse answers and cyclic calls
@@ -967,6 +1016,21 @@ conformance cases, example goldens, and proof goldens demonstrate these levels.
 
 Eyepl's core is RDF-agnostic. Adapter tools translate datasets into ordinary
 `rdf(Subject, Predicate, Object, Graph)` facts:
+
+RDF is a data model before it is a file format. Its basic unit is a directed,
+labeled statement identified with Web IRIs; concrete syntaxes such as Turtle,
+JSON-LD, and RDF/XML are different ways to serialize that model. Datasets add
+named graphs, and RDF 1.2 adds triple terms and directional language strings.
+Keeping the adapter explicit prevents serialization concerns from leaking into
+ordinary Eyepl rules and makes the boundary between Web identity and local
+logical terms visible.
+
+The four-argument representation is intentionally conservative. It does not
+claim that an RDF graph and an Eyepl theory have the same semantics. It
+preserves RDF terms and graph membership as data, after which Eyepl rules may
+derive application-specific conclusions. This separation matters because RDF
+normally supports open-world data integration, whereas an Eyepl rule may use a
+closed finite relation, negation as failure, or an integrity fuse.
 
 <figure>
   <img src="book-assets/rdf-adapter-pipeline.svg" alt="Several RDF formats pass through an explicit adapter into Eyepl rules and derived N-Quads.">
@@ -1165,6 +1229,13 @@ invariants, and refined without losing sight of the relation it means.
 
 The central pleasure—and central difficulty—of logic programming is that a
 short definition plays two roles. Consider:
+
+This distinction is one of logic programming's oldest and most durable design
+ideas. The logical component describes admissible answers; the control
+component determines which consequences are explored, in what order, and with
+what resource cost. A change in indexing, goal order, or tabling policy should
+ideally preserve the first while improving the second. In practice, modeful
+built-ins and incomplete searches mean that programmers must reason about both.
 
 ```eyepl
 path(X, Y) :- edge(X, Y).
@@ -2037,6 +2108,64 @@ answer output and needs its own budget.
 Sockets do not grant authority by themselves. They describe expected
 knowledge; the embedding host remains responsible for authenticating a
 provider and validating what it supplies.
+
+# Appendix G. Notes and references
+
+The book is self-contained as an Eyepl guide. These sources provide historical
+and technical background for the ideas that Eyepl adapts. They describe larger
+languages and theories, so they should not be read as additional Eyepl
+specifications.
+
+- J. A. Robinson, [“A Machine-Oriented Logic Based on the Resolution
+  Principle”](https://doi.org/10.1145/321250.321253), *Journal of the ACM*
+  12(1), 1965, pp. 23–41. The foundational account of resolution and
+  machine-oriented unification behind later logic-programming proof
+  procedures.
+
+- Alain Colmerauer and Philippe Roussel,
+  [“The Birth of Prolog”](https://doi.org/10.1145/234313.234314), in *History
+  of Programming Languages II*, 1996, pp. 331–367. A first-person history of
+  how theorem proving, natural-language processing, and programming-language
+  design converged in early Prolog.
+
+- Maarten H. van Emden and Robert A. Kowalski,
+  [“The Semantics of Predicate Logic as a Programming
+  Language”](https://doi.org/10.1145/321978.321991), *Journal of the ACM*
+  23(4), 1976, pp. 733–742. The classic fixed-point and model-theoretic
+  account behind the least-Herbrand-model discussion in Chapter 3.
+
+- Robert A. Kowalski,
+  [“Algorithm = Logic + Control”](https://doi.org/10.1145/359131.359136),
+  *Communications of the ACM* 22(7), 1979, pp. 424–436. The source of the
+  distinction developed throughout Chapters 3 and 17–20.
+
+- Krzysztof R. Apt, Howard A. Blair, and Adrian Walker,
+  [“Towards a Theory of Declarative
+  Knowledge”](https://ir.cwi.nl/pub/10404), in *Foundations of Deductive
+  Databases and Logic Programming*, 1988, pp. 89–148. Background for
+  stratified negation and for treating negative dependencies as layers rather
+  than unrestricted cycles.
+
+- Weidong Chen and David S. Warren,
+  [“Tabled Evaluation with Delaying for General Logic
+  Programs”](https://doi.org/10.1145/227595.227597), *Journal of the ACM*
+  43(1), 1996, pp. 20–74. A foundational treatment of tabled logic-program
+  evaluation. Eyepl's automatic positive tabling is smaller in scope, but the
+  shared-call and fixed-point intuitions are closely related.
+
+- W3C, [*RDF 1.2 Concepts and Abstract
+  Data Model*](https://www.w3.org/TR/rdf12-concepts/) and
+  [*RDF 1.2 N-Quads*](https://www.w3.org/TR/rdf12-n-quads/). These
+  specifications define the RDF terms, datasets, triple terms, directional
+  language strings, and output syntax represented by the adapters in Chapter
+  15.
+
+- Dörthe Arndt and Stephan Mennicke,
+  [“Notation3 as an Existential Rule
+  Language”](https://arxiv.org/abs/2308.07332), 2023. Context for the N3 and
+  EYE side of Eyepl's name and for the relationship between Semantic Web rule
+  languages and existential-rule reasoning. Eyepl deliberately implements a
+  different, compact Horn-clause language.
 
 The aim of Eyepl is not to make every difficult problem easy. It is to keep the
 theory visible while the machine searches it: facts you can inspect, rules you

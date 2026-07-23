@@ -130,6 +130,36 @@ clear sentence and useful modes.
 Facts are data, not commands. Clause order can affect search order, but a fact
 does not mean “do this now.”
 
+### Learning to see relations
+
+The shift from functions to relations takes practice. A function is normally
+introduced with a direction: put an input in one side and receive an output
+from the other. A relation begins with a set of tuples. Direction enters only
+when somebody asks a question.
+
+Take `parent/2`. The program does not store a procedure named “find children.”
+It stores pairs for which the relation holds. From that single relation, one
+may ask for a child's parents, a parent's children, whether two named people
+stand in the relation, or every known pair. The source text stays fixed while
+the binding pattern changes.
+
+This is why the wording of a predicate matters. Before adding a rule, read a
+ground instance aloud:
+
+> `parent(ada, byron)` means that Ada is a parent of Byron.
+
+Now replace one name at a time with a question:
+
+> For which `Child` is Ada a parent?
+>
+> Who is a `Parent` of Byron?
+>
+> Which `Parent`–`Child` pairs are known?
+
+If those questions feel like natural uses of one statement, the relation is
+probably well shaped. If each reading requires a different interpretation of
+an argument, split the concept before the ambiguity spreads into later rules.
+
 **Exercise.** Add `grandparent/2` using two calls to `parent/2`. Query all
 grandparents, then only the grandparents of `diego`.
 
@@ -161,6 +191,17 @@ reading(temp, Value)
 They unify with `Sensor = temp` and `Value = 91`. Structure must agree
 recursively. `point(X, X)` unifies with `point(2, 2)` but not `point(2, 3)`.
 Functor and arity must agree.
+
+<figure>
+  <img src="book-assets/unification.svg" alt="Two reading term trees align to produce bindings for Sensor and Value.">
+  <figcaption>Unification walks corresponding branches of two term trees and records the bindings needed to make them identical.</figcaption>
+</figure>
+
+The picture is worth lingering over. Unification does not assign values in a
+one-way parameter list. It aligns two structures. A variable on either side
+may receive a binding; a nested pair of compounds causes the same comparison
+to continue recursively. The result shown is the most general substitution:
+it commits to exactly what structural agreement requires and nothing more.
 
 Eyepl exposes unification as `eq/2`:
 
@@ -214,6 +255,17 @@ Both readings matter. The declarative reading checks the model. The operational
 reading helps make search finite and selective. Put a generator before a
 built-in that needs its input:
 
+<figure>
+  <img src="book-assets/logic-and-control.svg" alt="One recursive path rule points to its logical and operational readings.">
+  <figcaption>A clause is both a sentence in a theory and a recipe for reducing a question to subquestions.</figcaption>
+</figure>
+
+The two readings are not rivals. The logical reading prevents an efficient
+program from quietly answering the wrong question. The operational reading
+prevents a beautiful specification from wandering forever without producing
+an answer. Much of the craft in this book consists of keeping one reading
+steady while improving the other.
+
 ```eyepl
 adult(Person) :-
   age(Person, Years),
@@ -254,6 +306,18 @@ whose members are ground atomic formulas such as `person(pat)` and
 `owns(alice, ticket(17))`. A term is not true or false merely by existing:
 `pat` is a possible argument, whereas `person(pat)` is a proposition that an
 interpretation may make true.
+
+<figure>
+  <img src="book-assets/herbrand-world.svg" alt="Ground terms form the Herbrand universe, ground formulas form the base, and justified formulas form the least model.">
+  <figcaption>Terms provide the vocabulary; atomic formulas provide the possible claims; facts and rules select the least model.</figcaption>
+</figure>
+
+This three-level distinction answers several recurring questions. A newly
+constructed term does not automatically assert anything. A formula that can be
+written is not automatically true. And the model is not an arbitrary
+collection of convenient formulas: it is the smallest collection forced by
+the program. Keeping those levels separate makes symbolic data safe to inspect
+without confusing mention with assertion.
 
 A **Herbrand interpretation** is a set of ground atomic formulas regarded as
 true. A source fact contributes one such formula:
@@ -1012,6 +1076,16 @@ search tree also contains failed alternatives and repeated attempts. Proof
 output shows the former; performance counters give clues about the latter.
 Confusing the two leads to a common surprise: a tiny proof may have required a
 large search.
+
+<figure>
+  <img src="book-assets/proof-and-search.svg" alt="A compact successful proof tree beside a larger search tree containing failures and repeated branches.">
+  <figcaption>The proof explains why an answer holds; the search tree explains the work needed to discover that proof.</figcaption>
+</figure>
+
+The distinction also explains why explanations are not performance profiles.
+Removing a failed branch can make a program dramatically faster without
+changing the final `why/2` term. Conversely, introducing a well-named helper
+may make a proof longer on paper while making it far clearer to a reader.
 
 When a program is slow, sketch the first few levels of its search tree. Mark:
 

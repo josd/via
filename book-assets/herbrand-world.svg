@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">Herbrand universe, base, and least model</title>
+  <desc id="desc">Ground terms form the Herbrand universe; ground atomic formulas form the Herbrand base; the formulas justified by facts and rules form the least model.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#526273"/>
+    </marker>
+    <style>
+      .box{fill:#fffdf7;stroke:#243447;stroke-width:2}
+      .model{fill:#e7f3ee;stroke:#2f6f55;stroke-width:3}
+      .title{fill:#8b3a3a;font:bold 17px Georgia,serif}
+      .text{fill:#172334;font:16px ui-monospace,SFMono-Regular,Consolas,monospace}
+      .prose{fill:#435166;font:15px Georgia,serif}
+      .line{stroke:#526273;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="900" height="500" fill="#f4efe3"/>
+  <rect class="box" x="35" y="65" width="240" height="360" rx="10"/>
+  <text class="title" x="155" y="102" text-anchor="middle">HERBRAND UNIVERSE</text>
+  <text class="prose" x="155" y="130" text-anchor="middle">all constructible ground terms</text>
+  <text class="text" x="65" y="180">pat</text>
+  <text class="text" x="65" y="220">jan</text>
+  <text class="text" x="65" y="260">3</text>
+  <text class="text" x="65" y="300">[red,blue]</text>
+  <text class="text" x="65" y="340">ticket(pat)</text>
+  <text class="prose" x="65" y="390">Terms denote themselves.</text>
+
+  <rect class="box" x="330" y="65" width="260" height="360" rx="10"/>
+  <text class="title" x="460" y="102" text-anchor="middle">HERBRAND BASE</text>
+  <text class="prose" x="460" y="130" text-anchor="middle">all constructible ground formulas</text>
+  <text class="text" x="355" y="180">person(pat)</text>
+  <text class="text" x="355" y="220">person(jan)</text>
+  <text class="text" x="355" y="260">parent(pat,jan)</text>
+  <text class="text" x="355" y="300">ancestor(pat,jan)</text>
+  <text class="text" x="355" y="340">owns(jan,ticket(pat))</text>
+  <text class="prose" x="355" y="390">Formulas may be true or false.</text>
+
+  <rect class="model" x="645" y="105" width="220" height="280" rx="110"/>
+  <text class="title" x="755" y="155" text-anchor="middle">LEAST MODEL</text>
+  <text class="prose" x="755" y="183" text-anchor="middle">facts + rule consequences</text>
+  <text class="text" x="675" y="235">person(pat)</text>
+  <text class="text" x="675" y="275">parent(pat,jan)</text>
+  <text class="text" x="675" y="315">ancestor(pat,jan)</text>
+
+  <path class="line" d="M278 245 L325 245"/>
+  <path class="line" d="M593 245 L640 245"/>
+  <text class="prose" x="301" y="225" text-anchor="middle">build</text>
+  <text class="prose" x="616" y="225" text-anchor="middle">justify</text>
+  <text class="prose" x="450" y="470" text-anchor="middle">The least model is the smallest part of the base closed under every rule.</text>
+</svg>

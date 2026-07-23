@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">Unification aligns two term trees</title>
+  <desc id="desc">The terms reading(Sensor,91) and reading(temp,Value) align, yielding Sensor equals temp and Value equals 91.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .node{fill:#fffdf7;stroke:#243447;stroke-width:2}
+      .var{fill:#fff0d9;stroke:#9a5b18;stroke-width:2}
+      .value{fill:#e7f3ee;stroke:#2f6f55;stroke-width:2}
+      .text{fill:#172334;font:17px ui-monospace,SFMono-Regular,Consolas,monospace}
+      .title{fill:#8b3a3a;font:bold 22px Georgia,serif}
+      .line{stroke:#526273;stroke-width:2}
+      .bind{stroke:#9a5b18;stroke-width:2.5;stroke-dasharray:7 6;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="900" height="500" fill="#f4efe3"/>
+  <text class="title" x="235" y="42" text-anchor="middle">first term</text>
+  <text class="title" x="665" y="42" text-anchor="middle">second term</text>
+
+  <line class="line" x1="235" y1="105" x2="155" y2="185"/>
+  <line class="line" x1="235" y1="105" x2="315" y2="185"/>
+  <rect class="node" x="170" y="70" width="130" height="48" rx="24"/>
+  <text class="text" x="235" y="100" text-anchor="middle">reading/2</text>
+  <rect class="var" x="91" y="180" width="128" height="46" rx="23"/>
+  <text class="text" x="155" y="209" text-anchor="middle">Sensor</text>
+  <rect class="value" x="275" y="180" width="80" height="46" rx="23"/>
+  <text class="text" x="315" y="209" text-anchor="middle">91</text>
+
+  <line class="line" x1="665" y1="105" x2="585" y2="185"/>
+  <line class="line" x1="665" y1="105" x2="745" y2="185"/>
+  <rect class="node" x="600" y="70" width="130" height="48" rx="24"/>
+  <text class="text" x="665" y="100" text-anchor="middle">reading/2</text>
+  <rect class="value" x="540" y="180" width="90" height="46" rx="23"/>
+  <text class="text" x="585" y="209" text-anchor="middle">temp</text>
+  <rect class="var" x="681" y="180" width="128" height="46" rx="23"/>
+  <text class="text" x="745" y="209" text-anchor="middle">Value</text>
+
+  <path class="bind" d="M155 232 C160 310,470 295,570 233"/>
+  <path class="bind" d="M745 232 C740 310,430 295,330 233"/>
+
+  <rect class="node" x="260" y="345" width="380" height="105" rx="8"/>
+  <text class="title" x="450" y="380" text-anchor="middle">most general substitution</text>
+  <text class="text" x="450" y="420" text-anchor="middle">{ Sensor = temp, Value = 91 }</text>
+</svg>

@@ -5,8 +5,8 @@
     <style>
       .bg{fill:#f4efe3}.region{stroke:#243447;stroke-width:2}.core{fill:#243447;stroke:#172334;stroke-width:3}
       .path{fill:none;stroke:#fffdf7;stroke-width:5;stroke-linecap:round;opacity:.9}.link{fill:none;stroke:#526273;stroke-width:2.5;stroke-dasharray:6 5}
-      .title{fill:#713535;font:bold 22px Georgia,serif}.label{fill:#172334;font:bold 15px Georgia,serif}
-      .small{fill:#435166;font:13px Georgia,serif}.code{fill:#dcefe8;font:14px ui-monospace,SFMono-Regular,Consolas,monospace}
+      .title{fill:#713535;font:bold 24px Georgia,serif}.label{fill:#172334;font:bold 17px Georgia,serif}
+      .small{fill:#435166;font:16px Georgia,serif}.code{fill:#dcefe8;font:16px ui-monospace,SFMono-Regular,Consolas,monospace}
     </style>
   </defs>
   <rect width="900" height="500" class="bg"/>

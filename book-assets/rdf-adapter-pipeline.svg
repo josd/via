@@ -4,7 +4,7 @@
   <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L9 3Z" fill="#536b78"/></marker></defs>
   <style>
     .bg{fill:#e9f1ee}.paper{fill:#fffdf7;stroke:#243447;stroke-width:2}.adapter{fill:#dcefe8;stroke:#2f6f55;stroke-width:4}
-    .text{fill:#243447;font:13px ui-monospace,monospace}.title{fill:#713535;font:bold 17px Georgia,serif}
+    .text{fill:#243447;font:15px ui-monospace,monospace}.title{fill:#713535;font:bold 19px Georgia,serif}
     .flow{fill:none;stroke:#536b78;stroke-width:4;marker-end:url(#a)}.graph{fill:none;stroke:#8b3a3a;stroke-width:3}
   </style>
   <rect width="900" height="380" class="bg"/>

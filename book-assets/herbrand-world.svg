@@ -8,9 +8,9 @@
     <style>
       .box{fill:#fffdf7;stroke:#243447;stroke-width:2}
       .model{fill:#e7f3ee;stroke:#2f6f55;stroke-width:3}
-      .title{fill:#8b3a3a;font:bold 17px Georgia,serif}
-      .text{fill:#172334;font:16px ui-monospace,SFMono-Regular,Consolas,monospace}
-      .prose{fill:#435166;font:15px Georgia,serif}
+      .title{fill:#8b3a3a;font:bold 19px Georgia,serif}
+      .text{fill:#172334;font:18px ui-monospace,SFMono-Regular,Consolas,monospace}
+      .prose{fill:#435166;font:17px Georgia,serif}
       .line{stroke:#526273;stroke-width:2;fill:none;marker-end:url(#arrow)}
     </style>
   </defs>
@@ -46,5 +46,5 @@
   <path class="line" d="M593 245 L640 245"/>
   <text class="prose" x="301" y="225" text-anchor="middle">build</text>
   <text class="prose" x="616" y="225" text-anchor="middle">justify</text>
-  <text class="prose" x="450" y="470" text-anchor="middle">The least model is the smallest part of the base closed under every rule.</text>
+  <text class="prose" x="450" y="470" text-anchor="middle">The least model is the smallest part of the base closed under the rules.</text>
 </svg>

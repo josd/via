@@ -5,7 +5,7 @@
     .wall{fill:#e8ecea}.panel{fill:#fffdf7;stroke:#243447;stroke-width:2}.screen{fill:#d9ebe6;stroke:#2f6f55;stroke-width:2}
     .console{fill:#536b78}.ink{fill:none;stroke:#243447;stroke-width:3;stroke-linecap:round}
     .wire{fill:none;stroke:#8b3a3a;stroke-width:2.5}.hot{fill:#a55246}.safe{fill:#2f6f55}
-    .text{fill:#243447;font:14px ui-monospace,monospace}.small{fill:#435166;font:12px Georgia,serif}
+    .text{fill:#243447;font:16px ui-monospace,monospace}.small{fill:#435166;font:15px Georgia,serif}
   </style>
   <rect width="900" height="420" class="wall"/>
   <circle cx="90" cy="75" r="38" fill="#7895a1"/><path d="M52 75 Q90 42 128 75 Q90 108 52 75" fill="#bcd6df"/>

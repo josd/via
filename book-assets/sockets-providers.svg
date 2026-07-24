@@ -3,7 +3,7 @@
   <desc id="desc">A file, database, and AI extractor offer parent facts through one declared predicate contract to the same ancestor rules.</desc>
   <style>
     .bg{fill:#eee5d3}.provider{fill:#fffdf7;stroke:#243447;stroke-width:2}.socket{fill:#dcefe8;stroke:#2f6f55;stroke-width:4}
-    .engine{fill:#536b78;stroke:#243447;stroke-width:3}.text{fill:#243447;font:14px ui-monospace,monospace}.light{fill:#fffdf7;font:14px ui-monospace,monospace}
+    .engine{fill:#536b78;stroke:#243447;stroke-width:3}.text{fill:#243447;font:16px ui-monospace,monospace}.light{fill:#fffdf7;font:16px ui-monospace,monospace}
     .cable{fill:none;stroke:#8b3a3a;stroke-width:5;stroke-linecap:round}.pin{fill:#243447}
   </style>
   <rect width="900" height="380" class="bg"/>

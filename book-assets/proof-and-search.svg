@@ -7,9 +7,9 @@
       .goal{fill:#e7f3ee;stroke:#2f6f55;stroke-width:2}
       .fail{fill:#f8e3e3;stroke:#8b3a3a;stroke-width:2}
       .repeat{fill:#fff0d9;stroke:#9a5b18;stroke-width:2}
-      .title{fill:#8b3a3a;font:bold 21px Georgia,serif}
-      .text{fill:#172334;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
-      .prose{fill:#435166;font:15px Georgia,serif}
+      .title{fill:#8b3a3a;font:bold 23px Georgia,serif}
+      .text{fill:#172334;font:14px ui-monospace,SFMono-Regular,Consolas,monospace}
+      .prose{fill:#435166;font:17px Georgia,serif}
       .line{stroke:#526273;stroke-width:2}
     </style>
   </defs>
@@ -21,12 +21,12 @@
   <line class="line" x1="220" y1="165" x2="315" y2="245"/>
   <rect class="goal" x="130" y="125" width="180" height="48" rx="8"/>
   <text class="text" x="220" y="154" text-anchor="middle">ancestor(pat,emma)</text>
-  <rect class="goal" x="62" y="235" width="126" height="48" rx="8"/>
+  <rect class="goal" x="55" y="235" width="140" height="48" rx="8"/>
   <text class="text" x="125" y="264" text-anchor="middle">parent(pat,jan)</text>
-  <rect class="goal" x="245" y="235" width="140" height="48" rx="8"/>
+  <rect class="goal" x="238" y="235" width="154" height="48" rx="8"/>
   <text class="text" x="315" y="264" text-anchor="middle">ancestor(jan,emma)</text>
   <line class="line" x1="315" y1="283" x2="315" y2="345"/>
-  <rect class="goal" x="252" y="345" width="126" height="48" rx="8"/>
+  <rect class="goal" x="245" y="345" width="140" height="48" rx="8"/>
   <text class="text" x="315" y="374" text-anchor="middle">parent(jan,emma)</text>
 
   <rect class="paper" x="445" y="40" width="430" height="410" rx="10"/>
@@ -52,4 +52,5 @@
   <text class="text" x="665" y="373" text-anchor="middle">success</text>
   <rect class="repeat" x="738" y="345" width="104" height="45" rx="8"/>
   <text class="text" x="790" y="373" text-anchor="middle">repeated ↻</text>
+  <text class="prose" x="450" y="480" text-anchor="middle">Schematic comparison—not a complete runtime trace.</text>
 </svg>

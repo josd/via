@@ -1163,6 +1163,11 @@ irrelevant detours, improve the helpers. If a key premise is hidden inside an
 opaque value, model it as a fact. Designing for a good explanation often
 produces a better theory.
 
+**Checkpoint.** Run `examples/socrates.pl` once normally and once with
+`--proof`. Confirm that the ground answers are unchanged. In one proof,
+identify the queried goal, the rule that derived it, the source fact used, and
+the binding carried between them.
+
 ## 12. Integrity constraints and inference fuses
 
 A rule headed by `false` is an **inference fuse**:
@@ -1191,6 +1196,19 @@ false :-
 The logical reading is that no acceptable model contains this combination.
 Fuses express domain contradictions, not resource bounds or search limits.
 
+To see the failure path directly, run:
+
+```sh
+node bin/eyepl.js examples/inference-fuse.pl
+```
+
+It exits with status `65` and reports the fired rule plus its matched ground
+instance; it does not print the otherwise derivable status query.
+
+**Checkpoint.** Explain the difference between an ordinary query with no
+answer and a fuse that aborts every query. Write one invalid state that belongs
+in a fuse and one ordinary negative result that should remain query failure.
+
 ## 13. Termination, tabling, and performance
 
 Declarative clarity and operational care reinforce each other. Bind selective
@@ -1211,7 +1229,11 @@ iterate toward a fixed point. Fully open or structurally unbounded calls may
 retain ordinary resolution. Recursive components with negative dependencies
 are not positive fixed points.
 
-### How clause indexing stays semantic
+### Deeper implementation: how clause indexing stays semantic
+
+This section explains why an optimization does not change clause meaning.
+Readers focused on modeling may skip to the statistics command and return when
+performance or implementation portability becomes relevant.
 
 Every predicate group keeps compact indexes for scalar values in each argument
 position. A clause whose indexed head argument is a variable or structured term
@@ -1247,6 +1269,11 @@ ever-growing terms, infinite open mathematical queries, negative cycles, and
 path enumeration without a visited set. Repair the model by strengthening the
 query, adding a finite domain, tracking states, or exposing a decreasing
 argument.
+
+**Checkpoint.** Classify three recursive calls: one justified by a decreasing
+list, one by finitely many tabled graph answers, and one that constructs terms
+without bound. State why the first two may terminate and why tabling does not
+repair the third.
 
 ## 14. Knowledge engineering
 
@@ -1294,10 +1321,19 @@ Test theories with successful derivations, expected failures, boundary values,
 duplicate paths, contradictory inputs, and proof premises. The repository's
 conformance cases, example goldens, and proof goldens demonstrate these levels.
 
+**Checkpoint.** Draw four columns for the battery example: source, physical
+concept, decision, and integrity. Place each predicate in a column, then list
+the measurements and policy thresholds that a proof cannot authenticate by
+itself.
+
 ## 15. RDF 1.2 as relational data
 
 Eyepl's core is RDF-agnostic. Adapter tools translate datasets into ordinary
 `rdf(Subject, Predicate, Object, Graph)` facts:
+
+This chapter is an application route, not a prerequisite for Part IV. Readers
+who do not work with Web data can retain one principle—translate external data
+at an explicit boundary—and continue at Chapter 17.
 
 RDF is a data model before it is a file format. Its basic unit is a directed,
 labeled statement identified with Web IRIs; concrete syntaxes such as Turtle,
@@ -1351,6 +1387,10 @@ By default, source quads support inference but are not copied to output. Pass
 `--include-source` to retain them. Output is RDF 1.2 N-Quads. See
 [`tools/README.md`](tools/README.md) for the full adapter contract.
 
+**Checkpoint.** For one RDF statement, identify its subject, predicate, object,
+and graph term after conversion. Then explain why preserving a triple term as
+nested data does not assert that nested triple as a global Eyepl fact.
+
 ## 16. Embedding Eyepl
 
 The JavaScript API exposes a convenience runner and lower-level types:
@@ -1365,6 +1405,10 @@ answer(ok) :- eq(ok, ok).
 console.log(result.stdout);
 console.log(result.stats);
 ```
+
+The first `console.log` prints `answer(ok).` followed by a newline. The second
+prints numeric work counters; those counters describe this run rather than an
+additional logical answer.
 
 `run/2` accepts source text or an already parsed `Program`. Its options include
 `proof` (with `why` and `explain` as aliases), `maxDepth`, `solutionLimit`, a
@@ -1451,6 +1495,10 @@ Treat remote source as executable logic. Although Eyepl has no arbitrary host
 call primitive, search can consume CPU and memory. Embedders should impose
 appropriate depth, solution, input-size, and time limits.
 
+Those ceilings are operational safeguards. If one is reached, report an
+incomplete computation rather than turning truncation into a negative domain
+conclusion.
+
 ### Sockets: naming the knowledge boundary
 
 Rules often outlive the source of their facts. Today `parent/2` may be written
@@ -1493,6 +1541,11 @@ Sockets are particularly valuable at an AI boundary. A model can propose
 claims, but the claims should enter the theory as visible facts or rules. The
 socket states what kind of knowledge may enter; Eyepl checks and combines the
 result; `why/2` records which supplied clauses actually supported an answer.
+
+**Checkpoint.** Name three separate responsibilities in an embedded service:
+what the host validates before constructing terms, what Eyepl derives from
+those terms, and what resource limits may interrupt the run. None can safely
+stand in for the other two.
 
 ## Part III summary
 
@@ -1667,6 +1720,11 @@ When a program is slow, sketch the first few levels of its search tree. Mark:
 This exercise often reveals that the model is sound but a generator is too
 broad, a constraint is too late, or a witness carries needless alternatives.
 
+**Checkpoint.** Take one clause and write two notes beside it: its ground
+meaning and its intended mode. Reorder two body goals, predict whether the
+answer set, termination, first answer, or proof shape changes, and only then
+run the variant.
+
 ## 18. Constructing a program
 
 A good logic program is rarely discovered by typing clauses from top to
@@ -1793,6 +1851,11 @@ decision predicate to discover that normalization silently failed. Small
 queries are the logic-programming counterpart of inspecting intermediate
 values, but they retain the declarative vocabulary of the model.
 
+**Checkpoint.** Before writing rules for a small domain of your own, record
+three positive ground examples, one near miss, the intended query mode, and a
+candidate finite generator. If the ground sentences are ambiguous, revise the
+predicate names before introducing variables.
+
 ## 19. Correctness and termination
 
 Testing examples is necessary, but a reusable relation deserves a stronger
@@ -1874,6 +1937,11 @@ This distinction matters operationally and socially. A failed eligibility
 query may be a legitimate negative result. Contradictory limits invalidate the
 knowledge base and should stop all decisions until repaired.
 
+**Checkpoint.** For one recursive relation, state three claims separately:
+partial correctness, completeness in one intended mode, and termination in
+that mode. Give the invariant supporting the first two and the decreasing
+measure or finite table supporting the third.
+
 ## 20. Improving a program
 
 Program improvement begins with observation, not cleverness. Preserve a set of
@@ -1952,6 +2020,11 @@ Not every relation should be made maximally general. A three-mode predicate can
 be harder to terminate, explain, and index than two simple predicates with
 clear contracts. Generalize when a real second use appears. The art lies in
 keeping the logical idea visible while giving it enough control to run well.
+
+**Checkpoint.** Save representative answers, one proof, and solver statistics
+for a program. Make exactly one control change, rerun all three views, and
+classify every difference as intended, harmless but observable, or a
+regression.
 
 ## Part IV summary
 
